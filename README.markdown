@@ -1,10 +1,10 @@
 WP-InstaPost
 ============
 
-Contributors: FeliceMente (Marco Iannaccone), rformato (Renato Formato), patrick91 (Patrick Guido Arminio)
-Tags: instagram, photos, sidebar
-Requires at least: 3.3
-Tested up to: 3.3.1
+Contributors: FeliceMente (Marco Iannaccone), rformato (Renato Formato), patrick91 (Patrick Guido Arminio)  
+Tags: instagram, photos, sidebar  
+Requires at least: 3.3  
+Tested up to: 3.3.1  
 
 Description
 -----------
