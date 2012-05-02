@@ -318,6 +318,17 @@ function wpinstaroll_panel_draw()
                                 </select>
 							</td>
 						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label>Photo <em>insertion mode</em> for posts</label>
+							</th>
+							<td>
+								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'; ?>">
+                                    <option value="featured"<?php if ($insert_photo_mode !== 'post_content') echo ' selected=selected'; ?>>as featured image</option>
+                                    <option value="post_content"<?php if ($insert_photo_mode === 'post_content') echo ' selected=selected'; ?>>in post content</option>                          
+                                </select>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 
