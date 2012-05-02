@@ -83,7 +83,7 @@ function wpinstaroll_register_settings()
 }
 
 
-// draws the admin panel page
+// draws the ADMIN panel page
 function wpinstaroll_panel_draw()
 {
 	global $wpinstaroll_page_title;
@@ -331,6 +331,8 @@ function wpinstaroll_panel_draw()
 	<?php
 }
 
+
+// draws the PHOTO SELECTION panel
 function wpinstaroll_photo_selection_panel_draw()
 {
 	global $wpinstaroll_photo_selection_page_title;
@@ -384,6 +386,11 @@ function wpinstaroll_photo_selection_panel_draw()
 		
 		<div id="icon-options-general" class="icon32"><br /></div>
 		<h2><?php print($wpinstaroll_photo_selection_page_title); ?></h2>
+
+		<h3 class="nav-tab-wrapper">
+			<a id="KeenSCtabSettings" class="nav-tab nav-tab-active" href="#" onclick="return KeenAdminSettingsActivatePanel()">Instagram User Stream</a>
+			<a id="KeenSCtabUsers" class="nav-tab" href="#" onclick="return KeenAdminUsersActivatePanel()">Instagram Photos by Tag</a>
+		</h3>
 
 		<div id="InstagramUserPhotosPanel"></div>
 

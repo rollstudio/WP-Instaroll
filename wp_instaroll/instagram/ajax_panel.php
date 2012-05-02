@@ -8,6 +8,7 @@ function instagram_photosbyusertable_ayax()
 	$user_access_token = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
 	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 	$insta_post_title = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
+	$instagram_username = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username');
 	
 	if (empty($app_id) || empty($app_secret) || empty($user_access_token) || empty($search_tag))
 	{					
@@ -16,6 +17,8 @@ function instagram_photosbyusertable_ayax()
 		print('<p><strong>You need to  configure Instagram access from the <a href="'.$instagram_settings_page.'">Instagram Settings</a> panel inside the Settings menu.</strong></p>');
 	}
 	else {
+
+		print('<h3>Instagram stream for user: '.$instagram_username.'</h3>');
 		
 		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
 
