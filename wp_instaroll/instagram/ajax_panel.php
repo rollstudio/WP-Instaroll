@@ -80,52 +80,6 @@ function instagram_photosbyusertable_ayax()
 				</table>
 			</div>
 			
-			<script type="text/javascript">
-
-				jQuery('.<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX; ?>_createpost_action').click(function() {
-				
-					var t_id = jQuery(this).attr('id');
-					var pic_id = t_id.substr('create_wp_post_'.length);
-				
-					var postCreationString = '<?php echo get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'); ?>';
-					if (postCreationString != 'publish')
-						postCreationString = 'saved as draft';
-					else
-						postCreationString = 'directly published';
-				
-					if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
-						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + '.\n\nYou will then be able to edit and actually publish the post.'))
-						return false;
-						
-				
-					jQuery.ajax({
-						url: ajaxurl + '?action=create_post_from_instagram_pic',
-						type: 'POST',
-						dataType: 'json',
-						data: {
-							url: jQuery(this).closest('tr').find('.insta_image a img').attr('data-fullimageurl'),
-							id: pic_id,
-							link: jQuery(this).closest('tr').find('.insta_image a').attr('href'),
-							caption: jQuery(this).closest('tr').find('.insta_description').html(),
-							author_username: jQuery(this).closest('tr').find('.insta_username').html(),
-							author_id: jQuery(this).closest('tr').find('.insta_userid').html()
-						},
-						success: function(data) {
-							
-							if (data.error == false)
-							{
-								alert('Post successfully created, width ID: ' + data.post_id);
-							}
-							else
-								alert('There was a problem creating the post.\n\nReason: ' + data.error_description);	
-						}
-					});
-				
-					return false;
-				});
-				
-			</script>
-			
 			<?php
 		}
 	}
@@ -216,53 +170,6 @@ function instagram_photosbytagtable_ayax()
 					</tbody>
 				</table>
 			</div>
-			
-			<script type="text/javascript">
-
-				jQuery('.<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX; ?>_createpost_action').click(function() {
-				
-					var t_id = jQuery(this).attr('id');
-					var pic_id = t_id.substr('create_wp_post_'.length);
-
-					
-					var postCreationString = '<?php echo get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'); ?>';
-					if (postCreationString != 'publish')
-						postCreationString = 'saved as draft';
-					else
-						postCreationString = 'directly published';
-				
-					if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
-						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + '.\n\nYou will then be able to edit and actually publish the post.'))
-						return false;
-						
-				
-					jQuery.ajax({
-						url: ajaxurl + '?action=create_post_from_instagram_pic',
-						type: 'POST',
-						dataType: 'json',
-						data: {
-							url: jQuery(this).closest('tr').find('.insta_image a img').attr('data-fullimageurl'),
-							id: pic_id,
-							link: jQuery(this).closest('tr').find('.insta_image a').attr('href'),
-							caption: jQuery(this).closest('tr').find('.insta_description').html(),
-							author_username: jQuery(this).closest('tr').find('.insta_username').html(),
-							author_id: jQuery(this).closest('tr').find('.insta_userid').html()
-						},
-						success: function(data) {
-							
-							if (data.error == false)
-							{
-								alert('Post successfully created, width ID: ' + data.post_id);
-							}
-							else
-								alert('There was a problem creating the post.\n\nReason: ' + data.error_description);	
-						}
-					});
-				
-					return false;
-				});
-					
-			</script>
 			
 			<?php
 		}
