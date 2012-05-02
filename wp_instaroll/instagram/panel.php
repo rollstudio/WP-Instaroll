@@ -309,9 +309,6 @@ function wpinstaroll_panel_draw()
 				?>
 				
 			</div>
-			
-			<?php //<div id="InstagramTagPhotosPanel" style="display: none"></div> ?>
-			
 		</form>
 		
 		<?php
@@ -347,6 +344,19 @@ function wpinstaroll_photo_selection_panel_draw()
 	?>
 	
 	<script type="text/javascript">
+
+		function AJAXDrawUserPhotosTable()
+		{
+			jQuery('#InstagramUserPhotosPanel').html('<p>loading...</p>');
+				
+			jQuery.ajax({
+				url: ajaxurl + '?action=wpinstaroll_photosbyusertable',
+				success: function(data) {
+			    
+					jQuery('#InstagramUserPhotosPanel').html(data);
+				}
+			});	
+		}
 	
 		function AJAXDrawTagPhotosTable()
 		{
@@ -363,7 +373,9 @@ function wpinstaroll_photo_selection_panel_draw()
 		
 		jQuery(document).ready(function() {
 			
-			AJAXDrawTagPhotosTable();
+			// open first panel: user stream
+			AJAXDrawUserPhotosTable();
+
 		});
 		
 	</script>
@@ -372,8 +384,10 @@ function wpinstaroll_photo_selection_panel_draw()
 		
 		<div id="icon-options-general" class="icon32"><br /></div>
 		<h2><?php print($wpinstaroll_photo_selection_page_title); ?></h2>
-		
-		<div id="InstagramTagPhotosPanel"></div>
+
+		<div id="InstagramUserPhotosPanel"></div>
+
+		<div id="InstagramTagPhotosPanel" style="display: none"></div>
 	
 	</div>
 	
