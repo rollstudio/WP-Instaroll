@@ -20,7 +20,7 @@ function instagram_photosbyusertable_ayax()
 
 		print('<h3>Instagram stream for user: '.$instagram_username.'</h3>');
 		
-		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
+		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
 
 		$user_feed = getInstagramUserStream();
 		
@@ -158,7 +158,7 @@ function instagram_photosbytagtable_ayax()
 		
 		print('<h3>Instagram tag: '.$search_tag.'</h3>');
 		
-		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
+		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
 
 		$tag_feed = getInstagramPhotosWithTag($search_tag);
 		
