@@ -81,13 +81,13 @@ function instagram_photosbyusertable_ayax()
 			</div>
 			
 			<script type="text/javascript">
-				jQuery('.wpinstaroll_createpost_action').click(function() {
+				jQuery('.<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX; ?>_createpost_action').click(function() {
 				
 					var t_id = jQuery(this).attr('id');
 					var pic_id = t_id.substr('create_wp_post_'.length);
 				
 					if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
-						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\", with title \"' + '<?php print($insta_post_title); ?>' + '\", and will be saved as draft.\n\nYou will then be able to edit and actually publish the post.'))
+						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be saved as draft.\n\nYou will then be able to edit and actually publish the post.'))
 						return false;
 						
 				
@@ -219,13 +219,13 @@ function instagram_photosbytagtable_ayax()
 			</div>
 			
 			<script type="text/javascript">
-				jQuery('.wpinstaroll_createpost_action').click(function() {
+				jQuery('.<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX; ?>_createpost_action').click(function() {
 				
 					var t_id = jQuery(this).attr('id');
 					var pic_id = t_id.substr('create_wp_post_'.length);
 				
 					if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
-						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\", with title \"' + '<?php print($insta_post_title); ?>' + '\", and will be saved as draft.\n\nYou will then be able to edit and actually publish the post.'))
+						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be saved as draft.\n\nYou will then be able to edit and actually publish the post.'))
 						return false;
 						
 				
