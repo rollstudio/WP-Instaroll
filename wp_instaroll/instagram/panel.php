@@ -399,7 +399,7 @@ function wpinstaroll_photo_selection_panel_draw()
 				}
 				
 				// done also if user photos panel is already active (so it updates the view)
-				jQuery('#setting-error-settings_updated').remove();
+				//jQuery('#setting-error-settings_updated').remove();
 				AJAXDrawUserPhotosTable();
 				
 				return false;
@@ -418,7 +418,7 @@ function wpinstaroll_photo_selection_panel_draw()
 				}
 				
 				/// done also if tag photos panel is already active (so it updates the view)
-				jQuery('#setting-error-settings_updated').remove();
+				//jQuery('#setting-error-settings_updated').remove();
 				AJAXDrawTagPhotosTable();
 				
 				return false;

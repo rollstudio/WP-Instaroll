@@ -87,8 +87,14 @@ function instagram_photosbyusertable_ayax()
 					var t_id = jQuery(this).attr('id');
 					var pic_id = t_id.substr('create_wp_post_'.length);
 				
+					var postCreationString = '<?php echo get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'); ?>';
+					if (postCreationString != 'publish')
+						postCreationString = 'saved as draft';
+					else
+						postCreationString = 'directly published';
+				
 					if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
-						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be saved as draft.\n\nYou will then be able to edit and actually publish the post.'))
+						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + '.\n\nYou will then be able to edit and actually publish the post.'))
 						return false;
 						
 				
@@ -217,9 +223,16 @@ function instagram_photosbytagtable_ayax()
 				
 					var t_id = jQuery(this).attr('id');
 					var pic_id = t_id.substr('create_wp_post_'.length);
+
+					
+					var postCreationString = '<?php echo get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'); ?>';
+					if (postCreationString != 'publish')
+						postCreationString = 'saved as draft';
+					else
+						postCreationString = 'directly published';
 				
 					if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
-						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be saved as draft.\n\nYou will then be able to edit and actually publish the post.'))
+						'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + '.\n\nYou will then be able to edit and actually publish the post.'))
 						return false;
 						
 				
