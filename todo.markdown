@@ -11,7 +11,7 @@ to be done later
 ----------------
 
 - error message when a post can be created but not the image (uploads dir not writeable, etc...)
-- better confirmation dialogbox for post creation
+- better confirmation dialog box for post creation
 - category to be used for posts:
 	- show list of available categories (only one is selectable)
 	- input box with add button, for creating a new category
