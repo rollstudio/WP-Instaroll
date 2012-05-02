@@ -297,15 +297,19 @@ function instagram_createpostfromphoto_ayax()
 	$category_name = '#'.$search_tag;
 	$cat_id = category_exists($category_name);
 	if (!$cat_id)
-		$cat_id = wp_create_category($category_name);		
+		$cat_id = wp_create_category($category_name);	
 	
 	
 	// b. post creation
+	$created_post_status = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status');
+	if ($created_post_status != 'publish')
+		$created_post_status = 'draft';
+
 	$post_args = array(
 		'post_author' 	=> 0,
 		'post_category'	=> array($cat_id),
 		'post_content' 	=> $_POST['caption'],
-		'post_status'	=> 'draft', 
+		'post_status'	=> $created_post_status, 
 		'post_title'	=> $title_placeholder,
 		'post_type'		=> 'post' 
 	);

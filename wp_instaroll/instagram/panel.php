@@ -108,7 +108,14 @@ function wpinstaroll_panel_draw()
 	$profile_picture = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture');
 	
 	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
-	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');	
+	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
+
+	$created_post_status = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status');
+	if ($created_post_status == false)
+	{
+		$created_post_status = 'draft';
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status', $created_post_status);
+	}
 		
 		
 	$accessTokenInvalid = false;
@@ -192,6 +199,19 @@ function wpinstaroll_panel_draw()
 			$title_placeholder = $default_instagram_title_placeholder;
 		}
 	}
+
+	// post status for Instagram-based created posts
+	$default_post_status = 'draft';
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'] != $created_post_status)
+	{
+		if (empty($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder']))
+			$created_post_status = $default_post_status;
+		else
+			$created_post_status = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'];
+
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status', $created_post_status);
+	}
 			
 	// changes saved message
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes']) && $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'] == 'yes')
@@ -257,6 +277,17 @@ function wpinstaroll_panel_draw()
 							</th>
 							<td>
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder')); ?>" class="regular-text" />
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label>Post <em>status</em> for posts created from Instagram photos</label>
+							</th>
+							<td>
+								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'; ?>">
+                                    <option value="draft"<?php if ($created_post_status !== 'publish') echo ' selected=selected'; ?>>draft</option>
+                                    <option value="publish"<?php if ($created_post_status === 'publish') echo ' selected=selected'; ?>>published</option>                          
+                                </select>
 							</td>
 						</tr>
 					</tbody>
