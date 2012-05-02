@@ -20,7 +20,7 @@ function instagram_photosbyusertable_ayax()
 
 		print('<h3>Instagram stream for user: '.$instagram_username.'</h3>');
 		
-		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
+		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_userphotosupdate" href="#">Update view</a></p>');
 
 		$user_feed = getInstagramUserStream();
 		
@@ -81,6 +81,7 @@ function instagram_photosbyusertable_ayax()
 			</div>
 			
 			<script type="text/javascript">
+
 				jQuery('.<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX; ?>_createpost_action').click(function() {
 				
 					var t_id = jQuery(this).attr('id');
@@ -114,14 +115,6 @@ function instagram_photosbyusertable_ayax()
 						}
 					});
 				
-					return false;
-				});
-				
-				
-				jQuery('#Instagram_tagphotosupdate').click(function() {
-					
-					AJAXDrawUserPhotosTable();
-					
 					return false;
 				});
 				
@@ -219,6 +212,7 @@ function instagram_photosbytagtable_ayax()
 			</div>
 			
 			<script type="text/javascript">
+
 				jQuery('.<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX; ?>_createpost_action').click(function() {
 				
 					var t_id = jQuery(this).attr('id');
@@ -254,15 +248,7 @@ function instagram_photosbytagtable_ayax()
 				
 					return false;
 				});
-				
-				
-				jQuery('#Instagram_tagphotosupdate').click(function() {
 					
-					AJAXDrawTagPhotosTable();
-					
-					return false;
-				});
-				
 			</script>
 			
 			<?php

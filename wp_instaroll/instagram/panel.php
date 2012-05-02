@@ -441,6 +441,24 @@ function wpinstaroll_photo_selection_panel_draw()
 		<div id="InstagramUserPhotosPanel"></div>
 
 		<div id="InstagramTagPhotosPanel" style="display: none"></div>
+
+		<script type="text/javascript">
+
+			jQuery('#Instagram_userphotosupdate').live('click', function() {
+					
+				AJAXDrawUserPhotosTable();
+				
+				return false;
+			});
+
+			jQuery('#Instagram_tagphotosupdate').live('click', function() {
+					
+				AJAXDrawTagPhotosTable();
+				
+				return false;
+			});
+
+		</script>
 	
 	</div>
 	
