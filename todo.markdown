@@ -5,7 +5,6 @@ WP-Instaroll - TODOs
 	- when setting the category, check for it's existance and create it if not present
 - personalized icons for menus and panels
 - possibility of choosing between using the pic as post featured image (as now) or insert it in post content
-- checkbox for choosing if the created posts must be created as drafts (as now) or directly published
 - in photos selection panel, checkbox for showing/hiding already published posts
 
 
@@ -18,9 +17,8 @@ to be done later
 	- option to use a different category for automatically selected posts
 	- only publish unpublished posts
 - error message when a post can be created but not the image (uploads dir not writeable, etc...)
-- better confirmation dialog box for post creation
 - category to be used for posts:
 	- show list of available categories (only one is selectable)
 	- input box with add button, for creating a new category
-- give the possibility of using multiple seach tags (comma separated)
+- possibility of using multiple seach tags (comma separated)
 - multilanguage
