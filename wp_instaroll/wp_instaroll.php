@@ -8,6 +8,8 @@ Author: ROLL Multimedia Design
 Author URI: http://rollstudio.it
 */
 
+
+require_once('common.php');
 require_once('instagram/instagram.php');
 require_once('instagram/panel.php');
 require_once('instagram/ajax_panel.php');
