@@ -539,9 +539,15 @@ function wpinstaroll_photo_selection_panel_draw()
 					postCreationString = 'saved as draft.\n\nYou will then be able to edit and actually publish the post.';
 				else
 					postCreationString = 'directly published.';
+
+				var postCreationModeString = '<?php echo get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'); ?>';
+				if (postCreationModeString != 'post_content')
+					postCreationModeString = '\n\nThe photo will be added as featured image for created post.';
+				else
+					postCreationModeString = '\n\nThe photo will be inserted into the created post.';
 			
 				if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
-					'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString))
+					'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + postCreationModeString))
 					return false;
 					
 			
