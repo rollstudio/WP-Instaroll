@@ -4,7 +4,7 @@ WP-Instaroll - TODOs
 - add, in settings, the possibility of choosing the **category** to associate Instagram-based automatically created posts
 	- when setting the category, check for it's existance and create it if not present
 - personalized icons for menus and panels
-- possibility of choosing between using the pic as post featured image (as now) or insert it in post content
+- for photos added inside the post, possibility of choosing if the image must link to Instagram post or not
 - in photos selection panel, checkbox for showing/hiding already published posts
 
 

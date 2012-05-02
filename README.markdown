@@ -9,7 +9,11 @@ Tested up to: 3.3.2
 Description
 -----------
 
-Simple Instagram plug-in for creating WordPress posts from Instagram photos (both from user stream and by using a specific search tag)
+Simple Instagram plug-in for creating WordPress posts from Instagram photos (both from user stream and by using a specific search tag).
+
+You can browse photos in your user stream, or by the specified tag, import them into WordPress media library and link it to post, with the possibility of choosing between adding it as featured image (post thumbnail) or directly inside the post.
+
+The post created from Instagram photos can be saved as draft or directly published.
 
 Installation
 ------------
