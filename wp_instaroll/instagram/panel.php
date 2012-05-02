@@ -347,6 +347,47 @@ function wpinstaroll_photo_selection_panel_draw()
 	
 	<script type="text/javascript">
 
+		var WPInstaroll_ActivePanel = 'user';
+			
+			function UserPhotosActivatePanel()
+			{
+				if (WPInstaroll_ActivePanel == 'tag')
+				{
+					jQuery('#InstaTagPhotos').removeClass('nav-tab-active');
+					jQuery('#InstaUserPhotos').addClass('nav-tab-active');
+					
+					jQuery('#InstagramTagPhotosPanel').css('display', 'none');
+					jQuery('#InstagramUserPhotosPanel').css('display', 'block');
+					
+					WPInstaroll_ActivePanel = 'user';
+				}
+				
+				// done also if user photos panel is already active (so it updates the view)
+				jQuery('#setting-error-settings_updated').remove();
+				AJAXDrawUserPhotosTable();
+				
+				return false;
+			}
+			function TagPhotosActivatePanel()
+			{
+				if (WPInstaroll_ActivePanel == 'user')
+				{
+					jQuery('#InstaUserPhotos').removeClass('nav-tab-active');
+					jQuery('#InstaTagPhotos').addClass('nav-tab-active');
+					
+					jQuery('#InstagramUserPhotosPanel').css('display', 'none');
+					jQuery('#InstagramTagPhotosPanel').css('display', 'block');
+					
+					WPInstaroll_ActivePanel = 'tag';
+				}
+				
+				/// done also if tag photos panel is already active (so it updates the view)
+				jQuery('#setting-error-settings_updated').remove();
+				AJAXDrawTagPhotosTable();
+				
+				return false;
+			}
+
 		function AJAXDrawUserPhotosTable()
 		{
 			jQuery('#InstagramUserPhotosPanel').html('<p>loading...</p>');
@@ -388,8 +429,8 @@ function wpinstaroll_photo_selection_panel_draw()
 		<h2><?php print($wpinstaroll_photo_selection_page_title); ?></h2>
 
 		<h3 class="nav-tab-wrapper">
-			<a id="KeenSCtabSettings" class="nav-tab nav-tab-active" href="#" onclick="return KeenAdminSettingsActivatePanel()">Instagram User Stream</a>
-			<a id="KeenSCtabUsers" class="nav-tab" href="#" onclick="return KeenAdminUsersActivatePanel()">Instagram Photos by Tag</a>
+			<a id="InstaUserPhotos" class="nav-tab nav-tab-active" href="#" onclick="return UserPhotosActivatePanel()">Instagram User Stream</a>
+			<a id="InstaTagPhotos" class="nav-tab" href="#" onclick="return TagPhotosActivatePanel()">Instagram Photos by Tag</a>
 		</h3>
 
 		<div id="InstagramUserPhotosPanel"></div>
