@@ -40,7 +40,7 @@ function instagram_photosbyusertable_ayax()
 							<th>Caption</th>
 							<th style="width: 130px;">Author username</th>
 							<th style="width: 80px;">Author ID</th>
-							<th style="width: 80px;">Actions</th>
+							<th style="width: 100px;">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -72,7 +72,7 @@ function instagram_photosbyusertable_ayax()
 							print('<td class="insta_description">'.$element->caption->text.'<br />&nbsp;</td>');
 							print('<td class="insta_username">'.$element->user->username.'<br />&nbsp;</td>');
 							print('<td class="insta_userid">'.$element->user->id.'<br />&nbsp;</td>');
-							print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');
+							print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="button-secondary '.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');
 						print('</tr>');
 					}
 				?>
@@ -178,7 +178,7 @@ function instagram_photosbytagtable_ayax()
 							<th>Caption</th>
 							<th style="width: 130px;">Author username</th>
 							<th style="width: 80px;">Author ID</th>
-							<th style="width: 80px;">Actions</th>
+							<th style="width: 100px;">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -210,7 +210,7 @@ function instagram_photosbytagtable_ayax()
 							print('<td class="insta_description">'.$element->caption->text.'<br />&nbsp;</td>');
 							print('<td class="insta_username">'.$element->user->username.'<br />&nbsp;</td>');
 							print('<td class="insta_userid">'.$element->user->id.'<br />&nbsp;</td>');
-							print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');
+							print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="button-secondary '.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');
 						print('</tr>');
 					}
 				?>
