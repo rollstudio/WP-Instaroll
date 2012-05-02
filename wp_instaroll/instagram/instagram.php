@@ -5,15 +5,15 @@
 // Instagram redirect URI: where to go after user app authorization
 function getInstagramRedirectURI()
 {
-	return get_bloginfo('wpurl').'/wp-admin/admin-ajax.php?action='.WP_INSTAGRAM_PLUGIN_CALLBACK_ACTION;
+	return get_bloginfo('wpurl').'/wp-admin/admin-ajax.php?action='.WP_ROLL_INSTAGRAM_PLUGIN_CALLBACK_ACTION;
 }
 
 
 // gest Instagram login/authorization page URI
 function getAuthorizationPageURI()
 {
-	$InstagramClientID = get_option('wpinstaroll_instagram_app_id');
-	$InstagramClientSecret = get_option('wpinstaroll_instagram_app_secret');
+	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
+	$InstagramClientSecret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
 	$InstagramRedirectURI = getInstagramRedirectURI();
 	
 	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($InstagramRedirectURI))
@@ -29,8 +29,8 @@ function deal_with_instagram_auth_redirect_uri()
 {
 	// API: http://instagr.am/developer/auth/
 	
-	$InstagramClientID = get_option('wpinstaroll_instagram_app_id');
-	$InstagramClientSecret = get_option('wpinstaroll_instagram_app_secret');
+	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
+	$InstagramClientSecret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
 	$InstagramRedirectURI = getInstagramRedirectURI();
 	
 	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($InstagramRedirectURI))
@@ -86,10 +86,10 @@ function deal_with_instagram_auth_redirect_uri()
 	
 	if (!empty($access_token))
 	{
-		update_option('wpinstaroll_instagram_user_accesstoken', $access_token);
-		update_option('wpinstaroll_instagram_user_username', $username);
-		update_option('wpinstaroll_instagram_user_userid', $id);
-		update_option('wpinstaroll_instagram_user_profilepicture', $profile_picture);
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken', $access_token);
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username', $username);
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid', $id);
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', $profile_picture);
 		
 		// now we reload the main page and close the popup
 		?>
@@ -118,13 +118,13 @@ add_action('wp_ajax_wpinstaroll_redirect_uri', 'deal_with_instagram_auth_redirec
 // gets Instagram stream for current logged user (contains pics sent by the user and his fiends)
 function getInstagramUserStream()
 {
-	$accessToken = get_option('wpinstaroll_instagram_user_accesstoken');
+	$accessToken = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
 
 	if (empty($accessToken))
 		return null;
 
 	// API: http://instagr.am/developer/endpoints/users/
-	$file_contents = @file_get_contents('https://api.instagram.com/v1/users/self/feed?access_token='.$accessToken);
+	$file_contents = @file_get_contents(WP_ROLL_INSTAGRAM_USER_STREAM_URLBASE.$accessToken);
 
 	if (empty($file_contents))
 		return null;
@@ -139,13 +139,13 @@ function getInstagramPhotosWithTag($tag)
 	if (empty($tag))
 		return null;
 	
-	$accessToken = get_option('wpinstaroll_instagram_user_accesstoken');
+	$accessToken = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
 	
 	if (empty($accessToken))
 		return null;
 			
 	// API: http://instagr.am/developer/endpoints/tags/
-	$file_contents = file_get_contents('https://api.instagram.com/v1/tags/'.$tag.'/media/recent?access_token='.$accessToken);
+	$file_contents = file_get_contents(WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_A.$tag.WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_B.$accessToken);
 	
 	if (empty($file_contents))
 		return null;

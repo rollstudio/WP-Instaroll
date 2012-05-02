@@ -3,14 +3,14 @@
 // handler for Instagram redirect URI
 function instagram_photosbytagtable_ayax()
 {
-	$app_id = get_option('wpinstaroll_instagram_app_id');
-	$app_secret = get_option('wpinstaroll_instagram_app_secret');			
-	$user_access_token = get_option('wpinstaroll_instagram_user_accesstoken');
-	$search_tag = get_option('wpinstaroll_instagram_search_tag');
+	$app_id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
+	$app_secret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');			
+	$user_access_token = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
+	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 	
 	if (empty($app_id) || empty($app_secret) || empty($user_access_token) || empty($search_tag))
 	{					
-		$instagram_settings_page = get_bloginfo('wpurl').'/wp-admin/options-general.php?page=wpinstaroll_menu';
+		$instagram_settings_page = get_bloginfo('wpurl').'/wp-admin/options-general.php?page='.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_menu';
 		
 		print('<p><strong>You need to  configure Instagram access from the <a href="'.$instagram_settings_page.'">Instagram Settings</a> panel inside the Settings menu.</strong></p>');
 	}
@@ -70,7 +70,7 @@ function instagram_photosbytagtable_ayax()
 							print('<td class="insta_description">'.$element->caption->text.'<br />&nbsp;</td>');
 							print('<td class="insta_username">'.$element->user->username.'<br />&nbsp;</td>');
 							print('<td class="insta_userid">'.$element->user->id.'<br />&nbsp;</td>');
-							print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="wpinstaroll_createpost_action">Create post</a></td>');
+							print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');
 						print('</tr>');
 					}
 				?>
@@ -152,7 +152,7 @@ function instagram_createpostfromphoto_ayax()
 	}
 	
 	
-	$search_tag = get_option('wpinstaroll_instagram_search_tag');
+	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 	if (empty($search_tag))
 	{
 		$response = array(
@@ -164,7 +164,7 @@ function instagram_createpostfromphoto_ayax()
 		exit;
 	}
 
-	$title_placeholder = get_option('wpinstaroll_instagram_post_title_placeholder');
+	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 
 	// a. if the category corresponding to the Instagram search tags
 	// doesn't exist, we create it
@@ -198,10 +198,10 @@ function instagram_createpostfromphoto_ayax()
 
 
 	// c. add Instagram pic metadata to the just created post
-	update_post_meta($created_post_ID, '_wpinstaroll_insta_id', $_POST['id']);
-	update_post_meta($created_post_ID, '_wpinstaroll_insta_link', $_POST['link']);
-	update_post_meta($created_post_ID, '_wpinstaroll_insta_authorusername', $_POST['author_username']);
-	update_post_meta($created_post_ID, '_wpinstaroll_insta_authorid', $_POST['author_id']);	
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_insta_id', $_POST['id']);
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_insta_link', $_POST['link']);
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_insta_authorusername', $_POST['author_username']);
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_insta_authorid', $_POST['author_id']);	
 	
 	
 	// d. download image from Instagram and associate to post

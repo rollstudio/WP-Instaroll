@@ -5,7 +5,7 @@
 
 function getInstagramGeneratedDraftPosts()
 {
-	$search_tag = get_option('wpinstaroll_instagram_search_tag');
+	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 	if (empty($search_tag))
 		return null;
 		
@@ -28,12 +28,12 @@ add_action('admin_menu', 'wpinstaroll_menu');
 
 
 // Settings menu
-$wpinstaroll_page_title 							= 'Instagram Management';
-$wpinstaroll_menu_title 							= 'Instagram Settings';
+$wpinstaroll_page_title 							= WP_ROLL_INSTAGRAM_SETTINGS_PAGE_TITLE;
+$wpinstaroll_menu_title 							= WP_ROLL_INSTAGRAM_SETTINGS_MENU;
 
 // top level menu for photo selection
-$wpinstaroll_photo_selection_page_title 			= 'Instagram Photo Selection';
-$wpinstaroll_photo_selection_menu_title 			= 'Instagram Photos';
+$wpinstaroll_photo_selection_page_title 			= WP_ROLL_INSTAGRAM_PHOTOS_PAGE_TITLE;
+$wpinstaroll_photo_selection_menu_title 			= WP_ROLL_INSTAGRAM_PHOTOS_MENU;
 
 function wpinstaroll_menu()
 {
@@ -60,26 +60,26 @@ function wpinstaroll_menu()
 function wpinstaroll_register_settings()
 {
 	// Instagram App ID
-	register_setting('wpinstaroll-settings-group', 'wpinstaroll_instagram_app_id');
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	// Instagram App Secret
-	register_setting('wpinstaroll-settings-group', 'wpinstaroll_instagram_app_secret');
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
 	
 	// Instagram selected research hashtag
-	register_setting('wpinstaroll-settings-group', 'wpinstaroll_instagram_search_tag');
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 	
 	// Instagram created post title placeholder
-	register_setting('wpinstaroll-settings-group', 'wpinstaroll_instagram_post_title_placeholder');
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 	
 	
 		//(not showed and not directly editable)
 	// Instagram Authorized User Access Token
-	register_setting('wpinstaroll-settings-group', 'wpinstaroll_instagram_user_accesstoken');
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
 	// username
-	register_setting('wpinstaroll-settings-group', 'wpinstaroll_instagram_user_username');
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username');
 	// userid
-	register_setting('wpinstaroll-settings-group', 'wpinstaroll_instagram_user_userid');
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid');
 	// profile picture
-	register_setting('wpinstaroll-settings-group', 'wpinstaroll_instagram_user_profilepicture');
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture');
 }
 
 
@@ -96,19 +96,19 @@ function wpinstaroll_panel_draw()
 	}
 	
 	// fields updated, if the save button was pressed
-	settings_fields('wpinstaroll-settings-group');
+	settings_fields(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group');
 	
 	
-	$app_id = get_option('wpinstaroll_instagram_app_id');
-	$app_secret = get_option('wpinstaroll_instagram_app_secret');
+	$app_id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
+	$app_secret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
 				
-	$user_access_token = get_option('wpinstaroll_instagram_user_accesstoken');
-	$username = get_option('wpinstaroll_instagram_user_username');
-	$id = get_option('wpinstaroll_instagram_user_userid');
-	$profile_picture = get_option('wpinstaroll_instagram_user_profilepicture');
+	$user_access_token = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
+	$username = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username');
+	$id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid');
+	$profile_picture = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture');
 	
-	$search_tag = get_option('wpinstaroll_instagram_search_tag');
-	$title_placeholder = get_option('wpinstaroll_instagram_post_title_placeholder');	
+	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
+	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');	
 		
 		
 	$accessTokenInvalid = false;
@@ -118,83 +118,83 @@ function wpinstaroll_panel_draw()
 		$accessTokenInvalid = true;;
 		
 	// Instagram App ID updated
-	if (isset($_POST['wpinstaroll_instagram_app_id']) &&
-		$_POST['wpinstaroll_instagram_app_id'] != $app_id)
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id'] != $app_id)
 	{
-		update_option('wpinstaroll_instagram_app_id', $_POST['wpinstaroll_instagram_app_id']);
-		$app_id = $_POST['wpinstaroll_instagram_app_id'];
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id', $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id']);
+		$app_id = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id'];
 		
 		$accessTokenInvalid = true;
-		update_option('wpinstaroll_instagram_user_accesstoken', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken', '');
 		
-		update_option('wpinstaroll_instagram_user_username', '');
-		update_option('wpinstaroll_instagram_user_userid', '');
-		update_option('wpinstaroll_instagram_user_profilepicture', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', '');
 	}
 	
 	// Instagram App Secret updated
-	if (isset($_POST['wpinstaroll_instagram_app_secret']) &&
-		$_POST['wpinstaroll_instagram_app_secret'] != $app_secret)
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret'] != $app_secret)
 	{
-		update_option('wpinstaroll_instagram_app_secret', $_POST['wpinstaroll_instagram_app_secret']);
-		$app_secret = $_POST['wpinstaroll_instagram_app_secret'];
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret', $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret']);
+		$app_secret = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret'];
 		
 		$accessTokenInvalid = true;
-		update_option('wpinstaroll_instagram_user_accesstoken', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken', '');
 		
-		update_option('wpinstaroll_instagram_user_username', '');
-		update_option('wpinstaroll_instagram_user_userid', '');
-		update_option('wpinstaroll_instagram_user_profilepicture', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', '');
 	}
 	
 	
 	// user pressed 'Change user' button
-	if (isset($_POST['wpinstaroll_disconnect']) && $_POST['wpinstaroll_disconnect'] === 'yes')
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect']) && $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect'] === 'yes')
 	{
 		$accessTokenInvalid = true;
-		update_option('wpinstaroll_instagram_user_accesstoken', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken', '');
 		
-		update_option('wpinstaroll_instagram_user_username', '');
-		update_option('wpinstaroll_instagram_user_userid', '');
-		update_option('wpinstaroll_instagram_user_profilepicture', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid', '');
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', '');
 	}
 	
 	
 	// seach tag updated
-	if (isset($_POST['wpinstaroll_instagram_search_tag']) &&
-		$_POST['wpinstaroll_instagram_search_tag'] != $search_tag)
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'] != $search_tag)
 	{
-		update_option('wpinstaroll_instagram_search_tag', $_POST['wpinstaroll_instagram_search_tag']);
-		$search_tag = $_POST['wpinstaroll_instagram_search_tag'];
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag', $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']);
+		$search_tag = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'];
 	}
 	
 	
 	// post title placeholder updated ('Instagram picture' is used if empty)
 	$default_instagram_title_placeholder = 'Instagram picture';
-	if (isset($_POST['wpinstaroll_instagram_post_title_placeholder']) &&
-		$_POST['wpinstaroll_instagram_post_title_placeholder'] != $title_placeholder)
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'] != $title_placeholder)
 	{
-		if (empty($_POST['wpinstaroll_instagram_post_title_placeholder']))
+		if (empty($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder']))
 			$placeholder = $default_instagram_title_placeholder;
 		else
-			$placeholder = $_POST['wpinstaroll_instagram_post_title_placeholder'];
+			$placeholder = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'];
 		
-		update_option('wpinstaroll_instagram_post_title_placeholder', $placeholder);
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder', $placeholder);
 		$title_placeholder = $placeholder;
 	}
 	else {
 		
-		$current_placeholder = get_option('wpinstaroll_instagram_post_title_placeholder');
+		$current_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 		
 		if (empty($current_placeholder))
 		{
-			update_option('wpinstaroll_instagram_post_title_placeholder', $default_instagram_title_placeholder);
+			update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder', $default_instagram_title_placeholder);
 			$title_placeholder = $default_instagram_title_placeholder;
 		}
 	}
 			
 	// changes saved message
-	if (isset($_POST['wpinstaroll_save_changes']) && $_POST['wpinstaroll_save_changes'] == 'yes')
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes']) && $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'] == 'yes')
 		print('<div id="setting-error-settings_updated" class="updated settings-error"><p><strong>Settings saved.</strong></p></div>');
 	?>
 	
@@ -202,15 +202,15 @@ function wpinstaroll_panel_draw()
 	<div class="wrap">
 		
 		<div id="icon-options-general" class="icon32"><br /></div>
-		<h2><?php print($wpinstaroll_page_title); ?></h2>
+		<h2><?php echo $wpinstaroll_page_title; ?></h2>
 		
 		<form method="post" action="">
-			<input type="hidden" name="wpinstaroll_save_changes" value="yes" />
+			<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'; ?>" value="yes" />
 		
 			<div id="InstagramSettingsPanel">
 			
 				<h3>Instagram configuration</h3>
-				<p>You can set-up an Instagram application here: <a href="http://instagram.com/developer/" target="_blank">http://instagram.com/developer/</a><p>
+				<p>You can set-up an Instagram application here: <a href="<?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?>" target="_blank"><?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?></a><p>
 				<table class="form-table">
 					<tbody>
 						<tr valign="top">
@@ -218,7 +218,7 @@ function wpinstaroll_panel_draw()
 								<label>Instagram <em>Client ID</em></label>
 							</th>
 							<td>
-								<input type="text" name="wpinstaroll_instagram_app_id" value="<?php print(get_option('wpinstaroll_instagram_app_id')); ?>" class="regular-text" />
+								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id')); ?>" class="regular-text" />
 							</td>
 						</tr>
 						<tr valign="top">
@@ -226,7 +226,7 @@ function wpinstaroll_panel_draw()
 								<label>Instagram <em>Client Secret</em></label>
 							</th>
 							<td>
-								<input type="text" name="wpinstaroll_instagram_app_secret" value="<?php print(get_option('wpinstaroll_instagram_app_secret')); ?>" class="regular-text" />
+								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret')); ?>" class="regular-text" />
 							</td>
 						</tr>
 						<tr valign="top">
@@ -243,7 +243,7 @@ function wpinstaroll_panel_draw()
 								<label>Instagram <em>Search Tag</em> (without #)</label>
 							</th>
 							<td>
-								<input type="text" name="wpinstaroll_instagram_search_tag" value="<?php print(get_option('wpinstaroll_instagram_search_tag')); ?>" class="regular-text" />
+								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag')); ?>" class="regular-text" />
 							</td>
 						</tr>
 						<tr valign="top">
@@ -251,7 +251,7 @@ function wpinstaroll_panel_draw()
 								<label>Instagram Post Title Placeholder</label>
 							</th>
 							<td>
-								<input type="text" name="wpinstaroll_instagram_post_title_placeholder" value="<?php print(get_option('wpinstaroll_instagram_post_title_placeholder')); ?>" class="regular-text" />
+								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder')); ?>" class="regular-text" />
 							</td>
 						</tr>
 					</tbody>
@@ -321,7 +321,7 @@ function wpinstaroll_panel_draw()
 				?>
 				
 				<form method="post" action="">
-						<input type="hidden" name="wpinstaroll_disconnect" value="yes" />
+						<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect'; ?>" value="yes" />
 						<input type="submit" class="button-primary" value="<?php _e('Disconnect from Instagram'); ?>" />
 				</form>
 				
