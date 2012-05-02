@@ -1,7 +1,8 @@
 <?php
 
-// plugin base URLs
+// plugin base URLs and prefixes
 define('WP_ROLL_INSTAGRAM_PLUGIN_PREFIX', 'wpinstaroll');
+define('WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX', 'wpinstaroll');
 define('WP_ROLL_INSTAGRAM_PLUGIN_CALLBACK_ACTION', 'wpinstaroll_redirect_uri');
 
 // Instagram base URLs

@@ -338,10 +338,10 @@ function instagram_createpostfromphoto_ayax()
 
 
 	// c. add Instagram pic metadata to the just created post
-	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_insta_id', $_POST['id']);
-	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_insta_link', $_POST['link']);
-	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_insta_authorusername', $_POST['author_username']);
-	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_insta_authorid', $_POST['author_id']);	
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_id', $_POST['id']);
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_link', $_POST['link']);
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_authorusername', $_POST['author_username']);
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_authorid', $_POST['author_id']);	
 	
 	
 	// d. download image from Instagram and associate to post
