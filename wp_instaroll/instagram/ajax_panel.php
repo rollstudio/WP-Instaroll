@@ -96,12 +96,12 @@ function instagram_photosbyusertable_ayax()
 						type: 'POST',
 						dataType: 'json',
 						data: {
-							url: jQuery(this).parent().parent().find('.insta_image a img').attr('data-fullimageurl'),
+							url: jQuery(this).closest('tr').find('.insta_image a img').attr('data-fullimageurl'),
 							id: pic_id,
-							link: jQuery(this).parent().parent().find('.insta_image a').attr('href'),
-							caption: jQuery(this).parent().parent().find('.insta_description').html(),
-							author_username: jQuery(this).parent().parent().find('.insta_username').html(),
-							author_id: jQuery(this).parent().parent().find('.insta_userid').html()
+							link: jQuery(this).closest('tr').find('.insta_image a').attr('href'),
+							caption: jQuery(this).closest('tr').find('.insta_description').html(),
+							author_username: jQuery(this).closest('tr').find('.insta_username').html(),
+							author_id: jQuery(this).closest('tr').find('.insta_userid').html()
 						},
 						success: function(data) {
 							
@@ -234,12 +234,12 @@ function instagram_photosbytagtable_ayax()
 						type: 'POST',
 						dataType: 'json',
 						data: {
-							url: jQuery(this).parent().parent().find('.insta_image a img').attr('data-fullimageurl'),
+							url: jQuery(this).closest('tr').find('.insta_image a img').attr('data-fullimageurl'),
 							id: pic_id,
-							link: jQuery(this).parent().parent().find('.insta_image a').attr('href'),
-							caption: jQuery(this).parent().parent().find('.insta_description').html(),
-							author_username: jQuery(this).parent().parent().find('.insta_username').html(),
-							author_id: jQuery(this).parent().parent().find('.insta_userid').html()
+							link: jQuery(this).closest('tr').find('.insta_image a').attr('href'),
+							caption: jQuery(this).closest('tr').find('.insta_description').html(),
+							author_username: jQuery(this).closest('tr').find('.insta_username').html(),
+							author_id: jQuery(this).closest('tr').find('.insta_userid').html()
 						},
 						success: function(data) {
 							
