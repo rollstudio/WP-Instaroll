@@ -305,7 +305,7 @@ function instagram_createpostfromphoto_ayax()
 		// insert the image inside the post, followed by post caption
 		$update_post_data = array();
   		$update_post_data['ID'] = $created_post_ID;
-  		$update_post_data['post_content'] = '<img src="'.$_POST['url'].'" alt="'.strip_tags($_POST['caption']).'" width="'.$image_info[1].'" height="'.$image_info[2].'"/><br/>'.
+  		$update_post_data['post_content'] = '<img src="'.$image_info[0].'" alt="'.strip_tags($_POST['caption']).'" width="'.$image_info[1].'" height="'.$image_info[2].'"/><br/>'.
   											$_POST['caption'];
 
   		wp_update_post($update_post_data);
