@@ -5,15 +5,15 @@
 // Instagram redirect URI: where to go after user app authorization
 function getInstagramRedirectURI()
 {
-	return get_bloginfo('wpurl').'/wp-admin/admin-ajax.php?action=wpinstapost_redirect_uri';
+	return get_bloginfo('wpurl').'/wp-admin/admin-ajax.php?action='.WP_INSTAGRAM_PLUGIN_CALLBACK_ACTION;
 }
 
 
 // gest Instagram login/authorization page URI
 function getAuthorizationPageURI()
 {
-	$InstagramClientID = get_option('wpinstapost_instagram_app_id');
-	$InstagramClientSecret = get_option('wpinstapost_instagram_app_secret');
+	$InstagramClientID = get_option('wpinstaroll_instagram_app_id');
+	$InstagramClientSecret = get_option('wpinstaroll_instagram_app_secret');
 	$InstagramRedirectURI = getInstagramRedirectURI();
 	
 	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($InstagramRedirectURI))
@@ -29,8 +29,8 @@ function deal_with_instagram_auth_redirect_uri()
 {
 	// API: http://instagr.am/developer/auth/
 	
-	$InstagramClientID = get_option('wpinstapost_instagram_app_id');
-	$InstagramClientSecret = get_option('wpinstapost_instagram_app_secret');
+	$InstagramClientID = get_option('wpinstaroll_instagram_app_id');
+	$InstagramClientSecret = get_option('wpinstaroll_instagram_app_secret');
 	$InstagramRedirectURI = getInstagramRedirectURI();
 	
 	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($InstagramRedirectURI))
@@ -86,10 +86,10 @@ function deal_with_instagram_auth_redirect_uri()
 	
 	if (!empty($access_token))
 	{
-		update_option('wpinstapost_instagram_user_accesstoken', $access_token);
-		update_option('wpinstapost_instagram_user_username', $username);
-		update_option('wpinstapost_instagram_user_userid', $id);
-		update_option('wpinstapost_instagram_user_profilepicture', $profile_picture);
+		update_option('wpinstaroll_instagram_user_accesstoken', $access_token);
+		update_option('wpinstaroll_instagram_user_username', $username);
+		update_option('wpinstaroll_instagram_user_userid', $id);
+		update_option('wpinstaroll_instagram_user_profilepicture', $profile_picture);
 		
 		// now we reload the main page and close the popup
 		?>
@@ -107,9 +107,9 @@ function deal_with_instagram_auth_redirect_uri()
 	exit;
 	
 	// accessible with URL:
-	// http://[HOST]/wp-admin/admin-ajax.php?action=wpinstapost_redirect_uri
+	// http://[HOST]/wp-admin/admin-ajax.php?action=wpinstaroll_redirect_uri
 }
-add_action('wp_ajax_wpinstapost_redirect_uri', 'deal_with_instagram_auth_redirect_uri');
+add_action('wp_ajax_wpinstaroll_redirect_uri', 'deal_with_instagram_auth_redirect_uri');
 
 
 
@@ -118,7 +118,7 @@ add_action('wp_ajax_wpinstapost_redirect_uri', 'deal_with_instagram_auth_redirec
 // gets Instagram stream for current logged user (contains pics sent by the user and his fiends)
 function getInstagramUserStream()
 {
-	$accessToken = get_option('wpinstapost_instagram_user_accesstoken');
+	$accessToken = get_option('wpinstaroll_instagram_user_accesstoken');
 
 	if (empty($accessToken))
 		return null;
@@ -139,7 +139,7 @@ function getInstagramPhotosWithTag($tag)
 	if (empty($tag))
 		return null;
 	
-	$accessToken = get_option('wpinstapost_instagram_user_accesstoken');
+	$accessToken = get_option('wpinstaroll_instagram_user_accesstoken');
 	
 	if (empty($accessToken))
 		return null;
