@@ -69,6 +69,12 @@ function wpinstaroll_register_settings()
 	
 	// Instagram created post title placeholder
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
+
+	// Instagram created post status
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status');
+
+	// Instagram photo insertion mode (as featured image or inside the post)
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode');
 	
 	
 		//(not showed and not directly editable)
@@ -115,6 +121,13 @@ function wpinstaroll_panel_draw()
 	{
 		$created_post_status = 'draft';
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status', $created_post_status);
+	}
+
+	$insert_photo_mode = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode');
+	if ($insert_photo_mode == false)
+	{
+		$insert_photo_mode = 'featured';
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode', $insert_photo_mode);
 	}
 		
 		
@@ -205,13 +218,28 @@ function wpinstaroll_panel_draw()
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status']) &&
 		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'] != $created_post_status)
 	{
-		if (empty($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder']))
+		if (empty($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status']))
 			$created_post_status = $default_post_status;
 		else
 			$created_post_status = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'];
 
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status', $created_post_status);
 	}
+
+
+	// photo insertion mode
+	$default_insertion_mode = 'featured';
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'] != $insert_photo_mode)
+	{
+		if (empty($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode']))
+			$insert_photo_mode = $default_insertion_mode;
+		else
+			$insert_photo_mode = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'];
+
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode', $insert_photo_mode);
+	}
+
 			
 	// changes saved message
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes']) && $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'] == 'yes')
