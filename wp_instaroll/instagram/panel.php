@@ -210,7 +210,7 @@ function wpinstaroll_panel_draw()
 			<div id="InstagramSettingsPanel">
 			
 				<h3>Instagram configuration</h3>
-				<p>You can set-up an Instagram application here: <a href="<?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?>" target="_blank"><?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?></a><p>
+				<p><strong>You can set-up an Instagram application here: <a href="<?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?>" target="_blank"><?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?></a></strong><p>
 				<table class="form-table">
 					<tbody>
 						<tr valign="top">
@@ -237,7 +237,12 @@ function wpinstaroll_panel_draw()
 								<label><strong><?php echo getInstagramRedirectURI(); ?></strong></label>
 							</td>
 						</tr>
+					</tbody>
+				</table>
 						
+				<p><strong>Instagram WordPress posts parameters</strong></p>
+				<table class="form-table">
+					<tbody>
 						<tr valign="top">
 							<th scope="row">
 								<label>Instagram <em>Search Tag</em> (without #)</label>
