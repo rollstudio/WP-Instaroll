@@ -465,8 +465,8 @@ function wpinstaroll_photo_selection_panel_draw()
 		<h2><?php print($wpinstaroll_photo_selection_page_title); ?></h2>
 
 		<h3 class="nav-tab-wrapper">
-			<a id="InstaUserPhotos" class="nav-tab nav-tab-active" href="#" onclick="return UserPhotosActivatePanel()">Instagram User Stream</a>
-			<a id="InstaTagPhotos" class="nav-tab" href="#" onclick="return TagPhotosActivatePanel()">Instagram Photos by Tag</a>
+			<a id="InstaUserPhotos" class="nav-tab nav-tab-active" href="#" onclick="return UserPhotosActivatePanel()"><?php echo WP_ROLL_INSTAGRAM_PHOTOS_TABS_USER; ?></a>
+			<a id="InstaTagPhotos" class="nav-tab" href="#" onclick="return TagPhotosActivatePanel()"><?php echo WP_ROLL_INSTAGRAM_PHOTOS_TABS_TAG; ?></a>
 		</h3>
 
 		<div id="InstagramUserPhotosPanel"></div>
