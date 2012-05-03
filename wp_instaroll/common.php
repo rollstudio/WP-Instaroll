@@ -27,6 +27,25 @@ define('WP_ROLL_INSTAGRAM_PHOTOS_TABS_TAG', 'Instagram Photos by Tag');
 
 // additional DB table definitions
 define('WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE', $wpdb->prefix.'wpinstaroll_instapics_track_table');
-define('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', 'wpinstaroll_db_version')
+define('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', 'wpinstaroll_db_version');
+
+
+
+
+// custom admin styles
+function wpinstaroll_admin_basic_init()
+{
+    if (is_admin())
+    {
+		wp_register_style(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_admin_styles', plugins_url('wp_instaroll/admin_style.css'));
+	}
+}
+add_action('init', 'wpinstaroll_admin_basic_init');
+
+function wpinstaroll_admin_styles()
+{
+	wp_enqueue_style(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_admin_styles');
+}
+add_action('admin_print_styles', 'wpinstaroll_admin_styles');
 
 ?>

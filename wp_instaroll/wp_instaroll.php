@@ -51,20 +51,4 @@ function wpinstaroll_instapics_track_install()
 register_activation_hook(WP_PLUGIN_DIR.'/wp_instaroll/wp_instaroll.php', 'wpinstaroll_instapics_track_install');
 
 
-// custom admin styles
-function wpinstaroll_admin_basic_init()
-{
-    if (is_admin())
-    {
-		wp_register_style(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_admin_styles', plugins_url('wp_instaroll/admin_style.css'));
-	}
-}
-add_action('init', 'wpinstaroll_admin_basic_init');
-
-function wpinstaroll_admin_styles()
-{
-	wp_enqueue_style(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_admin_styles');
-}
-add_action('admin_print_styles', 'wpinstaroll_admin_styles');
-
 ?>
