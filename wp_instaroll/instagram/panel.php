@@ -126,7 +126,7 @@ function wpinstaroll_panel_draw()
 	$insert_photo_mode = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode');
 	if ($insert_photo_mode == false)
 	{
-		$insert_photo_mode = 'featured';
+		$insert_photo_mode = 'post_content';
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode', $insert_photo_mode);
 	}
 		
@@ -228,7 +228,7 @@ function wpinstaroll_panel_draw()
 
 
 	// photo insertion mode
-	$default_insertion_mode = 'featured';
+	$default_insertion_mode = 'post_content';
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode']) &&
 		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'] != $insert_photo_mode)
 	{
@@ -324,8 +324,8 @@ function wpinstaroll_panel_draw()
 							</th>
 							<td>
 								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'; ?>">
-                                    <option value="featured"<?php if ($insert_photo_mode !== 'post_content') echo ' selected=selected'; ?>>as featured image</option>
-                                    <option value="post_content"<?php if ($insert_photo_mode === 'post_content') echo ' selected=selected'; ?>>in post content</option>                          
+									<option value="post_content"<?php if ($insert_photo_mode !== 'featured') echo ' selected=selected'; ?>>in post content</option>
+                                    <option value="featured"<?php if ($insert_photo_mode === 'featured') echo ' selected=selected'; ?>>as featured image</option>                     
                                 </select>
 							</td>
 						</tr>
@@ -541,10 +541,10 @@ function wpinstaroll_photo_selection_panel_draw()
 					postCreationString = 'directly published.';
 
 				var postCreationModeString = '<?php echo get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'); ?>';
-				if (postCreationModeString != 'post_content')
-					postCreationModeString = '\n\nThe photo will be added as featured image for created post.';
-				else
+				if (postCreationModeString !== 'featured')
 					postCreationModeString = '\n\nThe photo will be inserted into the created post.';
+				else
+					postCreationModeString = '\n\nThe photo will be added as featured image for created post.';
 			
 				if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
 					'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + postCreationModeString))

@@ -226,8 +226,8 @@ function instagram_createpostfromphoto_ayax()
 		$created_post_status = 'draft';
 
 	$insert_photo_mode = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode');
-	if ($insert_photo_mode != 'post_content')
-		$insert_photo_mode = 'featured';
+	if ($insert_photo_mode !== 'featured')
+		$insert_photo_mode = 'post_content';
 
 
 	$post_args = array(
@@ -295,7 +295,7 @@ function instagram_createpostfromphoto_ayax()
 	
 	if ($insert_photo_mode === 'featured')
 	{
-		// attach to image as featured image
+		// attach to image as featured image (post thumbnail)
 		add_post_meta($created_post_ID, '_thumbnail_id', $attach_id, true);
 	}
 	else {
