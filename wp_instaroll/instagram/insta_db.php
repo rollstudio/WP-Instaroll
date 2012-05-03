@@ -69,6 +69,26 @@ function wpinstaroll_getInstagramPhotosByStatus($published)
 	return $result;
 }
 
+
+// returns an array containing Instagram IDs of previously published images
+function wpinstaroll_getInstagramPublishedPhotosIDs()
+{
+	$result = wpinstaroll_getInstagramPhotosByStatus(true);
+
+	$indexes = array();
+
+	if ($result)
+	{
+		foreach ($result as $element)
+		{
+			$indexes[] = $element->id;
+		}
+	}
+
+	return $indexes;
+}
+
+
 // insert Instagram photo data into DB (if not already present; if present, return without updating the record)
 function wpinstaroll_insertInstagramPhotoData($insta_id, $insta_url, $insta_link='', $published=false, $media_id=null)
 {
