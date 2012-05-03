@@ -75,7 +75,6 @@ function wpinstaroll_deal_with_instagram_auth_redirect_uri()
 	echo curl_errno($ch);
 	curl_close($ch);
 	
-
 	$decoded_response = json_decode($response);
 	
 	// get user data from the response
@@ -84,7 +83,7 @@ function wpinstaroll_deal_with_instagram_auth_redirect_uri()
 	$bio = $decoded_response->user->bio;
 	$website = $decoded_response->user->website;
 	$profile_picture = $decoded_response->user->profile_picture;
-	$full_name = $decoded_response->user->full_name;
+	//$full_name = $decoded_response->user->full_name;
 	$id = $decoded_response->user->id;
 	
 	if (!empty($access_token))
