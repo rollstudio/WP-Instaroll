@@ -253,7 +253,7 @@ function wpinstaroll_panel_draw()
 		<div id="icon-options-general" class="icon32"><br /></div>
 		<h2><?php echo $wpinstaroll_page_title; ?></h2>
 		
-		<form method="post" action="">
+		<form method="post" action="#">
 			<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'; ?>" value="yes" />
 		
 			<div id="InstagramSettingsPanel">
@@ -392,7 +392,7 @@ function wpinstaroll_panel_draw()
 			{
 				?>
 				
-				<form method="post" action="">
+				<form method="post" action="#">
 						<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect'; ?>" value="yes" />
 						<input type="submit" class="button-primary" value="<?php _e('Disconnect from Instagram'); ?>" />
 				</form>
