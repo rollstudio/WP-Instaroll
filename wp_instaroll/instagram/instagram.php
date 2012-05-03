@@ -197,7 +197,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	{
 		return array(
 			'error' => true,
-			'error_description' => 'Required parameters missing'
+			'error_description' => WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_MESSAGE,
+			'error_code' => WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_CODE
 		);
 	}
 	
@@ -207,7 +208,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	{
 		return array(
 			'error' => true,
-			'error_description' => 'Instagram access not properly configured'
+			'error_description' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_ACCESS_NOT_CONFIGURED_MESSAGE,
+			'error_code' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_ACCESS_NOT_CONFIGURED_CODE
 		);
 	}
 
@@ -244,7 +246,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	{
 		return array(
 			'error' => true,
-			'error_description' => 'Problem creating the post'
+			'error_description' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_POST_CREATION_PROBLEM_MESSAGE,
+			'error_code' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_POST_CREATION_PROBLEM_CODE
 		);
 	}
 
@@ -280,7 +283,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 			
 			return array(
 				'error' => true,
-				'error_description' => 'Problem downloading the image from Instagram'
+				'error_description' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_DOWNLOAD_PROBLEM_MESSAGE,
+				'error_code' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_DOWNLOAD_PROBLEM_CODE
 			);
 	    }
 
@@ -291,7 +295,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	        
 			return array(
 				'error' => true,
-				'error_description' => 'problem adding the image to the post'
+				'error_description' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_MESSAGE,
+				'error_code' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_CODE
 			);
 	    }
 		
@@ -324,7 +329,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	// update Instagram photo local data
 	updateInstagramPhotoStatus($insta_id, true, $attach_id);
 	
-	
+
 	return array(
 		'error' => false,
 		'post_id' => $created_post_ID

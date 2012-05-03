@@ -31,6 +31,21 @@ define('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', 'wpinstaroll_db_version');
 
 
 
+// error message and error codes (fronted-backend communication)
+define('WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_MESSAGE', 'Required parameters missing');
+define('WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_CODE', 1);
+define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_ACCESS_NOT_CONFIGURED_MESSAGE', 'Instagram access not properly configured');
+define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_ACCESS_NOT_CONFIGURED_CODE', 2);
+define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_POST_CREATION_PROBLEM_MESSAGE', 'Problem creating the post');
+define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_POST_CREATION_PROBLEM_CODE', 3);
+define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_DOWNLOAD_PROBLEM_MESSAGE', 'Problem downloading the image from Instagram');
+define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_DOWNLOAD_PROBLEM_CODE', 4);
+define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_MESSAGE', 'Problem adding the image to the post');
+define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_CODE', 5);
+
+
+
+
 
 // custom admin styles
 function wpinstaroll_admin_basic_init()

@@ -195,7 +195,8 @@ function instagram_createpostfromphoto_ayax()
 	{
 		$response = array(
 			'error' => true,
-			'error_description' => 'Required parameters missing'
+			'error_description' => WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_MESSAGE,
+			'error_code' => WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_CODE
 		);
 	}
 	else
