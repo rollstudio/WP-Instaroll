@@ -11,3 +11,9 @@
 span.top_right_buttons {
 	float: right;
 }
+
+img.profilePicture {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #21759B;
+}

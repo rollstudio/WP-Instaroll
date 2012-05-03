@@ -375,7 +375,7 @@ function wpinstaroll_panel_draw()
 
 						// in case we already have used data saved, we use it
 
-						print('<img src="'.$profile_picture.'" alt="'.$username.'" />');
+						print('<img class="profilePicture" src="'.$profile_picture.'" alt="'.$username.'" />');
 						print('<p>username: '.$username.'<br />user id: '.$id.'</p>');
 						
 						$showChangeUserButton = true;
