@@ -22,7 +22,9 @@ function wpinstaroll_photosbyusertable_ayax()
 
 		print('<h3>Instagram stream for user: '.$instagram_username.'</h3>');
 		
-		print('<p><a class="button-primary" href="'.wpinstaroll_getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_userphotosupdate" href="#">Update view</a></p>');
+		print(	'<p><a class="button-primary" href="'.wpinstaroll_getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>'.
+				'<span class="top_right_buttons"><span class="show_published_pics_check">Show already selected Instagram photos&nbsp;<input type="checkbox" name="show_already_published" value="yes" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'.
+				'<a class="button-primary" id="Instagram_userphotosupdate" href="#">Update view</a></span></p>');
 
 		$user_feed = wpinstaroll_getInstagramUserStream();
 		
@@ -112,7 +114,9 @@ function wpinstaroll_photosbytagtable_ayax()
 		
 		print('<h3>Instagram tag: '.$search_tag.'</h3>');
 		
-		print('<p><a class="button-primary" href="'.wpinstaroll_getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
+		print(	'<p><a class="button-primary" href="'.wpinstaroll_getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>'.
+				'<span class="top_right_buttons"><span class="show_published_pics_check">Show already selected Instagram photos&nbsp;<input type="checkbox" name="show_already_published" value="yes" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'.
+				'<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></span></p>');
 
 		$tag_feed = wpinstaroll_getInstagramPhotosWithTag($search_tag);
 		

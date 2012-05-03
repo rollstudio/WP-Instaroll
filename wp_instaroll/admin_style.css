@@ -8,7 +8,6 @@
 	max-height: auto;
 }
 
-a#Instagram_userphotosupdate,
-a#Instagram_tagphotosupdate {
+span.top_right_buttons {
 	float: right;
 }
