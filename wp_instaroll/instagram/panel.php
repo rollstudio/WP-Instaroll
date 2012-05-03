@@ -75,9 +75,12 @@ function wpinstaroll_register_settings()
 
 	// Instagram photo insertion mode (as featured image or inside the post)
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode');
+
+	// show or don't show already published photos in photos selection panels (editable in photos selection panels)
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_published_photos');
+
 	
-	
-		//(not showed and not directly editable)
+		// (not showed and/or not directly editable)
 	// Instagram Authorized User Access Token
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
 	// username
@@ -530,6 +533,54 @@ function wpinstaroll_photo_selection_panel_draw()
 				AJAXDrawTagPhotosTable();
 				
 				return false;
+			});
+
+			jQuery("#show_already_published_userpanel").live('click', function() {
+
+				var status;
+				if (jQuery(this).attr('checked') == 'checked')
+					status = 'show_published';
+				else
+					status = 'dont_show_published';
+
+				jQuery.ajax({
+					url: ajaxurl + '?action=set_instagram_show_published_flag',
+					type: 'POST',
+					data: {
+						show: status,
+					},
+					success: function() {
+
+						// reload the view after setting the flag
+						AJAXDrawUserPhotosTable();	
+					}
+				});
+
+				return true;
+			});
+
+			jQuery("#show_already_published_tagpanel").live('click', function() {
+
+				var status;
+				if (jQuery(this).attr('checked') == 'checked')
+					status = 'show_published';
+				else
+					status = 'dont_show_published';
+
+				jQuery.ajax({
+					url: ajaxurl + '?action=set_instagram_show_published_flag',
+					type: 'POST',
+					data: {
+						show: status,
+					},
+					success: function() {
+
+						// reload the view after setting the flag
+						AJAXDrawTagPhotosTable();	
+					}
+				});
+
+				return true;
 			});
 
 			jQuery('.<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX; ?>_createpost_action').live('click', function() {

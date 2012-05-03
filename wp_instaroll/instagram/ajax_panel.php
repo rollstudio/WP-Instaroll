@@ -21,9 +21,15 @@ function wpinstaroll_photosbyusertable_ayax()
 	else {
 
 		print('<h3>Instagram stream for user: '.$instagram_username.'</h3>');
+
+		$show_published = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_published_photos');
+		if ($show_published != 'dont_show_published')
+			$is_checked = 'checked="checked" ';
+		else
+			$is_checked = '';
 		
 		print(	'<p><a class="button-primary" href="'.wpinstaroll_getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>'.
-				'<span class="top_right_buttons"><span class="show_published_pics_check">Show already selected Instagram photos&nbsp;<input type="checkbox" name="show_already_published" value="yes" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'.
+				'<span class="top_right_buttons"><span class="show_published_pics_check">Show already selected Instagram photos&nbsp;<input type="checkbox" '.$is_checked.'name="show_already_published" id="show_already_published_userpanel" value="yes" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'.
 				'<a class="button-primary" id="Instagram_userphotosupdate" href="#">Update view</a></span></p>');
 
 		$user_feed = wpinstaroll_getInstagramUserStream();
@@ -113,9 +119,15 @@ function wpinstaroll_photosbytagtable_ayax()
 	else {
 		
 		print('<h3>Instagram tag: '.$search_tag.'</h3>');
+
+		$show_published = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_published_photos');
+		if ($show_published != 'dont_show_published')
+			$is_checked = 'checked="checked" ';
+		else
+			$is_checked = '';
 		
 		print(	'<p><a class="button-primary" href="'.wpinstaroll_getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>'.
-				'<span class="top_right_buttons"><span class="show_published_pics_check">Show already selected Instagram photos&nbsp;<input type="checkbox" name="show_already_published" value="yes" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'.
+				'<span class="top_right_buttons"><span class="show_published_pics_check">Show already selected Instagram photos&nbsp;<input type="checkbox" '.$is_checked.'name="show_already_published" id="show_already_published_tagpanel" value="yes" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'.
 				'<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></span></p>');
 
 		$tag_feed = wpinstaroll_getInstagramPhotosWithTag($search_tag);
@@ -212,6 +224,35 @@ function wpinstaroll_createpostfromphoto_ayax()
 	// http://[HOST]/wp-admin/admin-ajax.php?action=create_post_from_instagram_pic
 }
 add_action('wp_ajax_create_post_from_instagram_pic', 'wpinstaroll_createpostfromphoto_ayax');
+
+
+// handler for setting/unsetting the 'show already published pictured' flag
+function wpinstaroll_setshowpublishedflag_ayax()
+{
+	if (empty($_POST['show']))
+	{
+		$response = array(
+			'error' => true,
+			'error_description' => WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_MESSAGE,
+			'error_code' => WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_CODE
+		);
+	}
+	else {
+
+		if ($_POST['show'] != 'show_published')
+			$show_published_flag = 'dont_show_published';
+		else
+			$show_published_flag = 'show_published';
+
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_published_photos', $show_published_flag);
+	}
+
+	exit;
+	// accessible with URL:
+	// http://[HOST]/wp-admin/admin-ajax.php?action=set_instagram_show_published_flag
+}
+add_action('wp_ajax_set_instagram_show_published_flag', 'wpinstaroll_setshowpublishedflag_ayax');
+
 
 
 ?>
