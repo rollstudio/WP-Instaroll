@@ -6,6 +6,7 @@ WP-Instaroll - TODOs
 - personalized icons for menus and panels
 - for photos added inside the post, possibility of choosing if the image must link to Instagram post or not
 - in photos selection panel, checkbox for showing/hiding already published posts
+- search tag input error handling
 
 
 to be done later
@@ -16,10 +17,10 @@ to be done later
 	- automatically publish or save as draft
 	- option to use a different category for automatically selected posts
 	- only publish unpublished posts
-- error message when a post can be created but not the image (uploads dir not writeable, etc...)
+- error message (and handling) when a post can be created but not the image (uploads dir not writeable, etc...)
 - category to be used for posts:
 	- show list of available categories (only one is selectable)
 	- input box with add button, for creating a new category
-- possibility of using multiple seach tags (comma separated)
+- possibility of using multiple search tags (comma separated)
 - multilanguage
 - help panel(s)
