@@ -12,7 +12,7 @@ function wpinstaroll_getInstagramRedirectURI()
 }
 
 
-// gest Instagram login/authorization page URI
+// gets Instagram login/authorization page URI
 function wpinstaroll_getAuthorizationPageURI()
 {
 	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
@@ -70,7 +70,7 @@ function wpinstaroll_deal_with_instagram_auth_redirect_uri()
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-//	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	$response = curl_exec($ch);
 	echo curl_errno($ch);
 	curl_close($ch);

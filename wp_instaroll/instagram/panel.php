@@ -23,10 +23,6 @@ function wpinstaroll_getInstagramGeneratedDraftPosts()
 }
 
 
-// admin panel menu
-add_action('admin_menu', 'wpinstaroll_menu');
-
-
 // Settings menu
 $wpinstaroll_page_title 							= WP_ROLL_INSTAGRAM_SETTINGS_PAGE_TITLE;
 $wpinstaroll_menu_title 							= WP_ROLL_INSTAGRAM_SETTINGS_MENU;
@@ -35,6 +31,7 @@ $wpinstaroll_menu_title 							= WP_ROLL_INSTAGRAM_SETTINGS_MENU;
 $wpinstaroll_photo_selection_page_title 			= WP_ROLL_INSTAGRAM_PHOTOS_PAGE_TITLE;
 $wpinstaroll_photo_selection_menu_title 			= WP_ROLL_INSTAGRAM_PHOTOS_MENU;
 
+// admin panel menu
 function wpinstaroll_menu()
 {
 	global $wpinstaroll_page_title, $wpinstaroll_menu_title, $wpinstaroll_photo_selection_page_title, $wpinstaroll_photo_selection_menu_title;
@@ -54,6 +51,7 @@ function wpinstaroll_menu()
 	
 	add_menu_page($wpinstaroll_photo_selection_page_title, $wpinstaroll_photo_selection_menu_title, 'administrator', 'wpinstaroll_menu_photo_selection', 'wpinstaroll_photo_selection_panel_draw');
 }
+add_action('admin_menu', 'wpinstaroll_menu');
 
 
 // admin panel settings callback function
@@ -638,3 +636,5 @@ function wpinstaroll_photo_selection_panel_draw()
 	
 	<?php
 }
+
+?>

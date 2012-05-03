@@ -2,6 +2,7 @@
 
 // plugin db functions
 
+
 // get Instagram photo data from passed Instagram photo ID
 function wpinstaroll_getInstagramPhotoDataFromInstaID($insta_id)
 {
@@ -20,6 +21,7 @@ function wpinstaroll_getInstagramPhotoDataFromInstaID($insta_id)
 		return null;
 }
 
+
 // check if Instagram photo with passed Instagram photo ID is present in DB
 function wpinstaroll_checkInstagramPhotoDataPresenceFromInstaID($insta_id)
 {
@@ -37,6 +39,7 @@ function wpinstaroll_checkInstagramPhotoDataPresenceFromInstaID($insta_id)
 		return false;
 }
 
+
 // get all Instagram photos in DB
 function wpinstaroll_getInstagramPhotos()
 {
@@ -48,6 +51,7 @@ function wpinstaroll_getInstagramPhotos()
 
 	return $result;
 }
+
 
 // get Instagram photos in db with passed published status (true/false)
 function wpinstaroll_getInstagramPhotosByStatus($published)
@@ -135,6 +139,7 @@ function wpinstaroll_insertInstagramPhotoData($insta_id, $insta_url, $insta_link
 }
 
 
+// update status for Instagram photo in local data table
 function wpinstaroll_updateInstagramPhotoStatus($insta_id, $published=true, $media_id=null)
 {
 	global $wpdb;
@@ -169,6 +174,5 @@ function wpinstaroll_updateInstagramPhotoStatus($insta_id, $published=true, $med
 
 	return $result;
 }
-
 
 ?>

@@ -29,8 +29,6 @@ define('WP_ROLL_INSTAGRAM_PHOTOS_TABS_TAG', 'Instagram Photos by Tag');
 define('WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE', $wpdb->prefix.'wpinstaroll_instapics_track_table');
 define('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', 'wpinstaroll_db_version');
 
-
-
 // error message and error codes (fronted-backend communication)
 define('WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_MESSAGE', 'Required parameters missing');
 define('WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_CODE', 1);
@@ -43,10 +41,8 @@ define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_DOWNLOAD_PROBLEM_CODE', 4);
 define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_MESSAGE', 'Problem adding the image to the post');
 define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_CODE', 5);
 
-
 // defaults
 define('WP_ROLL_INSTAGRAM_DEFAULT_TITLE_PLACEHOLDER', 'Instagram picture');
-
 
 
 

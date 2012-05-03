@@ -271,6 +271,4 @@ function wpinstaroll_setshowpublishedflag_ayax()
 }
 add_action('wp_ajax_set_instagram_show_published_flag', 'wpinstaroll_setshowpublishedflag_ayax');
 
-
-
 ?>

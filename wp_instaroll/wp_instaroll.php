@@ -50,5 +50,4 @@ function wpinstaroll_instapics_track_install()
 }
 register_activation_hook(WP_PLUGIN_DIR.'/wp_instaroll/wp_instaroll.php', 'wpinstaroll_instapics_track_install');
 
-
 ?>
