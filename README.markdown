@@ -13,9 +13,9 @@ Simple Instagram plug-in for creating WordPress posts from Instagram photos (bot
 
 You can browse photos in your user stream, or by the specified tag, import them into WordPress media library and link it to post, with the possibility of choosing between adding it as featured image (post thumbnail) or directly inside the post (default).
 
-The post created from Instagram photos can be saved as draft or directly published.
+The posts created from Instagram photos can be saved as draft or directly published.
 
-The plug-in keeps track of previously published photos and avoids downloading a previously published photo from Instagram again, if it's already present in local media library, in case that photo is used for creating multiple posts.
+The plug-in keeps track of previously published photos and avoids downloading them from Instagram again, if they're already present in local media library, in case a single photo is used for creating multiple posts.
 
 Installation
 ------------
