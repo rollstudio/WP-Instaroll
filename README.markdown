@@ -17,6 +17,8 @@ The posts created from Instagram photos can be saved as draft or directly publis
 
 The plug-in keeps track of previously published photos and avoids downloading them from Instagram again, if they're already present in local media library, in case a single photo is used for creating multiple posts.
 
+In photos selection panels there's a checkbox for specifying whether to show already published Instagram photos (default) or not.
+
 Installation
 ------------
 

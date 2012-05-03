@@ -81,7 +81,7 @@ function wpinstaroll_getInstagramPublishedPhotosIDs()
 	{
 		foreach ($result as $element)
 		{
-			$indexes[] = $element->id;
+			$indexes[] = $element->pic_id;
 		}
 	}
 
