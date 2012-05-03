@@ -193,7 +193,7 @@ function instagram_createpostfromphoto_ayax()
 	{
 		$response = array(
 			'error' => true,
-			'error_description' => 'required parameters missing'
+			'error_description' => 'Required parameters missing'
 		);
 		print(json_encode($response));
 		
@@ -247,7 +247,7 @@ function instagram_createpostfromphoto_ayax()
 	{
 		$response = array(
 			'error' => true,
-			'error_description' => 'problem creating the post'
+			'error_description' => 'Problem creating the post'
 		);
 		print(json_encode($response));
 		
@@ -286,7 +286,7 @@ function instagram_createpostfromphoto_ayax()
 			
 			$response = array(
 				'error' => true,
-				'error_description' => 'problem downloading the image from Instagram'
+				'error_description' => 'Problem downloading the image from Instagram'
 			);
 			print(json_encode($response));
 			

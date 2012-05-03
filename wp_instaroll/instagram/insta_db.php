@@ -70,23 +70,19 @@ function getInstagramPhotosByStatus($published)
 }
 
 // insert Instagram photo data into DB (if not already present; if present, return without updating the record)
-function insertInstagramPhotoData($insta_id, $insta_url, $insta_link, $published=false, $media_id=null)
+function insertInstagramPhotoData($insta_id, $insta_url, $insta_link='', $published=false, $media_id=null)
 {
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
 
-	// mandatory parameter missing
-	if (empty($insta_id))
+	// mandatory parameters missing
+	if (empty($insta_id) || empty($insta_url))
 		return -1;
 
 	// pic data already present
 	if (checkInstagramPhotoDataPresenceFromInstaID($insta_id))
 		return -2;
 
-	if (empty($insta_url))
-		$insta_url = '';
-	if (empty($insta_link))
-		$insta_link = '';
 
 	if ($published != true)
 		$published = 0;
