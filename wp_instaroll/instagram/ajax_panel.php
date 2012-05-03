@@ -4,7 +4,7 @@
 
 
 // AJAX handler for Instagram user stream
-function instagram_photosbyusertable_ayax()
+function wpinstaroll_photosbyusertable_ayax()
 {
 	$app_id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	$app_secret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');			
@@ -23,9 +23,9 @@ function instagram_photosbyusertable_ayax()
 
 		print('<h3>Instagram stream for user: '.$instagram_username.'</h3>');
 		
-		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_userphotosupdate" href="#">Update view</a></p>');
+		print('<p><a class="button-primary" href="'.wpinstaroll_getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_userphotosupdate" href="#">Update view</a></p>');
 
-		$user_feed = getInstagramUserStream();
+		$user_feed = wpinstaroll_getInstagramUserStream();
 		
 		if ($user_feed)
 		{
@@ -92,11 +92,11 @@ function instagram_photosbyusertable_ayax()
 	// accessible with URL:
 	// http://[HOST]/wp-admin/admin-ajax.php?action=wpinstaroll_photosbytagtable
 }
-add_action('wp_ajax_wpinstaroll_photosbyusertable', 'instagram_photosbyusertable_ayax');
+add_action('wp_ajax_wpinstaroll_photosbyusertable', 'wpinstaroll_photosbyusertable_ayax');
 
 
 // AJAX handler for Instagram tag stream
-function instagram_photosbytagtable_ayax()
+function wpinstaroll_photosbytagtable_ayax()
 {
 	$app_id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	$app_secret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');			
@@ -114,9 +114,9 @@ function instagram_photosbytagtable_ayax()
 		
 		print('<h3>Instagram tag: '.$search_tag.'</h3>');
 		
-		print('<p><a class="button-primary" href="'.getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
+		print('<p><a class="button-primary" href="'.wpinstaroll_getInstagramGeneratedDraftPosts().'">Go to Instagram draft posts</a>&nbsp;&nbsp;&nbsp;<a class="button-primary" id="Instagram_tagphotosupdate" href="#">Update view</a></p>');
 
-		$tag_feed = getInstagramPhotosWithTag($search_tag);
+		$tag_feed = wpinstaroll_getInstagramPhotosWithTag($search_tag);
 		
 		if ($tag_feed)
 		{
@@ -183,11 +183,11 @@ function instagram_photosbytagtable_ayax()
 	// accessible with URL:
 	// http://[HOST]/wp-admin/admin-ajax.php?action=wpinstaroll_photosbytagtable
 }
-add_action('wp_ajax_wpinstaroll_photosbytagtable', 'instagram_photosbytagtable_ayax');
+add_action('wp_ajax_wpinstaroll_photosbytagtable', 'wpinstaroll_photosbytagtable_ayax');
 
 
 // handler for creating a post from Instagram pic
-function instagram_createpostfromphoto_ayax()
+function wpinstaroll_createpostfromphoto_ayax()
 {
 	$response = '';
 
@@ -209,7 +209,7 @@ function instagram_createpostfromphoto_ayax()
 	// accessible with URL:
 	// http://[HOST]/wp-admin/admin-ajax.php?action=create_post_from_instagram_pic
 }
-add_action('wp_ajax_create_post_from_instagram_pic', 'instagram_createpostfromphoto_ayax');
+add_action('wp_ajax_create_post_from_instagram_pic', 'wpinstaroll_createpostfromphoto_ayax');
 
 
 ?>

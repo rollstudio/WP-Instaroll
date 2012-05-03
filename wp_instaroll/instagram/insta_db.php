@@ -3,7 +3,7 @@
 // plugin db functions
 
 // get Instagram photo data from passed Instagram photo ID
-function getInstagramPhotoDataFromInstaID($insta_id)
+function wpinstaroll_getInstagramPhotoDataFromInstaID($insta_id)
 {
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
@@ -21,7 +21,7 @@ function getInstagramPhotoDataFromInstaID($insta_id)
 }
 
 // check if Instagram photo with passed Instagram photo ID is present in DB
-function checkInstagramPhotoDataPresenceFromInstaID($insta_id)
+function wpinstaroll_checkInstagramPhotoDataPresenceFromInstaID($insta_id)
 {
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
@@ -29,7 +29,7 @@ function checkInstagramPhotoDataPresenceFromInstaID($insta_id)
 	if (empty($insta_id))
 		return false;
 
-	$result = getInstagramPhotoDataFromInstaID($insta_id);
+	$result = wpinstaroll_getInstagramPhotoDataFromInstaID($insta_id);
 	
 	if ($result)
 		return true;
@@ -38,7 +38,7 @@ function checkInstagramPhotoDataPresenceFromInstaID($insta_id)
 }
 
 // get all Instagram photos in DB
-function getInstagramPhotos()
+function wpinstaroll_getInstagramPhotos()
 {
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
@@ -50,7 +50,7 @@ function getInstagramPhotos()
 }
 
 // get Instagram photos in db with passed published status (true/false)
-function getInstagramPhotosByStatus($published)
+function wpinstaroll_getInstagramPhotosByStatus($published)
 {
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
@@ -70,7 +70,7 @@ function getInstagramPhotosByStatus($published)
 }
 
 // insert Instagram photo data into DB (if not already present; if present, return without updating the record)
-function insertInstagramPhotoData($insta_id, $insta_url, $insta_link='', $published=false, $media_id=null)
+function wpinstaroll_insertInstagramPhotoData($insta_id, $insta_url, $insta_link='', $published=false, $media_id=null)
 {
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
@@ -80,7 +80,7 @@ function insertInstagramPhotoData($insta_id, $insta_url, $insta_link='', $publis
 		return -1;
 
 	// pic data already present
-	if (checkInstagramPhotoDataPresenceFromInstaID($insta_id))
+	if (wpinstaroll_checkInstagramPhotoDataPresenceFromInstaID($insta_id))
 		return -2;
 
 
@@ -115,7 +115,7 @@ function insertInstagramPhotoData($insta_id, $insta_url, $insta_link='', $publis
 }
 
 
-function updateInstagramPhotoStatus($insta_id, $published=true, $media_id=null)
+function wpinstaroll_updateInstagramPhotoStatus($insta_id, $published=true, $media_id=null)
 {
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;

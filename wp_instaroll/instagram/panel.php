@@ -3,7 +3,7 @@
 // plugin admin panel
 
 
-function getInstagramGeneratedDraftPosts()
+function wpinstaroll_getInstagramGeneratedDraftPosts()
 {
 	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 	if (empty($search_tag))
@@ -282,7 +282,7 @@ function wpinstaroll_panel_draw()
 								<label>Use this URL as <em>Callback/Redirect URL</em>, when registering <em>Instagram application</em></label>
 							</th>
 							<td>
-								<label><strong><?php echo getInstagramRedirectURI(); ?></strong></label>
+								<label><strong><?php echo wpinstaroll_getInstagramRedirectURI(); ?></strong></label>
 							</td>
 						</tr>
 					</tbody>
@@ -357,7 +357,7 @@ function wpinstaroll_panel_draw()
 									
 									jQuery('#InstaAuthButton').click(function() {
 										
-										InstagramAuthWindow = window.open('<?php print(getAuthorizationPageURI()); ?>', 'InstagramAuthorization', 'width=800,height=400');
+										InstagramAuthWindow = window.open('<?php print(wpinstaroll_getAuthorizationPageURI()); ?>', 'InstagramAuthorization', 'width=800,height=400');
 									
 									});
 								});

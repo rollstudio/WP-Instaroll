@@ -6,18 +6,18 @@
 	// *** INSTAGRAM AUTHENTICATION ***
 
 // Instagram redirect URI: where to go after user app authorization
-function getInstagramRedirectURI()
+function wpinstaroll_getInstagramRedirectURI()
 {
 	return get_bloginfo('wpurl').'/wp-admin/admin-ajax.php?action='.WP_ROLL_INSTAGRAM_PLUGIN_CALLBACK_ACTION;
 }
 
 
 // gest Instagram login/authorization page URI
-function getAuthorizationPageURI()
+function wpinstaroll_getAuthorizationPageURI()
 {
 	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	$InstagramClientSecret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
-	$InstagramRedirectURI = getInstagramRedirectURI();
+	$InstagramRedirectURI = wpinstaroll_getInstagramRedirectURI();
 	
 	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($InstagramRedirectURI))
 		return null;
@@ -28,13 +28,13 @@ function getAuthorizationPageURI()
 
 
 // handler for Integram redirect URI
-function deal_with_instagram_auth_redirect_uri()
+function wpinstaroll_deal_with_instagram_auth_redirect_uri()
 {
 	// API: http://instagr.am/developer/auth/
 	
 	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	$InstagramClientSecret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
-	$InstagramRedirectURI = getInstagramRedirectURI();
+	$InstagramRedirectURI = wpinstaroll_getInstagramRedirectURI();
 	
 	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($InstagramRedirectURI))
 		exit;
@@ -112,13 +112,13 @@ function deal_with_instagram_auth_redirect_uri()
 	// accessible with URL:
 	// http://[HOST]/wp-admin/admin-ajax.php?action=wpinstaroll_redirect_uri
 }
-add_action('wp_ajax_wpinstaroll_redirect_uri', 'deal_with_instagram_auth_redirect_uri');
+add_action('wp_ajax_wpinstaroll_redirect_uri', 'wpinstaroll_deal_with_instagram_auth_redirect_uri');
 
 
 	// *** INSTAGRAM API ***
 	
 // gets Instagram stream for current logged user (contains pics sent by the user and his fiends)
-function getInstagramUserStream()
+function wpinstaroll_getInstagramUserStream()
 {
 	$accessToken = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
 
@@ -134,14 +134,14 @@ function getInstagramUserStream()
 	$photo_data = json_decode($file_contents);
 
 	// add photo data (if new) to local db
-	updateLocalDBWithNewPhotos($photo_data);
+	wpinstaroll_updateLocalDBWithNewPhotos($photo_data);
 
 	return $photo_data;
 }
 
 
 // gets Instagram pics corresponding to passed hashtag
-function getInstagramPhotosWithTag($tag)
+function wpinstaroll_getInstagramPhotosWithTag($tag)
 {
 	if (empty($tag))
 		return null;
@@ -160,14 +160,14 @@ function getInstagramPhotosWithTag($tag)
 	$photo_data = json_decode($file_contents);
 
 	// add photo data (if new) to local db
-	updateLocalDBWithNewPhotos($photo_data);
+	wpinstaroll_updateLocalDBWithNewPhotos($photo_data);
 
 	return $photo_data;
 }
 
 
 // adds new photo data to the DB
-function updateLocalDBWithNewPhotos($photo_data)
+function wpinstaroll_updateLocalDBWithNewPhotos($photo_data)
 { 
 	if (!$photo_data)
 		return 0;
@@ -179,7 +179,7 @@ function updateLocalDBWithNewPhotos($photo_data)
 	foreach ($photo_data as $element)
 	{
 		// add the photo to database - without setting the published status flag and the local media id
-		$result = insertInstagramPhotoData($element->id, $element->images->standard_resolution->url, $element->link);
+		$result = wpinstaroll_insertInstagramPhotoData($element->id, $element->images->standard_resolution->url, $element->link);
 
 		if ($result > 0)
 			$added_pics_counter++;
@@ -260,7 +260,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	
 	
 	// d. download image from Instagram and associate to post
-	$photo_data = getInstagramPhotoDataFromInstaID($insta_id);
+	$photo_data = wpinstaroll_getInstagramPhotoDataFromInstaID($insta_id);
 
 		// if we the image is already inside the media library, we get it from there, without actually downloading it from Instagram
 	$image_info = null;
@@ -327,7 +327,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 
 
 	// update Instagram photo local data
-	updateInstagramPhotoStatus($insta_id, true, $attach_id);
+	wpinstaroll_updateInstagramPhotoStatus($insta_id, true, $attach_id);
 	
 
 	return array(
