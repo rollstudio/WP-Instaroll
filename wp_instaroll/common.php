@@ -1,5 +1,8 @@
 <?php
 
+global $wpdb;
+
+
 // plugin base URLs and prefixes
 define('WP_ROLL_INSTAGRAM_PLUGIN_PREFIX', 'wpinstaroll');
 define('WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX', 'wpinstaroll');
@@ -18,5 +21,9 @@ define('WP_ROLL_INSTAGRAM_SETTINGS_MENU', 'WP-Instaroll Settings');
 define('WP_ROLL_INSTAGRAM_SETTINGS_PAGE_TITLE', 'Instagram Management');
 define('WP_ROLL_INSTAGRAM_PHOTOS_TABS_USER', 'Instagram User Photos');
 define('WP_ROLL_INSTAGRAM_PHOTOS_TABS_TAG', 'Instagram Photos by Tag');
+
+// additional DB table definitions
+define('WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE', $wpdb->prefix.'wpinstaroll_instapics_track_table');
+define('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', 'wpinstaroll_db_version')
 
 ?>

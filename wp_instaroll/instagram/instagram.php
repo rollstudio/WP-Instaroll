@@ -112,7 +112,6 @@ function deal_with_instagram_auth_redirect_uri()
 add_action('wp_ajax_wpinstaroll_redirect_uri', 'deal_with_instagram_auth_redirect_uri');
 
 
-
 	// *** INSTAGRAM API ***
 	
 // gets Instagram stream for current logged user (contains pics sent by the user and his fiends)
