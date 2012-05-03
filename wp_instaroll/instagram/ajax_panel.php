@@ -295,6 +295,7 @@ function instagram_createpostfromphoto_ayax()
     }
 	
 	@unlink($file_array['tmp_name']);
+
 	
 	if ($insert_photo_mode === 'featured')
 	{
@@ -313,6 +314,11 @@ function instagram_createpostfromphoto_ayax()
 
   		wp_update_post($update_post_data);
 	}
+
+
+	// update Instagram photo local data
+	updateInstagramPhotoStatus($_POST['id'], true, $created_post_ID);
+
 	
 	$response = array(
 		'error' => false,

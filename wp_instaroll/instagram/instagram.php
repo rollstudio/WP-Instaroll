@@ -172,15 +172,20 @@ function updateLocalDBWithNewPhotos($photo_data)
 	if (!$photo_data)
 		return 0;
 
-	$added_pic_counter = 0;
+	$added_pics_counter = 0;
 
 	$photo_data = $photo_data->data;
 
 	foreach ($photo_data as $element)
 	{
 		// add the photo to database - without setting the published status flag and the local media id
-		insertInstagramPhotoData($element->id, $element->images->standard_resolution->url, $element->link);
+		$result = insertInstagramPhotoData($element->id, $element->images->standard_resolution->url, $element->link);
+
+		if ($result > 0)
+			$added_pics_counter++;
 	}
+
+	return $added_pics_counter;
 }
 
 ?>

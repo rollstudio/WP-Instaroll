@@ -121,9 +121,37 @@ function insertInstagramPhotoData($insta_id, $insta_url, $insta_link, $published
 
 function updateInstagramPhotoStatus($insta_id, $published=true, $media_id=null)
 {
+	global $wpdb;
+	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
+
+	// mandatory parameter missing
+	if (empty($insta_id))
+		return -1;
+
+	if ($published != true)
+		$published = 0;
+	else
+		$published = 1;
 
 
+	if (empty($media_id))
+	{
+		$update_data = array(
+			'published'	=>	$published
+			);
+		$data_formats = array('%d');
+	} 
+	else {
+		$update_data = array(
+			'published'	=>	$published,
+			'media_id'	=>	$media_id
+			);
+		$data_formats = array('%d', '%s');
+	}
 
+	$result = $wpdb->update($table, $update_data, array('pic_id' => $insta_id), $data_formats, array('%s'));
+
+	return $result;
 }
 
 
