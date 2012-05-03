@@ -264,7 +264,7 @@ function wpinstaroll_panel_draw()
 			echo '<pre>';
 			print_r(checkInstagramPhotoDataPresenceFromInstaID($insta_id));
 			echo '</pre>';
-			$result = getInstagramPublishedPhotos();
+			$result = getInstagramPhotos();
 			echo '<pre>';
 			print_r($result);
 			echo '</pre>';*/
