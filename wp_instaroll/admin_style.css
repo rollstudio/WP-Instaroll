@@ -1,2 +1,9 @@
 @charset "utf-8";
 
+#InstagramPhotosTable td {
+	padding: 7px 7px 4px 7px;
+}
+#InstagramPhotosTable img {
+	max-width: 310px;
+	max-height: auto;
+}

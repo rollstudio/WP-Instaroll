@@ -344,8 +344,7 @@ function wpinstaroll_panel_draw()
 						if (!empty($app_id) && !empty($app_secret))
 						{
 							/*
-							can't use iframe, because of X-Frame-Options HTTP header sent by Instagram
-							<iframe id="InstagramAuthiFrame" src="<?php print(getAuthorizationPageURI()); ?>" width="100%" height="350" frameborder="0" scrolling="no" style="padding: 0; margin: 0;"></iframe>
+							can't use iframe, because of X-Frame-Options HTTP header sent by Instagram; used pop-up, instead
 							*/
 							?>
 			
