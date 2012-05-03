@@ -1,5 +1,8 @@
 <?php
 
+// plugin AJAX handlers
+
+
 // AJAX handler for Instagram user stream
 function instagram_photosbyusertable_ayax()
 {

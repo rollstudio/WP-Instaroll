@@ -1,5 +1,8 @@
 <?php
 
+// plugin commond definitions and configuration
+
+
 global $wpdb;
 
 
