@@ -262,7 +262,7 @@ function wpinstaroll_panel_draw()
 				<p><strong>You can set-up an Instagram application here: <a href="<?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?>" target="_blank"><?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?></a></strong><p>
 				<table class="form-table">
 					<tbody>
-						<tr valign="top">
+						<tr>
 							<th scope="row">
 								<label>Instagram <em>Client ID</em></label>
 							</th>
@@ -270,7 +270,7 @@ function wpinstaroll_panel_draw()
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id')); ?>" class="regular-text" />
 							</td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<th scope="row">
 								<label>Instagram <em>Client Secret</em></label>
 							</th>
@@ -278,7 +278,7 @@ function wpinstaroll_panel_draw()
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret')); ?>" class="regular-text" />
 							</td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<th scope="row">
 								<label>Use this URL as <em>Callback/Redirect URL</em>, when registering <em>Instagram application</em></label>
 							</th>
@@ -292,7 +292,7 @@ function wpinstaroll_panel_draw()
 				<p><strong>Instagram WordPress posts parameters</strong></p>
 				<table class="form-table">
 					<tbody>
-						<tr valign="top">
+						<tr>
 							<th scope="row">
 								<label>Instagram <em>Search Tag</em> (without #)</label>
 							</th>
@@ -300,7 +300,7 @@ function wpinstaroll_panel_draw()
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag')); ?>" class="regular-text" />
 							</td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<th scope="row">
 								<label>Instagram Post Title Placeholder</label>
 							</th>
@@ -308,7 +308,7 @@ function wpinstaroll_panel_draw()
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder')); ?>" class="regular-text" />
 							</td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<th scope="row">
 								<label>Post <em>status</em> for posts created from Instagram photos</label>
 							</th>
@@ -319,7 +319,7 @@ function wpinstaroll_panel_draw()
                                 </select>
 							</td>
 						</tr>
-						<tr valign="top">
+						<tr>
 							<th scope="row">
 								<label>Photo <em>insertion mode</em> for posts</label>
 							</th>

@@ -17,3 +17,7 @@ img.profilePicture {
 	border-width: 2px;
 	border-color: #21759B;
 }
+
+#InstagramSettingsPanel tr {
+	vertical-align: top;
+}
