@@ -190,7 +190,7 @@ function wpinstaroll_panel_draw()
 	
 	
 	// post title placeholder updated ('Instagram picture' is used if empty)
-	$default_instagram_title_placeholder = 'Instagram picture';
+	$default_instagram_title_placeholder = WP_ROLL_INSTAGRAM_DEFAULT_TITLE_PLACEHOLDER;
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder']) &&
 		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'] != $title_placeholder)
 	{
@@ -410,6 +410,15 @@ function wpinstaroll_panel_draw()
 function wpinstaroll_photo_selection_panel_draw()
 {
 	global $wpinstaroll_photo_selection_page_title;
+
+	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
+	$insta_post_title = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
+	if (empty($insta_post_title))
+	{
+		$insta_post_title = WP_ROLL_INSTAGRAM_DEFAULT_TITLE_PLACEHOLDER;
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder', $insta_post_title);
+	}
+		
 	
 	// not the requested access level
 	if (!current_user_can('manage_options'))
