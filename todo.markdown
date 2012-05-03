@@ -22,3 +22,4 @@ to be done later
 	- input box with add button, for creating a new category
 - possibility of using multiple seach tags (comma separated)
 - multilanguage
+- help panel(s)
