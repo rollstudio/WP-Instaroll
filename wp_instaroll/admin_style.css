@@ -7,3 +7,8 @@
 	max-width: 310px;
 	max-height: auto;
 }
+
+a#Instagram_userphotosupdate,
+a#Instagram_tagphotosupdate {
+	float: right;
+}
