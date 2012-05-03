@@ -443,12 +443,10 @@ function wpinstaroll_photo_selection_panel_draw()
 					jQuery('#InstagramUserPhotosPanel').css('display', 'block');
 					
 					WPInstaroll_ActivePanel = 'user';
+
+					AJAXDrawUserPhotosTable();
 				}
-				
-				// done also if user photos panel is already active (so it updates the view)
-				//jQuery('#setting-error-settings_updated').remove();
-				AJAXDrawUserPhotosTable();
-				
+	
 				return false;
 			}
 			function TagPhotosActivatePanel()
@@ -462,11 +460,9 @@ function wpinstaroll_photo_selection_panel_draw()
 					jQuery('#InstagramTagPhotosPanel').css('display', 'block');
 					
 					WPInstaroll_ActivePanel = 'tag';
+
+					AJAXDrawTagPhotosTable();
 				}
-				
-				/// done also if tag photos panel is already active (so it updates the view)
-				//jQuery('#setting-error-settings_updated').remove();
-				AJAXDrawTagPhotosTable();
 				
 				return false;
 			}
