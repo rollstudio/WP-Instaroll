@@ -29,8 +29,9 @@ function wpinstaroll_instapics_track_install()
 		pic_id VARCHAR(256) NOT NULL UNIQUE,
 		pic_url VARCHAR(256),
 		pic_link VARCHAR(256),
-		time_added TIMESTAMP default CURRENT_TIMESTAMP,
-		published TINYINT(1) default 0,
+		time_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		published TINYINT(1) DEFAULT 0,
+		media_id BIGINT(20) DEFAULT NULL,
 		UNIQUE KEY id (id)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8;';
 
@@ -40,6 +41,7 @@ function wpinstaroll_instapics_track_install()
 	// pic_link		Instagram photo page link
 	// time_added	when was the photo data added to db
 	// published	boolean flag specifying if the photo has be published on WordPress blog or not
+	// media_id		for Instagram photos imported in WordPress blog, id of the media file
 
 	require_once(ABSPATH.'wp-admin/includes/upgrade.php');
 	dbDelta($sql);

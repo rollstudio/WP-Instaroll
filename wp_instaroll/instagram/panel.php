@@ -251,24 +251,6 @@ function wpinstaroll_panel_draw()
 		
 		<div id="icon-options-general" class="icon32"><br /></div>
 		<h2><?php echo $wpinstaroll_page_title; ?></h2>
-
-		<?php 
-
-			// db access test
-			/*echo '<p>[DB TEST]</p>';
-			$insta_id = '1232432432';
-			$result = getInstagramPhotoDataFromInstaID($insta_id);
-			echo '<pre>';
-			print_r($result);
-			echo '</pre>';
-			echo '<pre>';
-			print_r(checkInstagramPhotoDataPresenceFromInstaID($insta_id));
-			echo '</pre>';
-			$result = getInstagramPhotos();
-			echo '<pre>';
-			print_r($result);
-			echo '</pre>';*/
-		?>
 		
 		<form method="post" action="">
 			<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'; ?>" value="yes" />

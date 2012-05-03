@@ -131,7 +131,12 @@ function getInstagramUserStream()
 	if (empty($file_contents))
 		return null;
 
-	return json_decode($file_contents);
+	$photo_data = json_decode($file_contents);
+
+	// add photo data (if new) to local db
+	updateLocalDBWithNewPhotos($photo_data);
+
+	return $photo_data;
 }
 
 
@@ -152,7 +157,30 @@ function getInstagramPhotosWithTag($tag)
 	if (empty($file_contents))
 		return null;
 		
-	return json_decode($file_contents);
+	$photo_data = json_decode($file_contents);
+
+	// add photo data (if new) to local db
+	updateLocalDBWithNewPhotos($photo_data);
+
+	return $photo_data;
+}
+
+
+// adds new photo data to the DB
+function updateLocalDBWithNewPhotos($photo_data)
+{ 
+	if (!$photo_data)
+		return 0;
+
+	$added_pic_counter = 0;
+
+	$photo_data = $photo_data->data;
+
+	foreach ($photo_data as $element)
+	{
+		// add the photo to database - without setting the published status flag and the local media id
+		insertInstagramPhotoData($element->id, $element->images->standard_resolution->url, $element->link);
+	}
 }
 
 ?>
