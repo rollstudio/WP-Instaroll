@@ -263,38 +263,52 @@ function instagram_createpostfromphoto_ayax()
 	
 	
 	// d. download image from Instagram and associate to post
-	$tmp = download_url($_POST['url']);
-    $file_array = array(
-        'name' => basename($_POST['url']),
-        'tmp_name' => $tmp
-    );
+	$photo_data = getInstagramPhotoDataFromInstaID($_POST['id']);
 
-    if (is_wp_error($tmp))
+		// if we have already the image inside the media library, we get it from there, without actually downloading it from Instagram
+	$image_info = null;
+	if ($photo_data && $photo_data->media_id)
 	{
+		$image_info = wp_get_attachment_image_src($photo_data->media_id, 'full');
+	}
+
+	if (!$image_info)
+	{
+		$tmp = download_url($_POST['url']);
+	    $file_array = array(
+	        'name' => basename($_POST['url']),
+	        'tmp_name' => $tmp
+	    );
+
+	    if (is_wp_error($tmp))
+		{
+			@unlink($file_array['tmp_name']);
+			
+			$response = array(
+				'error' => true,
+				'error_description' => 'problem downloading the image from Instagram'
+			);
+			print(json_encode($response));
+			
+			exit;
+	    }
+
+	    $attach_id = media_handle_sideload($file_array, $created_post_ID);
+	    if (is_wp_error($attach_id))
+		{
+	        @unlink($file_array['tmp_name']);
+	        
+			$response = array(
+				'error' => true,
+				'error_description' => 'problem adding the image to the post'
+			);
+			print(json_encode($response));
+	    }
+		
 		@unlink($file_array['tmp_name']);
-		
-		$response = array(
-			'error' => true,
-			'error_description' => 'problem downloading the image from Instagram'
-		);
-		print(json_encode($response));
-		
-		exit;
-    }
-
-    $attach_id = media_handle_sideload($file_array, $created_post_ID);
-    if (is_wp_error($attach_id))
-	{
-        @unlink($file_array['tmp_name']);
-        
-		$response = array(
-			'error' => true,
-			'error_description' => 'problem adding the image to the post'
-		);
-		print(json_encode($response));
-    }
-	
-	@unlink($file_array['tmp_name']);
+	}
+	else
+		$attach_id = $photo_data->media_id;
 
 	
 	if ($insert_photo_mode === 'featured')
@@ -304,7 +318,8 @@ function instagram_createpostfromphoto_ayax()
 	}
 	else {
 
-		$image_info = wp_get_attachment_image_src($attach_id, 'full');
+		if (!$image_info)
+			$image_info = wp_get_attachment_image_src($attach_id, 'full');
 
 		// insert the image inside the post, followed by post caption
 		$update_post_data = array();
@@ -317,7 +332,7 @@ function instagram_createpostfromphoto_ayax()
 
 
 	// update Instagram photo local data
-	updateInstagramPhotoStatus($_POST['id'], true, $created_post_ID);
+	updateInstagramPhotoStatus($_POST['id'], true, $attach_id);
 
 	
 	$response = array(
