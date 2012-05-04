@@ -5,6 +5,7 @@ WP-Instaroll - TODOs
 	- when setting the category, check for it's existance and create it if not present
 - for photos added inside the post, possibility of choosing if the image must link to Instagram post or not
 - for photos directly inserted inside posts, possibility of choosing image size (now fullsize)
+- being able to specify which user must be used for post creation
 
 
 to be done later
