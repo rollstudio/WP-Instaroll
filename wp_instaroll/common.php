@@ -62,4 +62,50 @@ function wpinstaroll_admin_styles()
 }
 add_action('admin_print_styles', 'wpinstaroll_admin_styles');
 
+
+// task scheduling - custom time periods
+function wpinstaroll_cron_definer($schedules)
+{
+	// 5 minutes
+	$schedules['wpinstaroll_fiveminutes'] = array(
+		'interval'=> 300,
+		'display'=> __('Once Every 5 Minutes')
+  	);
+
+	// 10 minutes
+	$schedules['wpinstaroll_tenminutes'] = array(
+		'interval'=> 600,
+		'display'=> __('Once Every 10 Minutes')
+  	);
+
+  	// 20 minutes
+	$schedules['wpinstaroll_twentynminutes'] = array(
+		'interval'=> 1200,
+		'display'=> __('Once Every 20 Minutes')
+  	);
+
+	// 30 minutes
+	$schedules['wpinstaroll_twicehourly'] = array(
+		'interval'=> 1800,
+		'display'=> __('Once Every 30 Minutes')
+  	);
+
+	// weekly
+	$schedules['wpinstaroll_weekly'] = array(
+		'interval'=> 604800,
+		'display'=> __('Once Every 7 Days')
+  	);
+
+	// monthly
+	$schedules['wpinstaroll_monthly'] = array(
+		'interval'=> 2592000,
+		'display'=> __('Once Every 30 Days')
+  	);
+
+	// 'hourly', 'daily', 'twicedaily' already defined in WordPress
+
+	return $schedules;
+}
+add_filter('cron_schedules','wpinstaroll_cron_definer');
+
 ?>
