@@ -17,8 +17,8 @@ require_once('instagram/ajax_panel.php');
 
 
 
-// plugin activation hook - create custom db table on plugin activation
-function wpinstaroll_instapics_track_install()
+// plugin activation hook - create custom db table on plugin activation and start sheduled event, if there's an active one
+function wpinstaroll_instapics_track_activate()
 {
 	global $wpdb;
 
@@ -49,7 +49,20 @@ function wpinstaroll_instapics_track_install()
 	dbDelta($sql);
 
 	add_option('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', '0.2');
+
+
+	// see: must schedule the auto publication event, if corresponding option is set
+	// ...
 }
-register_activation_hook(WP_PLUGIN_DIR.'/wp_instaroll/wp_instaroll.php', 'wpinstaroll_instapics_track_install');
+register_activation_hook(WP_PLUGIN_DIR.'/wp_instaroll/wp_instaroll.php', 'wpinstaroll_instapics_track_activate');
+
+// plugin deactivation hook - useful for removing sheduled action, in case there's an active one
+function wpinstaroll_instapics_track_deactivate()
+{
+
+	//wp_clear_scheduled_hook('my_event');
+}
+register_deactivation_hook(WP_PLUGIN_DIR.'/wp_instaroll/wp_instaroll.php', 'wpinstaroll_instapics_track_deactivate');
+
 
 ?>
