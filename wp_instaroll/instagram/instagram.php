@@ -191,6 +191,11 @@ function wpinstaroll_updateLocalDBWithNewPhotos($photo_data)
 // create a new post from and Instagram photo
 function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', $insta_caption='', $insta_author_username='', $insta_author_id='')
 {
+	if (current_user_can('manage_options'))
+		error_log('admin');
+	else
+		error_log('non admin');
+
 	// mandatory parameters missing
 	if (empty($insta_id) || empty($insta_url))
 	{
@@ -231,8 +236,15 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	if ($insert_photo_mode !== 'featured')
 		$insert_photo_mode = 'post_content';
 
+	// use curent user id for post creation or, if unavailable, user #1
+	$post_author = get_currentuserinfo();
+	if ($post_author && $post_author->ID)
+		$post_author = $post_author->ID;
+	else
+		$post_author = 1;
+
 	$post_args = array(
-		'post_author' 	=> 0,
+		'post_author' 	=> $post_author,
 		'post_category'	=> array($cat_id),
 		'post_content' 	=> $insta_caption,
 		'post_status'	=> $created_post_status, 
@@ -364,6 +376,8 @@ function wpinstaroll_automatic_post_creation()
 		exit;
 	}
 
+	// inclusion of functions definitions like category_exists()
+	require_once('wp-admin/includes/taxonomy.php');
 	// inclusion of functions definitions like download_url()
 	require_once('wp-admin/includes/file.php');
 	// inclusion of functions definitions like media_handle_sideload()
