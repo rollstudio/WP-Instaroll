@@ -265,6 +265,7 @@ function wpinstaroll_panel_draw()
 			// see: what in case of non valid passed value
 
 		if (!($scheduled_publication_period == 'never' ||
+				$scheduled_publication_period == 'wpinstaroll_oneminute' ||
 				$scheduled_publication_period == 'wpinstaroll_fiveminutes' ||
 				$scheduled_publication_period == 'wpinstaroll_tenminutes' ||
 				$scheduled_publication_period == 'wpinstaroll_twentynminutes' ||
@@ -385,6 +386,7 @@ function wpinstaroll_panel_draw()
 							<td>
 								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period'; ?>">
 									<option value="never"<?php if ($scheduled_publication_period == 'never') echo ' selected=selected'; ?>>never</option>
+									<option value="wpinstaroll_oneminute"<?php if ($scheduled_publication_period === 'wpinstaroll_oneminute') echo ' selected=selected'; ?>>every minute</option>
                                     <option value="wpinstaroll_fiveminutes"<?php if ($scheduled_publication_period === 'wpinstaroll_fiveminutes') echo ' selected=selected'; ?>>every 5 minutes</option>
                                     <option value="wpinstaroll_tenminutes"<?php if ($scheduled_publication_period === 'wpinstaroll_tenminutes') echo ' selected=selected'; ?>>every 10 minutes</option>
                                     <option value="wpinstaroll_twentynminutes"<?php if ($scheduled_publication_period === 'wpinstaroll_twentynminutes') echo ' selected=selected'; ?>>every 20 minutes</option>

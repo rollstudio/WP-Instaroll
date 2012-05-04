@@ -66,6 +66,12 @@ add_action('admin_print_styles', 'wpinstaroll_admin_styles');
 // task scheduling - custom time periods
 function wpinstaroll_cron_definer($schedules)
 {
+	// 1 minute
+	$schedules['wpinstaroll_oneminute'] = array(
+		'interval'=> 60,
+		'display'=> __('Once Every Minute')
+  	);
+
 	// 5 minutes
 	$schedules['wpinstaroll_fiveminutes'] = array(
 		'interval'=> 300,
@@ -111,7 +117,8 @@ add_filter('cron_schedules','wpinstaroll_cron_definer');
 
 function wpinstaroll_schedule_event($period)
 {
-	if ($period == 'wpinstaroll_fiveminutes' ||
+	if ($period == 'wpinstaroll_oneminute' ||
+		$period == 'wpinstaroll_fiveminutes' ||
 		$period == 'wpinstaroll_tenminutes' ||
 		$period == 'wpinstaroll_twentynminutes' ||
 		$period == 'wpinstaroll_twicehourly' ||
@@ -121,7 +128,7 @@ function wpinstaroll_schedule_event($period)
 		$period == 'wpinstaroll_weekly' ||
 		$period == 'wpinstaroll_monthly')
 
-		wp_schedule_event(current_time('timestamp'), $period, 'wpinstaroll_automatic_post_creation');
+		wp_schedule_event(current_time('timestamp'), $period, 'wpinstaroll_scheduled_post_creation_event');
 
 	error_log('I\'m scheduling the event, with this period: '.$period);
 }
@@ -131,9 +138,10 @@ function wpinstaroll_automatic_post_creation()
 }
 function wpinstaroll_remove_scheduled_event()
 {
-	wp_clear_scheduled_hook('wpinstaroll_automatic_post_creation');
+	wp_clear_scheduled_hook('wpinstaroll_scheduled_post_creation_event');
 
 	error_log('I\'m removing the scheduled event');
 }
+add_action('my_hourly_event', 'wpinstaroll_automatic_post_creation');
 
 ?>
