@@ -178,7 +178,7 @@ function wpinstaroll_updateLocalDBWithNewPhotos($photo_data)
 	foreach ($photo_data as $element)
 	{
 		// add the photo to database - without setting the published status flag and the local media id
-		$result = wpinstaroll_insertInstagramPhotoData($element->id, $element->images->standard_resolution->url, $element->link);
+		$result = wpinstaroll_insertInstagramPhotoData($element->id, $element->created_time, $element->images->standard_resolution->url, $element->link);
 
 		if ($result > 0)
 			$added_pics_counter++;

@@ -94,7 +94,7 @@ function wpinstaroll_getInstagramPublishedPhotosIDs()
 
 
 // insert Instagram photo data into DB (if not already present; if present, return without updating the record)
-function wpinstaroll_insertInstagramPhotoData($insta_id, $insta_url, $insta_link='', $published=false, $media_id=null)
+function wpinstaroll_insertInstagramPhotoData($insta_id, $insta_timestamp, $insta_url, $insta_link='', $published=false, $media_id=null)
 {
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
@@ -115,18 +115,20 @@ function wpinstaroll_insertInstagramPhotoData($insta_id, $insta_url, $insta_link
 
 	if (empty($media_id))
 		$insert_data = array(
-			'pic_id'	=>	$insta_id,
-			'pic_url'	=>	$insta_url,
-			'pic_link'	=>	$insta_link,
-			'published'	=>	$published
+			'pic_id'		=>	$insta_id,
+			'pic_url'		=>	$insta_url,
+			'pic_link'		=>	$insta_link,
+			'pic_timestamp'	=>	$insta_timestamp,
+			'published'		=>	$published
 			);
 	else
 		$insert_data = array(
-			'pic_id'	=>	$insta_id,
-			'pic_url'	=>	$insta_url,
-			'pic_link'	=>	$insta_link,
-			'published'	=>	$published,
-			'media_id'	=>	$media_id
+			'pic_id'		=>	$insta_id,
+			'pic_url'		=>	$insta_url,
+			'pic_link'		=>	$insta_link,
+			'pic_timestamp'	=>	$insta_timestamp,
+			'published'		=>	$published,
+			'media_id'		=>	$media_id
 			);
 
 	$wpdb->insert($table, $insert_data);
