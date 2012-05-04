@@ -81,6 +81,9 @@ function wpinstaroll_register_settings()
 	// period for automatic post creation from Instagram photos
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period');
 
+	// stream to use for automatic post creation from Instagram photos
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream');
+
 	
 		// (not showed and/or not directly editable)
 	// Instagram Authorized User Access Token
@@ -140,6 +143,13 @@ function wpinstaroll_panel_draw()
 	{
 		$scheduled_publication_period = 'never';
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period', $scheduled_publication_period);
+	}
+
+	$scheduled_publication_stream = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream');
+	if ($scheduled_publication_stream == false)
+	{
+		$scheduled_publication_stream = 'user';
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream', $scheduled_publication_stream);
 	}
 		
 		
@@ -225,7 +235,7 @@ function wpinstaroll_panel_draw()
 		}
 	}
 
-	// post status for Instagram-based created posts
+	// post status for Instagram-based created posts updated
 	$default_post_status = 'draft';
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status']) &&
 		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'] != $created_post_status)
@@ -239,7 +249,7 @@ function wpinstaroll_panel_draw()
 	}
 
 
-	// photo insertion mode
+	// photo insertion mode updated
 	$default_insertion_mode = 'post_content';
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode']) &&
 		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'] != $insert_photo_mode)
@@ -253,7 +263,7 @@ function wpinstaroll_panel_draw()
 	}
 
 
-	// automatic post creation sheduling
+	// automatic post creation sheduling period updated
 	$default_scheduled_publication_period = 'never';
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period']) &&
 		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period'] != $scheduled_publication_period)
@@ -262,7 +272,6 @@ function wpinstaroll_panel_draw()
 			$scheduled_publication_period = $default_scheduled_publication_period;
 		else
 			$scheduled_publication_period = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period'];
-			// see: what in case of non valid passed value
 
 		if (!($scheduled_publication_period == 'never' ||
 				$scheduled_publication_period == 'wpinstaroll_oneminute' ||
@@ -288,6 +297,24 @@ function wpinstaroll_panel_draw()
 			wpinstaroll_schedule_event($scheduled_publication_period);
 
 		// see: possibility of setting the time for first activation
+	}
+
+	// automatic post creation sheduling stream updated
+	$default_scheduled_publication_stream = 'user';
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream'] != $scheduled_publication_stream)
+	{
+		if (empty($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream']))
+			$scheduled_publication_stream = $default_scheduled_publication_stream;
+		else
+			$scheduled_publication_stream = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream'];
+
+		if (!($scheduled_publication_stream == 'user' ||
+				$scheduled_publication_stream == 'tag' ||
+				$scheduled_publication_stream == 'user_tag'))
+			$scheduled_publication_stream = 'user';
+
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream', $scheduled_publication_stream);
 	}
 
 			
@@ -379,13 +406,19 @@ function wpinstaroll_panel_draw()
                                 </select>
 							</td>
 						</tr>
+					</tbody>
+				</table>
+
+				<p><strong>Automatic creation of posts from Instagram photos</strong></p>
+				<table class="form-table">
+					<tbody>
 						<tr>
 							<th scope="row">
 								<label><em>Automatically create</em> posts from Instagram new photos</label>
 							</th>
 							<td>
 								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period'; ?>">
-									<option value="never"<?php if ($scheduled_publication_period == 'never') echo ' selected=selected'; ?>>never</option>
+									<option value="never"<?php if ($scheduled_publication_period === 'never') echo ' selected=selected'; ?>>never</option>
 									<option value="wpinstaroll_oneminute"<?php if ($scheduled_publication_period === 'wpinstaroll_oneminute') echo ' selected=selected'; ?>>every minute</option>
                                     <option value="wpinstaroll_fiveminutes"<?php if ($scheduled_publication_period === 'wpinstaroll_fiveminutes') echo ' selected=selected'; ?>>every 5 minutes</option>
                                     <option value="wpinstaroll_tenminutes"<?php if ($scheduled_publication_period === 'wpinstaroll_tenminutes') echo ' selected=selected'; ?>>every 10 minutes</option>
@@ -396,6 +429,18 @@ function wpinstaroll_panel_draw()
                                     <option value="daily"<?php if ($scheduled_publication_period === 'daily') echo ' selected=selected'; ?>>daily</option>
                                     <option value="wpinstaroll_weekly"<?php if ($scheduled_publication_period === 'wpinstaroll_weekly') echo ' selected=selected'; ?>>weekly</option>
                                     <option value="wpinstaroll_monthly"<?php if ($scheduled_publication_period === 'wpinstaroll_monthly') echo ' selected=selected'; ?>>monthly</option>
+                                </select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label><em>Instagram stream</em> for automatic post creation <em>(not used when period is set to "never")</em></label>
+							</th>
+							<td>
+								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream'; ?>">
+									<option value="user"<?php if ($scheduled_publication_stream === 'user') echo ' selected=selected'; ?>>user stream</option>
+									<option value="tag"<?php if ($scheduled_publication_stream === 'tag') echo ' selected=selected'; ?>>tag stream</option>
+                                    <option value="user_tag"<?php if ($scheduled_publication_stream === 'user_tag') echo ' selected=selected'; ?>>user and tag streams</option>
                                 </select>
 							</td>
 						</tr>
