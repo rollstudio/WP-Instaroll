@@ -49,7 +49,8 @@ function wpinstaroll_menu()
 	
 		// top level menu for photo selection
 	
-	add_menu_page($wpinstaroll_photo_selection_page_title, $wpinstaroll_photo_selection_menu_title, 'administrator', 'wpinstaroll_menu_photo_selection', 'wpinstaroll_photo_selection_panel_draw');
+	$photo_selection_menu_icon_url = plugins_url('wp_instaroll/images/menuicon.png');
+	add_menu_page($wpinstaroll_photo_selection_page_title, $wpinstaroll_photo_selection_menu_title, 'administrator', 'wpinstaroll_menu_photo_selection', 'wpinstaroll_photo_selection_panel_draw', $photo_selection_menu_icon_url);
 }
 add_action('admin_menu', 'wpinstaroll_menu');
 
@@ -505,7 +506,7 @@ function wpinstaroll_photo_selection_panel_draw()
 	
 	<div class="wrap">
 		
-		<div id="icon-options-general" class="icon32"><br /></div>
+		<div id="icon-options-general" class="icon32 instaroll"><br /></div>
 		<h2><?php print($wpinstaroll_photo_selection_page_title); ?></h2>
 
 		<h3 class="nav-tab-wrapper">

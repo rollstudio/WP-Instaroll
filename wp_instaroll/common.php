@@ -18,9 +18,9 @@ define('WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_A', 'https://api.instagram.com/v1/tag
 define('WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_B', '/media/recent?access_token=');
 
 // menu definition
-define('WP_ROLL_INSTAGRAM_PHOTOS_MENU', 'WP-Instaroll Photos');
+define('WP_ROLL_INSTAGRAM_PHOTOS_MENU', 'Instaroll Photos');
 define('WP_ROLL_INSTAGRAM_PHOTOS_PAGE_TITLE', 'Instagram Photo Selection');
-define('WP_ROLL_INSTAGRAM_SETTINGS_MENU', 'WP-Instaroll Settings');
+define('WP_ROLL_INSTAGRAM_SETTINGS_MENU', 'Instaroll Settings');
 define('WP_ROLL_INSTAGRAM_SETTINGS_PAGE_TITLE', 'Instagram Management');
 define('WP_ROLL_INSTAGRAM_PHOTOS_TABS_USER', 'Instagram User Stream');
 define('WP_ROLL_INSTAGRAM_PHOTOS_TABS_TAG', 'Instagram Photos by Tag');
