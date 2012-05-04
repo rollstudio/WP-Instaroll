@@ -347,13 +347,14 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 			);
 	    }
 
+	    // SEE: this functions FAILS for scheduled background actions
 	    $attach_id = media_handle_sideload($file_array, $created_post_ID);
 	    //$attach_id = CUSTOM_media_handle_sideload($file_array, $created_post_ID);
 	    	// see: what in case the same media file is added to multiple posts (as post content, but also as featured image)
 	    	// http://core.trac.wordpress.org/browser/tags/3.3.2/wp-admin/includes/media.php (media_handle_sideload() code)
 	    	// http://www.trovster.com/blog/2011/07/wordpress-custom-file-upload
 
-	    error_log($attach_id);
+	    //error_log($attach_id);
 
 	    if (is_wp_error($attach_id))
 		{
@@ -428,6 +429,7 @@ function wpinstaroll_automatic_post_creation()
 		exit;
 	}
 
+		// inclusion of functions normally included only when opening WordPress backend
 	// inclusion of functions definitions like category_exists()
 	require_once('wp-admin/includes/taxonomy.php');
 	// inclusion of functions definitions like download_url()
