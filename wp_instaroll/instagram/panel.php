@@ -78,6 +78,9 @@ function wpinstaroll_register_settings()
 	// show or don't show already published photos in photos selection panels (editable in photos selection panels)
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_published_photos');
 
+	// period for automatic post creation from Instagram photos
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period');
+
 	
 		// (not showed and/or not directly editable)
 	// Instagram Authorized User Access Token
@@ -130,6 +133,13 @@ function wpinstaroll_panel_draw()
 	{
 		$insert_photo_mode = 'post_content';
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode', $insert_photo_mode);
+	}
+
+	$scheduled_publication_period = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period');
+	if ($scheduled_publication_period == false)
+	{
+		$scheduled_publication_period = 'never';
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period', $scheduled_publication_period);
 	}
 		
 		
@@ -394,8 +404,8 @@ function wpinstaroll_panel_draw()
 				?>
 				
 				<form method="post" action="#">
-						<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect'; ?>" value="yes" />
-						<input type="submit" class="button-primary" value="<?php _e('Disconnect from Instagram'); ?>" />
+					<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect'; ?>" value="yes" />
+					<input type="submit" class="button-primary" value="<?php _e('Disconnect from Instagram'); ?>" />
 				</form>
 				
 				<?php
