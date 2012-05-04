@@ -46,7 +46,8 @@ function wpinstaroll_getInstagramPhotos()
 	global $wpdb;
 	$table = WP_ROLL_INSTAGRAM_PICS_TRACK_TABLE;
 	
-	$query = 'SELECT * FROM '.$table;
+	// returns the pic ordered by timestamp, from the newest to the oldest
+	$query = 'SELECT * FROM '.$table.' ORDER BY pic_timestamp DESC';
 	$result = $wpdb->get_results($query);
 
 	return $result;
@@ -67,7 +68,7 @@ function wpinstaroll_getInstagramPhotosByStatus($published)
 	else
 		$published = 1;
 	
-	$query = 'SELECT * FROM '.$table.' WHERE published='.$published;
+	$query = 'SELECT * FROM '.$table.' WHERE published='.$published.' ORDER BY pic_timestamp DESC';
 	$result = $wpdb->get_results($query);
 
 	return $result;
