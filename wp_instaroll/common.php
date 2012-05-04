@@ -142,6 +142,6 @@ function wpinstaroll_remove_scheduled_event()
 
 	error_log('I\'m removing the scheduled event');
 }
-add_action('my_hourly_event', 'wpinstaroll_automatic_post_creation');
+add_action('wpinstaroll_scheduled_post_creation_event', 'wpinstaroll_automatic_post_creation');
 
 ?>
