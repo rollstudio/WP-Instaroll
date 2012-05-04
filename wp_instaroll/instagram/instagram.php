@@ -215,11 +215,11 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 
 	// a. if the category corresponding to the Instagram search tags
-	// doesn't exist, we create it
+	// doesn't exist, we create it - no longer done: done in settings panel!
 	$category_name = '#'.$search_tag;
-	$cat_id = category_exists($category_name);
+	/*$cat_id = category_exists($category_name);
 	if (!$cat_id)
-		$cat_id = wp_create_category($category_name);	
+		$cat_id = wp_create_category($category_name);*/	
 	
 	
 	// b. post creation
@@ -372,12 +372,60 @@ function wpinstaroll_automatic_post_creation()
 	if ($scheduled_publication_stream == 'user' || $scheduled_publication_stream == 'user_tag')
 	{
 		$photoStream = wpinstaroll_getInstagramUserStream();
+
+		$data = $photoStream->data;
+
+		if ($data)
+		{
+			// reverse the array, so that oldest photos are processed first
+			$data = array_reverse($data);
+
+			// ids of already published photos
+			$published_ids = wpinstaroll_getInstagramPublishedPhotosIDs();
+					
+			// scan the stream and publish new photos			
+			foreach ($data as $element)
+			{
+				// if the photo has not been published yet
+				if (!in_array($element->id, $published_ids))
+				{
+					wpinstaroll_createpostfromphoto($element->id,
+													$element->images->standard_resolution->url,
+													$element->link,
+													$element->caption->text,
+													$element->user->username,
+													$element->user->id);
+				}
+			}
+		}
 	}
 
 		// tag stream
 	if ($scheduled_publication_stream == 'tag' || $scheduled_publication_stream == 'user_tag')
 	{
 		$photoStream = wpinstaroll_getInstagramPhotosWithTag($search_tag);
+
+		$data = $photoStream->data;
+
+		if ($data)
+		{
+			$data = array_reverse($data);
+
+			$published_ids = wpinstaroll_getInstagramPublishedPhotosIDs();
+
+			foreach ($data as $element)
+			{
+				if (!in_array($element->id, $published_ids))
+				{
+					wpinstaroll_createpostfromphoto($element->id,
+													$element->images->standard_resolution->url,
+													$element->link,
+													$element->caption->text,
+													$element->user->username,
+													$element->user->id);
+				}
+			}
+		}
 	}
 }
 

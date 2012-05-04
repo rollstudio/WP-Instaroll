@@ -122,6 +122,7 @@ function wpinstaroll_panel_draw()
 	$profile_picture = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture');
 	
 	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
+
 	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 
 	$created_post_status = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status');
@@ -208,6 +209,12 @@ function wpinstaroll_panel_draw()
 	{
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag', $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']);
 		$search_tag = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'];
+
+		// if it doesn't exist yet, creates a category based on the search tag
+		$category_name = '#'.$search_tag;
+		$cat_id = category_exists($category_name);
+		if (!$cat_id)
+			$cat_id = wp_create_category($category_name);
 	}
 	
 	
