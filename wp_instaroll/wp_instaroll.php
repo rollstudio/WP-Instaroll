@@ -49,18 +49,19 @@ function wpinstaroll_instapics_track_activate()
 	dbDelta($sql);
 
 	add_option('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', '0.2');
-
-
-	// see: must schedule the auto publication event, if corresponding option is set
-	// ...
 }
 register_activation_hook(WP_PLUGIN_DIR.'/wp_instaroll/wp_instaroll.php', 'wpinstaroll_instapics_track_activate');
 
 // plugin deactivation hook - useful for removing sheduled action, in case there's an active one
 function wpinstaroll_instapics_track_deactivate()
 {
+	// on every plugin deactivation, scheduled publication of posts is reset and the event (if scheduled) is removed
+	wpinstaroll_remove_scheduled_event();
 
-	//wp_clear_scheduled_hook('my_event');
+	update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period', 'never');
+
+	// see: another possibility is to remove the events without resetting the configuration option, and then
+	// re-enabling the event with the previous periodo when reactivating the plug-in
 }
 register_deactivation_hook(WP_PLUGIN_DIR.'/wp_instaroll/wp_instaroll.php', 'wpinstaroll_instapics_track_deactivate');
 
