@@ -3,7 +3,7 @@
 Plugin Name: WP-Instaroll
 Plugin URI: http://rollstudio.it
 Description: Simple Instagram plug-in for creating WordPress posts from Instagram photos
-Version: 1.0.2
+Version: 1.0.3
 Author: ROLL Multimedia Design
 Author URI: http://rollstudio.it
 */
@@ -29,6 +29,7 @@ function wpinstaroll_instapics_track_install()
 		pic_id VARCHAR(256) NOT NULL UNIQUE,
 		pic_url VARCHAR(256),
 		pic_link VARCHAR(256),
+		pic_timestamp INT(11),
 		time_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		published TINYINT(1) DEFAULT 0,
 		media_id BIGINT(20) DEFAULT NULL,
@@ -36,17 +37,18 @@ function wpinstaroll_instapics_track_install()
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8;';
 
 	// id: auto_increment table ID/index
-	// pic_id		Instagram photo id
-	// pic_url		Instagram photo source URL
-	// pic_link		Instagram photo page link
-	// time_added	when was the photo data added to db
-	// published	boolean flag specifying if the photo has be published on WordPress blog or not
-	// media_id		for Instagram photos imported in WordPress blog, id of the media file
+	// pic_id			Instagram photo id
+	// pic_url			Instagram photo source URL
+	// pic_link			Instagram photo page link
+	// pic_timestamp	Instagram photo date/time, in UNIX timestamp format
+	// time_added		when was the photo data added to db
+	// published		boolean flag specifying if the photo has be published on WordPress blog or not
+	// media_id			for Instagram photos imported in WordPress blog, id of the media file
 
 	require_once(ABSPATH.'wp-admin/includes/upgrade.php');
 	dbDelta($sql);
 
-	add_option('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', '0.1');
+	add_option('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', '0.2');
 }
 register_activation_hook(WP_PLUGIN_DIR.'/wp_instaroll/wp_instaroll.php', 'wpinstaroll_instapics_track_install');
 

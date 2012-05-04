@@ -47,12 +47,13 @@ function wpinstaroll_photosbyusertable_ayax()
 				<table class="wp-list-table widefat fixed posts">
 					<thead>
 						<tr>
-							<th style="width: 350px;">Picture</th>
+							<th style="width: 330px;">Picture</th>
 							<th style="width: 140px;">ID</th>
-							<th style="width: 210px;">Tags</th>
-							<th style="width: 80px;">Likes</th>
+							<th style="width: 150px;">Tags</th>
+							<th style="width: 70px;">Likes</th>
 							<th style="width: 90px;">Comments</th>
 							<th>Caption</th>
+							<th style="width: 110px;">Creation time</th>
 							<th style="width: 130px;">Author username</th>
 							<th style="width: 80px;">Author ID</th>
 							<th style="width: 100px;">Action</th>
@@ -88,6 +89,7 @@ function wpinstaroll_photosbyusertable_ayax()
 								print('<td class="insta_likes_count">'.$element->likes->count.'<br />&nbsp;</td>');
 								print('<td class="insta_comments_count">'.$element->comments->count.'<br />&nbsp;</td>');
 								print('<td class="insta_description">'.$element->caption->text.'<br />&nbsp;</td>');
+								print('<td class="insta_timestamp">'.date('Y-n-j H:i', $element->created_time).'<br />&nbsp;</td>');
 								print('<td class="insta_username">'.$element->user->username.'<br />&nbsp;</td>');
 								print('<td class="insta_userid">'.$element->user->id.'<br />&nbsp;</td>');
 								print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="button-secondary '.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');
@@ -154,12 +156,13 @@ function wpinstaroll_photosbytagtable_ayax()
 				<table class="wp-list-table widefat fixed posts">
 					<thead>
 						<tr>
-							<th style="width: 350px;">Picture</th>
+							<th style="width: 330px;">Picture</th>
 							<th style="width: 140px;">ID</th>
-							<th style="width: 210px;">Tags</th>
-							<th style="width: 80px;">Likes</th>
+							<th style="width: 150px;">Tags</th>
+							<th style="width: 70px;">Likes</th>
 							<th style="width: 90px;">Comments</th>
 							<th>Caption</th>
+							<th style="width: 110px;">Creation time</th>
 							<th style="width: 130px;">Author username</th>
 							<th style="width: 80px;">Author ID</th>
 							<th style="width: 100px;">Action</th>
@@ -195,6 +198,7 @@ function wpinstaroll_photosbytagtable_ayax()
 								print('<td class="insta_likes_count">'.$element->likes->count.'<br />&nbsp;</td>');
 								print('<td class="insta_comments_count">'.$element->comments->count.'<br />&nbsp;</td>');
 								print('<td class="insta_description">'.$element->caption->text.'<br />&nbsp;</td>');
+								print('<td class="insta_timestamp">'.date('Y-n-j H:i', $element->created_time).'<br />&nbsp;</td>');
 								print('<td class="insta_username">'.$element->user->username.'<br />&nbsp;</td>');
 								print('<td class="insta_userid">'.$element->user->id.'<br />&nbsp;</td>');
 								print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="button-secondary '.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');

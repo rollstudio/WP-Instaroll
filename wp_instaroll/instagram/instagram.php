@@ -288,6 +288,9 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	    }
 
 	    $attach_id = media_handle_sideload($file_array, $created_post_ID);
+	    	// see: what in case the same media file is added to multiple posts (as post content, but also as featured image)
+	    	// http://core.trac.wordpress.org/browser/tags/3.3.2/wp-admin/includes/media.php (media_handle_sideload() code)
+	    	// http://www.trovster.com/blog/2011/07/wordpress-custom-file-upload
 	    if (is_wp_error($attach_id))
 		{
 	        @unlink($file_array['tmp_name']);
