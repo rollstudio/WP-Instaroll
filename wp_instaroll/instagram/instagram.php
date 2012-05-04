@@ -188,13 +188,61 @@ function wpinstaroll_updateLocalDBWithNewPhotos($photo_data)
 }
 
 
+
+/*function CUSTOM_media_handle_sideload($file_array, $post_id, $desc = null, $post_data = array())
+{
+	$overrides = array('action'=>'wp_handle_sideload');			// MODIFIED
+
+	$file = wp_handle_sideload($file_array, $overrides);
+	if ( isset($file['error']) )
+		return new WP_Error( 'upload_error', $file['error'] );
+
+	$url = $file['url'];
+	$type = $file['type'];
+	$file = $file['file'];
+	$title = preg_replace('/\.[^.]+$/', '', basename($file));
+	$content = '';
+
+	// use image exif/iptc data for title and caption defaults if possible
+	if ( $image_meta = @wp_read_image_metadata($file) ) {
+		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) )
+			$title = $image_meta['title'];
+		if ( trim( $image_meta['caption'] ) )
+			$content = $image_meta['caption'];
+	}
+
+	if ( isset( $desc ) )
+		$title = $desc;
+
+	// Construct the attachment array
+	$attachment = array_merge( array(
+		'post_mime_type' => $type,
+		'guid' => $url,
+		'post_parent' => $post_id,
+		'post_title' => $title,
+		'post_content' => $content,
+	), $post_data );
+
+	// This should never be set as it would then overwrite an existing attachment.
+	if ( isset( $attachment['ID'] ) )
+		unset( $attachment['ID'] );
+
+	// Save the attachment metadata
+	$id = wp_insert_attachment($attachment, $file, $post_id);
+	if ( !is_wp_error($id) )
+		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
+
+	return $id;
+}*/
+
+
 // create a new post from and Instagram photo
 function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', $insta_caption='', $insta_author_username='', $insta_author_id='')
 {
-	if (current_user_can('manage_options'))
+	/*if (current_user_can('manage_options'))
 		error_log('admin');
 	else
-		error_log('non admin');
+		error_log('non admin');*/
 
 	// mandatory parameters missing
 	if (empty($insta_id) || empty($insta_url))
@@ -300,9 +348,13 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	    }
 
 	    $attach_id = media_handle_sideload($file_array, $created_post_ID);
+	    //$attach_id = CUSTOM_media_handle_sideload($file_array, $created_post_ID);
 	    	// see: what in case the same media file is added to multiple posts (as post content, but also as featured image)
 	    	// http://core.trac.wordpress.org/browser/tags/3.3.2/wp-admin/includes/media.php (media_handle_sideload() code)
 	    	// http://www.trovster.com/blog/2011/07/wordpress-custom-file-upload
+
+	    error_log($attach_id);
+
 	    if (is_wp_error($attach_id))
 		{
 	        @unlink($file_array['tmp_name']);
@@ -384,6 +436,10 @@ function wpinstaroll_automatic_post_creation()
 	require_once('wp-admin/includes/media.php');
 
 	error_log('I\'m automatically executing the automatic post creation from new Instagram photos!!!');
+
+	// force current user to user with id == 1 (that should be an admin)
+	wp_set_current_user(1);
+	$_POST['action'] = 'wp_handle_sideload';
 
 	// retrieval of photos and post creation for new ones
 
