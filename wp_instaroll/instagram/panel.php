@@ -252,6 +252,43 @@ function wpinstaroll_panel_draw()
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode', $insert_photo_mode);
 	}
 
+
+	// automatic post creation sheduling
+	$default_scheduled_publication_period = 'never';
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period'] != $scheduled_publication_period)
+	{
+		if (empty($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period']))
+			$scheduled_publication_period = $default_scheduled_publication_period;
+		else
+			$scheduled_publication_period = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period'];
+			// see: what in case of non valid passed value
+
+		if (!($scheduled_publication_period == 'never' ||
+				$scheduled_publication_period == 'wpinstaroll_fiveminutes' ||
+				$scheduled_publication_period == 'wpinstaroll_tenminutes' ||
+				$scheduled_publication_period == 'wpinstaroll_twentynminutes' ||
+				$scheduled_publication_period == 'wpinstaroll_twicehourly' ||
+				$scheduled_publication_period == 'hourly' ||
+				$scheduled_publication_period == 'twicedaily' ||
+				$scheduled_publication_period == 'daily' ||
+				$scheduled_publication_period == 'wpinstaroll_weekly' ||
+				$scheduled_publication_period == 'wpinstaroll_monthly'))
+			$scheduled_publication_period = 'never';
+
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period', $scheduled_publication_period);
+
+		// actually schedule the event
+			// 1. remove current schedule (always)
+		wpinstaroll_remove_scheduled_event();
+
+			// 2. add new schedule (only for periods different than 'never')
+		if ($scheduled_publication_period !== 'never')
+			wpinstaroll_schedule_event($scheduled_publication_period);
+
+		// see: possibility of setting the time for first activation
+	}
+
 			
 	// changes saved message
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes']) && $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'] == 'yes')
@@ -338,6 +375,25 @@ function wpinstaroll_panel_draw()
 								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'; ?>">
 									<option value="post_content"<?php if ($insert_photo_mode !== 'featured') echo ' selected=selected'; ?>>in post content</option>
                                     <option value="featured"<?php if ($insert_photo_mode === 'featured') echo ' selected=selected'; ?>>as featured image</option>                     
+                                </select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label><em>Automatically create</em> posts from Instagram new photos</label>
+							</th>
+							<td>
+								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period'; ?>">
+									<option value="never"<?php if ($scheduled_publication_period == 'never') echo ' selected=selected'; ?>>never</option>
+                                    <option value="wpinstaroll_fiveminutes"<?php if ($scheduled_publication_period === 'wpinstaroll_fiveminutes') echo ' selected=selected'; ?>>every 5 minutes</option>
+                                    <option value="wpinstaroll_tenminutes"<?php if ($scheduled_publication_period === 'wpinstaroll_tenminutes') echo ' selected=selected'; ?>>every 10 minutes</option>
+                                    <option value="wpinstaroll_twentynminutes"<?php if ($scheduled_publication_period === 'wpinstaroll_twentynminutes') echo ' selected=selected'; ?>>every 20 minutes</option>
+                                    <option value="wpinstaroll_twicehourly"<?php if ($scheduled_publication_period === 'wpinstaroll_twicehourly') echo ' selected=selected'; ?>>every 30 minutes</option>
+                                    <option value="hourly"<?php if ($scheduled_publication_period === 'hourly') echo ' selected=selected'; ?>>hourly</option>
+                                    <option value="twicedaily"<?php if ($scheduled_publication_period === 'twicedaily') echo ' selected=selected'; ?>>twice a day</option>
+                                    <option value="daily"<?php if ($scheduled_publication_period === 'daily') echo ' selected=selected'; ?>>daily</option>
+                                    <option value="wpinstaroll_weekly"<?php if ($scheduled_publication_period === 'wpinstaroll_weekly') echo ' selected=selected'; ?>>weekly</option>
+                                    <option value="wpinstaroll_monthly"<?php if ($scheduled_publication_period === 'wpinstaroll_monthly') echo ' selected=selected'; ?>>monthly</option>
                                 </select>
 							</td>
 						</tr>
