@@ -157,7 +157,7 @@ function wpinstaroll_panel_draw()
 		
 	// is a user_access_token set?	
 	if (empty($user_access_token))
-		$accessTokenInvalid = true;;
+		$accessTokenInvalid = true;
 		
 	// Instagram App ID updated
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id']) &&

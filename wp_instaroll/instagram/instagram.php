@@ -340,4 +340,45 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	// see: error message (and handling) when a post can be created but not the image (uploads dir not writeable, etc...)
 }
 
+
+// this is the function called for sheduled automatic post creation from Instagram photos
+function wpinstaroll_automatic_post_creation()
+{
+	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
+	$InstagramClientSecret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
+	$user_access_token = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
+	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
+
+	$scheduled_publication_period = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period');
+	$scheduled_publication_stream = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream');
+	
+	// is Instagram properly configured?
+	//
+	// if not, first reset event scheduling settings and removes event schedulation, then simply exits
+	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($user_access_token) || empty($search_tag) ||
+		empty($scheduled_publication_period) || empty($scheduled_publication_stream))
+	{
+		wpinstaroll_remove_scheduled_event();
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period', 'never');
+
+		exit;
+	}
+
+	error_log('I\'m automatically executing the automatic post creation from new Instagram photos!!!');
+
+	// retrieval of photos and post creation for new ones
+
+		// user stream
+	if ($scheduled_publication_stream == 'user' || $scheduled_publication_stream == 'user_tag')
+	{
+		$photoStream = wpinstaroll_getInstagramUserStream();
+	}
+
+		// tag stream
+	if ($scheduled_publication_stream == 'tag' || $scheduled_publication_stream == 'user_tag')
+	{
+		$photoStream = wpinstaroll_getInstagramPhotosWithTag($search_tag);
+	}
+}
+
 ?>

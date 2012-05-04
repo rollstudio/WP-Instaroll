@@ -129,18 +129,10 @@ function wpinstaroll_schedule_event($period)
 		$period == 'wpinstaroll_monthly')
 
 		wp_schedule_event(current_time('timestamp'), $period, 'wpinstaroll_scheduled_post_creation_event');
-
-	error_log('I\'m scheduling the event, with this period: '.$period);
-}
-function wpinstaroll_automatic_post_creation()
-{
-	error_log('I\'m automatically creating a post!!!');
 }
 function wpinstaroll_remove_scheduled_event()
 {
 	wp_clear_scheduled_hook('wpinstaroll_scheduled_post_creation_event');
-
-	error_log('I\'m removing the scheduled event');
 }
 add_action('wpinstaroll_scheduled_post_creation_event', 'wpinstaroll_automatic_post_creation');
 
