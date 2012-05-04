@@ -15,7 +15,6 @@ to be done later
 	- automatically publish or save as draft
 	- option to use a different category for automatically selected posts
 	- only publish unpublished posts
-- error message (and handling) when a post can be created but not the image (uploads dir not writeable, etc...)
 - category to be used for posts:
 	- show list of available categories (only one is selectable)
 	- input box with add button, for creating a new category

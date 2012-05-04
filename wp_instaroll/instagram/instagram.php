@@ -336,6 +336,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 		'error' => false,
 		'post_id' => $created_post_ID
 	);
+
+	// see: error message (and handling) when a post can be created but not the image (uploads dir not writeable, etc...)
 }
 
 ?>
