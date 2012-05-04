@@ -1,3 +1,5 @@
+![WP-Instaroll](http://rollstudio.it/assets/wp-instaroll/instaroll_github.png)
+
 WP-Instaroll
 ============
 
