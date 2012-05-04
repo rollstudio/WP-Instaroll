@@ -72,7 +72,7 @@ function wpinstaroll_deal_with_instagram_auth_redirect_uri()
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 	//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	$response = curl_exec($ch);
-	echo curl_errno($ch);
+	//echo curl_errno($ch);
 	curl_close($ch);
 	
 	$decoded_response = json_decode($response);
@@ -217,8 +217,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	// a. if the category corresponding to the Instagram search tags
 	// doesn't exist, we create it - no longer done: done in settings panel!
 	$category_name = '#'.$search_tag;
-	/*$cat_id = category_exists($category_name);
-	if (!$cat_id)
+	$cat_id = category_exists($category_name);
+	/*if (!$cat_id)
 		$cat_id = wp_create_category($category_name);*/	
 	
 	
@@ -363,6 +363,11 @@ function wpinstaroll_automatic_post_creation()
 
 		exit;
 	}
+
+	// inclusion of functions definitions like download_url()
+	require_once('wp-admin/includes/file.php');
+	// inclusion of functions definitions like media_handle_sideload()
+	require_once('wp-admin/includes/media.php');
 
 	error_log('I\'m automatically executing the automatic post creation from new Instagram photos!!!');
 
