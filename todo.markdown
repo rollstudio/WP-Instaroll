@@ -5,7 +5,7 @@ WP-Instaroll - TODOs
 	- when setting the category, check for it's existance and create it if not present
 - personalized icons for menus and panels
 - for photos added inside the post, possibility of choosing if the image must link to Instagram post or not
-- search tag input error handling
+- for photos directly inserted inside posts, possibility of choosing image size (now fullsize)
 
 
 to be done later
@@ -20,6 +20,7 @@ to be done later
 - category to be used for posts:
 	- show list of available categories (only one is selectable)
 	- input box with add button, for creating a new category
+- search tag input error handling
 - possibility of using multiple search tags (comma separated)
 - multilanguage
 - help panel(s)
