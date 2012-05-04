@@ -441,7 +441,7 @@ function wpinstaroll_automatic_post_creation()
 
 	// force current user to user with id == 1 (that should be an admin)
 	wp_set_current_user(1);
-	$_POST['action'] = 'wp_handle_sideload';
+	//$_POST['action'] = 'wp_handle_sideload';
 
 	// retrieval of photos and post creation for new ones
 
