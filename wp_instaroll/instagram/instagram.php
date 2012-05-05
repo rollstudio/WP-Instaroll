@@ -337,6 +337,9 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	    if (is_wp_error($tmp))
 		{
 			@unlink($file_array['tmp_name']);
+
+			// delete just created post
+	    	wp_delete_post($created_post_ID, true);
 			
 			return array(
 				'error' => true,
