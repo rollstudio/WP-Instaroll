@@ -268,11 +268,12 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 
 	// a. if the category corresponding to the Instagram search tags
-	// doesn't exist, we create it - no longer done: done in settings panel!
+	// doesn't exist, we create it - useful even if already present in settings panel:
+	// the category can be removed after choosing it in settings, so we better check again
 	$category_name = '#'.$search_tag;
 	$cat_id = category_exists($category_name);
-	/*if (!$cat_id)
-		$cat_id = wp_create_category($category_name);*/	
+	if (!$cat_id)
+		$cat_id = wp_create_category($category_name);	
 	
 	
 	// b. post creation
