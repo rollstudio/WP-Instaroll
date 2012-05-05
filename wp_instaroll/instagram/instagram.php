@@ -355,11 +355,14 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	    	// http://core.trac.wordpress.org/browser/tags/3.3.2/wp-admin/includes/media.php (media_handle_sideload() code)
 	    	// http://www.trovster.com/blog/2011/07/wordpress-custom-file-upload
 
-	    //error_log($attach_id);
 
-	    if (is_wp_error($attach_id))
+	    if (!$attach_id || is_wp_error($attach_id))
 		{
+			// remove uploaded temporary file
 	        @unlink($file_array['tmp_name']);
+
+	        // delete just created post
+	        wp_delete_post($created_post_ID, true);
 	        
 			return array(
 				'error' => true,
@@ -369,8 +372,6 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	    }
 		
 		@unlink($file_array['tmp_name']);
-
-		// see: the post should be removed in case of problems with the image
 	}
 	else
 		$attach_id = $photo_data->media_id;
@@ -442,12 +443,13 @@ function wpinstaroll_automatic_post_creation()
 	}
 
 		// inclusion of functions normally included only when opening WordPress backend
+	require_once('wp-admin/admin.php');
 	// inclusion of functions definitions like category_exists()
-	require_once('wp-admin/includes/taxonomy.php');
+	/*require_once('wp-admin/includes/taxonomy.php');
 	// inclusion of functions definitions like download_url()
 	require_once('wp-admin/includes/file.php');
 	// inclusion of functions definitions like media_handle_sideload()
-	require_once('wp-admin/includes/media.php');
+	require_once('wp-admin/includes/media.php');*/
 
 	error_log('I\'m automatically executing the automatic post creation from new Instagram photos!!!');
 
