@@ -296,7 +296,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 		'post_author' 	=> $post_author,
 		'post_category'	=> array($cat_id),
 		'post_content' 	=> $insta_caption,
-		'post_status'	=> $created_post_status, 
+		'post_status'	=> /*$created_post_status*/'draft', 
 		'post_title'	=> $title_placeholder,
 		'post_type'		=> 'post' 
 	);
@@ -369,6 +369,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	    }
 		
 		@unlink($file_array['tmp_name']);
+
+		// see: the post should be removed in case of problems with the image
 	}
 	else
 		$attach_id = $photo_data->media_id;
@@ -393,6 +395,15 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
   		wp_update_post($update_post_data);
 	}
 
+	// the post is always created as draft and, if after post creation the image could actually be added and settings say the
+	// post must be directly published, it is moved from 'draft' to 'published'
+	if ($created_post_status == 'publish')
+	{
+		$update_post_data = array();
+  		$update_post_data['ID'] = $created_post_ID;
+  		$update_post_data['post_status'] = 'publish';
+  		wp_update_post($update_post_data);
+	}
 
 	// update Instagram photo local data
 	wpinstaroll_updateInstagramPhotoStatus($insta_id, true, $attach_id);
