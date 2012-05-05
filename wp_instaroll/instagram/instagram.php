@@ -358,8 +358,6 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 		'error' => false,
 		'post_id' => $created_post_ID
 	);
-
-	// see: error message (and handling) when a post can be created but not the image (uploads dir not writeable, etc...)
 }
 
 
@@ -391,8 +389,6 @@ function wpinstaroll_automatic_post_creation()
 
 	// force current user to user with id == 1 (that should be an admin)
 	wp_set_current_user(1);
-
-	error_log('posting!');
 
 	// retrieval of photos and post creation for new ones
 
