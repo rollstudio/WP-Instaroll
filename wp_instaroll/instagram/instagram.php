@@ -285,12 +285,9 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	if ($insert_photo_mode !== 'featured')
 		$insert_photo_mode = 'post_content';
 
-	// use curent user id for post creation or, if unavailable, user #1 (that should be first created user and, so, an administrator)
+	// use curent user id for post creation
 	$post_author = get_currentuserinfo();
-	if ($post_author && $post_author->ID)
-		$post_author = $post_author->ID;
-	else
-		$post_author = 1;
+	$post_author = $post_author->ID;
 
 	$post_args = array(
 		'post_author' 	=> $post_author,
@@ -443,7 +440,7 @@ function wpinstaroll_automatic_post_creation()
 	}
 
 		// inclusion of functions normally included only when opening WordPress backend
-	require_once('wp-admin/admin.php');
+	//require_once('wp-admin/admin.php');
 	// inclusion of functions definitions like category_exists()
 	/*require_once('wp-admin/includes/taxonomy.php');
 	// inclusion of functions definitions like download_url()
@@ -456,6 +453,10 @@ function wpinstaroll_automatic_post_creation()
 	// force current user to user with id == 1 (that should be an admin)
 	wp_set_current_user(1);
 	//$_POST['action'] = 'wp_handle_sideload';
+
+	// load admin scripts, definitions and functions (non-admin WordPress definitions are already loaded)
+	require_once('wp-admin/admin.php');
+
 
 	// retrieval of photos and post creation for new ones
 
