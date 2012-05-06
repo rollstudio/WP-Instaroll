@@ -127,6 +127,13 @@ function wpinstaroll_panel_draw()
 	
 	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 
+	$category_for_post = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category');
+	if (empty($category_for_post))
+	{
+			$category_for_post = 'Uncategorized';
+			update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category', $category_for_post);
+	}
+
 	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 
 	$created_post_status = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status');
@@ -206,20 +213,35 @@ function wpinstaroll_panel_draw()
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', '');
 	}
 	
+
+	// post category updated
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category']) &&
+		trim($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category']) != $category_for_post)
+	{
+		$category_for_post = trim($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category']);
+
+		if (empty($category_for_post))
+			$category_for_post = 'Uncategorized';
+
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category', $category_for_post);
+
+		// if it doesn't exist yet, creates the category
+		$cat_id = category_exists($category_for_post);
+		if (!$cat_id)
+			$cat_id = wp_create_category($category_for_post);
+	}
+	// see: should remove strange characters
+
 	
 	// seach tag updated
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']) &&
-		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'] != $search_tag)
+		trim($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']) != $search_tag)
 	{
-		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag', $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']);
-		$search_tag = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'];
+		$search_tag = trim($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']);
 
-		// if it doesn't exist yet, creates a category based on the search tag
-		$category_name = '#'.$search_tag;
-		$cat_id = category_exists($category_name);
-		if (!$cat_id)
-			$cat_id = wp_create_category($category_name);
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag', $search_tag);
 	}
+	// see: should remove strange characters
 	
 	
 	// post title placeholder updated ('Instagram picture' is used if empty)
@@ -385,6 +407,14 @@ function wpinstaroll_panel_draw()
 							</th>
 							<td>
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder')); ?>" class="regular-text" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label>Instagram <em>post category</em></label>
+							</th>
+							<td>
+								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category')); ?>" class="regular-text" />
 							</td>
 						</tr>
 						<tr>
