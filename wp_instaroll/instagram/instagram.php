@@ -320,6 +320,14 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	else
 		$attach_id = $photo_data->media_id;
 
+
+	// update Instagram photo local data (better doing it as soon as we are sure we have the image, so
+	// if next scheduled event occurs and the same image is present, it is less likely to be added again)
+	wpinstaroll_updateInstagramPhotoStatus($insta_id, true, $attach_id);
+		// SEE: another solution could be: update the status as soon as we get the image id and, only in case
+		// there are problems getting the image and put it inside the media library, we set the status back to
+		// non-published
+
 	
 	if ($insert_photo_mode === 'featured')
 	{
@@ -349,10 +357,6 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
   		$update_post_data['post_status'] = 'publish';
   		wp_update_post($update_post_data);
 	}
-
-	// update Instagram photo local data
-	wpinstaroll_updateInstagramPhotoStatus($insta_id, true, $attach_id);
-	
 
 	return array(
 		'error' => false,
