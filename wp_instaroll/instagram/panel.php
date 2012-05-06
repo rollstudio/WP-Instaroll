@@ -377,20 +377,20 @@ function wpinstaroll_panel_draw()
 					<tbody>
 						<tr>
 							<th scope="row">
-								<label>Instagram <em>Search Tag</em> (without #)</label>
-							</th>
-							<td>
-								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag')); ?>" class="regular-text" />
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">
-								<label>Instagram Post Title Placeholder</label>
+								<label>Instagram <em>Post Title</em> Placeholder</label>
 							</th>
 							<td>
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder')); ?>" class="regular-text" />
 							</td>
 						</tr>
+						<tr>
+							<th scope="row">
+								<label>Instagram <em>Search Tag</em> (without #)</label>
+							</th>
+							<td>
+								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag')); ?>" class="regular-text" />
+							</td>
+						</tr>	
 						<tr>
 							<th scope="row">
 								<label>Post <em>status</em> for posts created from Instagram photos</label>

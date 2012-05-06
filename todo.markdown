@@ -7,7 +7,6 @@ WP-Instaroll - TODOs
 - for photos directly inserted inside posts, possibility of choosing image size (now fullsize)
 - being able to specify which user must be used for post creation
 
-
 to be done later
 ----------------
 
@@ -23,3 +22,4 @@ to be done later
 - possibility of using multiple search tags (comma separated)
 - multilanguage
 - help panel(s)
+- more images downloaded, saving previous update last image id
