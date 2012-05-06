@@ -225,10 +225,8 @@ function wpinstaroll_panel_draw()
 
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category', $category_for_post);
 
-		// if it doesn't exist yet, creates the category
-		$cat_id = category_exists($category_for_post);
-		if (!$cat_id)
-			$cat_id = wp_create_category($category_for_post);
+		// if it doesn't exist yet, we don't create the category: it is actually created with first
+		// post creation
 	}
 	// see: should remove strange characters
 

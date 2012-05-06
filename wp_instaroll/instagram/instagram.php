@@ -214,13 +214,18 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 
 	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 
+	$category_for_post = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category');
+	if (empty($category_for_post))
+	{
+			$category_for_post = 'Uncategorized';
+			update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category', $category_for_post);
+	}
+
 	// a. if the category corresponding to the Instagram search tags
-	// doesn't exist, we create it - useful even if already present in settings panel:
-	// the category can be removed after choosing it in settings, so we better check again
-	$category_name = '#'.$search_tag;
-	$cat_id = category_exists($category_name);
-	if (!$cat_id)
-		$cat_id = wp_create_category($category_name);	
+	// doesn't exist, we create it
+	$cat_id = category_exists($category_for_post);
+		if (!$cat_id)
+			$cat_id = wp_create_category($category_for_post);
 	
 	
 	// b. post creation
@@ -232,15 +237,11 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	if ($insert_photo_mode !== 'featured')
 		$insert_photo_mode = 'post_content';
 
-	// use curent user id for post creation
-	//$post_author = get_currentuserinfo();
-	//$post_author = $post_author->ID;
-
 	$post_args = array(
-		'post_author' 	=> /*$post_author*/0,		// with 0, current post author id is used
+		'post_author' 	=> 0,		// with 0, current post author id is used
 		'post_category'	=> array($cat_id),
 		'post_content' 	=> $insta_caption,
-		'post_status'	=> /*$created_post_status*/'draft', 
+		'post_status'	=> 'draft', 
 		'post_title'	=> $title_placeholder,
 		'post_type'		=> 'post' 
 	);
