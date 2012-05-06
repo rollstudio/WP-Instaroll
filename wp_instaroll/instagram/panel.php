@@ -567,7 +567,12 @@ function wpinstaroll_photo_selection_panel_draw()
 {
 	global $wpinstaroll_photo_selection_page_title;
 
-	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
+	$category_for_post = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category');
+	if (empty($category_for_post))
+	{
+			$category_for_post = 'Uncategorized';
+			update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category', $category_for_post);
+	}
 	$insta_post_title = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 	if (empty($insta_post_title))
 	{
@@ -755,7 +760,7 @@ function wpinstaroll_photo_selection_panel_draw()
 					postCreationModeString = '\n\nThe photo will be added as featured image for created post.';
 			
 				if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
-					'\n\nA new post will be created with category \"#' + '<?php print($search_tag); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + postCreationModeString))
+					'\n\nA new post will be created with category \"' + '<?php print($category_for_post); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + postCreationModeString))
 					return false;
 					
 			
