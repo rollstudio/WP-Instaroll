@@ -47,15 +47,14 @@ function wpinstaroll_photosbyusertable_ayax()
 				<table class="wp-list-table widefat fixed posts">
 					<thead>
 						<tr>
-							<th style="width: 330px;">Picture</th>
+							<th style="width: 165px;">Picture</th>
 							<th style="width: 140px;">ID</th>
-							<th style="width: 150px;">Tags</th>
+							<th style="width: 140px;">Tags</th>
 							<th style="width: 70px;">Likes</th>
 							<th style="width: 90px;">Comments</th>
 							<th>Caption</th>
 							<th style="width: 110px;">Creation time</th>
-							<th style="width: 130px;">Author username</th>
-							<th style="width: 80px;">Author ID</th>
+							<th style="width: 120px;">Author</th>
 							<th style="width: 100px;">Action</th>
 						</tr>
 					</thead>
@@ -70,7 +69,7 @@ function wpinstaroll_photosbyusertable_ayax()
 						if (!($show_published == 'dont_show_published' && in_array($element->id, $published_ids)))
 						{
 							print('<tr class="alternate author-self status-publish format-default iedit">');
-								print('<td class="insta_image"><a href="'.$element->link.'" target="_blank"><img src="'.$element->images->low_resolution->url.'" alt="" data-fullimageurl="'.$element->images->standard_resolution->url.'" /></a></td>');
+								print('<td class="insta_image"><a href="'.$element->link.'" target="_blank"><img src="'.$element->images->thumbnail->url.'" alt="" data-fullimageurl="'.$element->images->standard_resolution->url.'" /></a></td>');
 								print('<td class="insta_id">'.$element->id.'<br />&nbsp;</td>');
 								
 								$tags_string = '';
@@ -91,7 +90,6 @@ function wpinstaroll_photosbyusertable_ayax()
 								print('<td class="insta_description">'.$element->caption->text.'<br />&nbsp;</td>');
 								print('<td class="insta_timestamp">'.date('Y-n-j H:i', $element->created_time).'<br />&nbsp;</td>');
 								print('<td class="insta_username">'.$element->user->username.'<br />&nbsp;</td>');
-								print('<td class="insta_userid">'.$element->user->id.'<br />&nbsp;</td>');
 								print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="button-secondary '.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');
 							print('</tr>');
 						}
@@ -156,15 +154,14 @@ function wpinstaroll_photosbytagtable_ayax()
 				<table class="wp-list-table widefat fixed posts">
 					<thead>
 						<tr>
-							<th style="width: 330px;">Picture</th>
+							<th style="width: 165px;">Picture</th>
 							<th style="width: 140px;">ID</th>
-							<th style="width: 150px;">Tags</th>
+							<th style="width: 140px;">Tags</th>
 							<th style="width: 70px;">Likes</th>
 							<th style="width: 90px;">Comments</th>
 							<th>Caption</th>
 							<th style="width: 110px;">Creation time</th>
-							<th style="width: 130px;">Author username</th>
-							<th style="width: 80px;">Author ID</th>
+							<th style="width: 120px;">Author</th>
 							<th style="width: 100px;">Action</th>
 						</tr>
 					</thead>
@@ -179,7 +176,7 @@ function wpinstaroll_photosbytagtable_ayax()
 						if (!($show_published == 'dont_show_published' && in_array($element->id, $published_ids)))
 						{
 							print('<tr class="alternate author-self status-publish format-default iedit">');
-								print('<td class="insta_image"><a href="'.$element->link.'" target="_blank"><img src="'.$element->images->low_resolution->url.'" alt="" data-fullimageurl="'.$element->images->standard_resolution->url.'" /></a></td>');
+								print('<td class="insta_image"><a href="'.$element->link.'" target="_blank"><img src="'.$element->images->thumbnail->url.'" alt="" data-fullimageurl="'.$element->images->standard_resolution->url.'" /></a></td>');
 								print('<td class="insta_id">'.$element->id.'<br />&nbsp;</td>');
 								
 								$tags_string = '';
@@ -200,7 +197,6 @@ function wpinstaroll_photosbytagtable_ayax()
 								print('<td class="insta_description">'.$element->caption->text.'<br />&nbsp;</td>');
 								print('<td class="insta_timestamp">'.date('Y-n-j H:i', $element->created_time).'<br />&nbsp;</td>');
 								print('<td class="insta_username">'.$element->user->username.'<br />&nbsp;</td>');
-								print('<td class="insta_userid">'.$element->user->id.'<br />&nbsp;</td>');
 								print('<td class="insta_createpost"><a href="#" id="create_wp_post_'.$element->id.'" class="button-secondary '.WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_createpost_action">Create post</a></td>');
 							print('</tr>');
 						}
