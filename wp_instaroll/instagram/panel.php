@@ -5,12 +5,14 @@
 
 function wpinstaroll_getInstagramGeneratedDraftPosts()
 {
-	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
-	if (empty($search_tag))
-		return null;
-		
-	$category_name = '#'.$search_tag;
-	$cat_id = category_exists($category_name);
+	$category_for_post = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category');
+	if (empty($category_for_post))
+	{
+			$category_for_post = 'Uncategorized';
+			update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category', $category_for_post);
+	}
+	
+	$cat_id = category_exists($category_for_post);
 	if ($cat_id)
 	{
 		$category = get_category($cat_id);
