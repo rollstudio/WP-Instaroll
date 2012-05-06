@@ -50,11 +50,11 @@ function wpinstaroll_photosbyusertable_ayax()
 							<th style="width: 165px;">Picture</th>
 							<th style="width: 140px;">ID</th>
 							<th style="width: 140px;">Tags</th>
-							<th style="width: 70px;">Likes</th>
-							<th style="width: 90px;">Comments</th>
+							<th style="width: 62px;">Likes</th>
+							<th style="width: 84px;">Comments</th>
 							<th>Caption</th>
 							<th style="width: 110px;">Creation time</th>
-							<th style="width: 120px;">Author</th>
+							<th style="width: 130px;">Author</th>
 							<th style="width: 100px;">Action</th>
 						</tr>
 					</thead>
@@ -157,11 +157,11 @@ function wpinstaroll_photosbytagtable_ayax()
 							<th style="width: 165px;">Picture</th>
 							<th style="width: 140px;">ID</th>
 							<th style="width: 140px;">Tags</th>
-							<th style="width: 70px;">Likes</th>
-							<th style="width: 90px;">Comments</th>
+							<th style="width: 62px;">Likes</th>
+							<th style="width: 84px;">Comments</th>
 							<th>Caption</th>
 							<th style="width: 110px;">Creation time</th>
-							<th style="width: 120px;">Author</th>
+							<th style="width: 130px;">Author</th>
 							<th style="width: 100px;">Action</th>
 						</tr>
 					</thead>

@@ -60,9 +60,13 @@ function wpinstaroll_register_settings()
 {
 	// Instagram App ID
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
+
 	// Instagram App Secret
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
 	
+	// category to use for post created from Instagram photos
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category');
+
 	// Instagram selected research hashtag
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 	
