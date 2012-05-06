@@ -1,8 +1,6 @@
 WP-Instaroll - TODOs
 ====================
 
-- add, in settings, the possibility of choosing the **category** to associate Instagram-based automatically created posts
-	- when setting the category, check for it's existance and create it if not present
 - for photos added inside the post, possibility of choosing if the image must link to Instagram post or not
 - for photos directly inserted inside posts, possibility of choosing image size (now fullsize)
 - being able to specify which user must be used for post creation
@@ -18,7 +16,7 @@ to be done later
 - category to be used for posts:
 	- show list of available categories (only one is selectable)
 	- input box with add button, for creating a new category
-- search tag input error handling
+- search tag and category input error handling
 - possibility of using multiple search tags (comma separated)
 - multilanguage
 - help panel(s)

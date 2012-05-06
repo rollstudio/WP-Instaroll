@@ -26,7 +26,11 @@ New in version 1.0.4
 
 1. possibility of scheduling automatic post creation from Instagram photos (from user stream, tag stream or both)
 
-2. (yet to be implemented) possibility of choosing the category to publish Instagram based posts to
+2. possibility of choosing the category to publish Instagram based posts to
+
+3. photo selection panel visualization optimized for smaller screens
+
+4. minor fixes and improvements
 
 Installation
 ------------
