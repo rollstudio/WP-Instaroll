@@ -24,18 +24,15 @@ In photos selection panels there's a checkbox for specifying whether to show alr
 New in version 1.0.4
 --------------------
 
-1. possibility of scheduling automatic post creation from Instagram photos (from user stream, tag stream or both)
-
-2. possibility of choosing the category to publish Instagram based posts to
-
-3. photo selection panel visualization optimized for smaller screens
-
-4. minor fixes and improvements
+- possibility of scheduling automatic post creation from Instagram photos (from user stream, tag stream or both)
+- possibility of choosing the category to publish Instagram based posts to
+- photo selection panel visualization optimized for smaller screens
+- minor fixes and improvements
 
 Installation
 ------------
 
 1. Upload *wp_instaroll* to the */wp-content/plugins/* directory
 2. Activate the plugin through the **Plugins** menu in WordPress
-3. Go to 'Settings -> Instagram Setting' and fill the settings fields
-4. Now you're ready to go to **Instagram Photos** and create posts (there's a panel for user stream photos and a panel for search tag stream)
+3. Go to *Settings -> Instaroll Settings* and fill the settings fields
+4. Now you're ready to go to **Instaroll Photos** and create posts (there's a panel for user stream photos and a panel for search tag stream)
