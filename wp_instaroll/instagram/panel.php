@@ -411,7 +411,7 @@ function wpinstaroll_panel_draw()
 						</tr>
 						<tr>
 							<th scope="row">
-								<label>Instagram <em>post category</em></label>
+								<label>Instagram <em>Post Category</em></label>
 							</th>
 							<td>
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category')); ?>" class="regular-text" />
