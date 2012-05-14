@@ -21,6 +21,11 @@ The plug-in keeps track of previously published photos and avoids downloading th
 
 In photos selection panels there's a checkbox for specifying whether to show already published Instagram photos (default) or not.
 
+New in version 1.0.4.1
+----------------------
+
+- now the plug-in can be installed directly from WordPress
+
 New in version 1.0.4
 --------------------
 
@@ -32,7 +37,7 @@ New in version 1.0.4
 Installation
 ------------
 
-1. Upload *wp_instaroll* to the */wp-content/plugins/* directory
+1. Upload *wp-instaroll* to the */wp-content/plugins/* directory
 2. Activate the plugin through the **Plugins** menu in WordPress
 3. Go to *Settings -> Instaroll Settings* and fill the settings fields
 4. Now you're ready to go to **Instaroll Photos** and create posts (there's a panel for user stream photos and a panel for search tag stream)

@@ -6,6 +6,9 @@
 global $wpdb;
 
 
+// plugin base dir
+define('WP_ROLL_INSTAGRAM_PLUGIN_BASE_DIR', 'wp-instaroll');
+
 // plugin base URLs and prefixes
 define('WP_ROLL_INSTAGRAM_PLUGIN_PREFIX', 'wpinstaroll');
 define('WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX', 'wpinstaroll');
@@ -51,7 +54,7 @@ function wpinstaroll_admin_basic_init()
 {
     if (is_admin())
     {
-		wp_register_style(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_admin_styles', plugins_url('wp_instaroll/admin_style.css'));
+		wp_register_style(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_admin_styles', plugins_url(WP_ROLL_INSTAGRAM_PLUGIN_BASE_DIR.'/admin_style.css'));
 	}
 }
 add_action('init', 'wpinstaroll_admin_basic_init');

@@ -51,7 +51,7 @@ function wpinstaroll_menu()
 	
 		// top level menu for photo selection
 	
-	$photo_selection_menu_icon_url = plugins_url('wp_instaroll/images/menuicon.png');
+	$photo_selection_menu_icon_url = plugins_url(WP_ROLL_INSTAGRAM_PLUGIN_BASE_DIR.'/images/menuicon.png');
 	add_menu_page($wpinstaroll_photo_selection_page_title, $wpinstaroll_photo_selection_menu_title, 'administrator', 'wpinstaroll_menu_photo_selection', 'wpinstaroll_photo_selection_panel_draw', $photo_selection_menu_icon_url);
 }
 add_action('admin_menu', 'wpinstaroll_menu');
@@ -411,7 +411,7 @@ function wpinstaroll_panel_draw()
 						</tr>
 						<tr>
 							<th scope="row">
-								<label>Instagram <em>Post Category</em></label>
+								<label>Instagram <em>post category</em></label>
 							</th>
 							<td>
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category')); ?>" class="regular-text" />
