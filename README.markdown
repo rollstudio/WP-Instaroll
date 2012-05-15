@@ -21,6 +21,11 @@ The plug-in keeps track of previously published photos and avoids downloading th
 
 In photos selection panels there's a checkbox for specifying whether to show already published Instagram photos (default) or not.
 
+New in version 1.0.4.2
+----------------------
+
+- resolved a little issue with Instagram authorization
+
 New in version 1.0.4.1
 ----------------------
 

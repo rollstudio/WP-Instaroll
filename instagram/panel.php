@@ -510,11 +510,12 @@ function wpinstaroll_panel_draw()
 								var InstagramAuthWindow = null;
 								
 								jQuery(document).ready(function() {
+
+									jQuery('form').attr('action', '');
 									
 									jQuery('#InstaAuthButton').click(function() {
 										
 										InstagramAuthWindow = window.open('<?php print(wpinstaroll_getAuthorizationPageURI()); ?>', 'InstagramAuthorization', 'width=800,height=400');
-									
 									});
 								});
 							</script>
@@ -555,6 +556,12 @@ function wpinstaroll_panel_draw()
 				<?php
 			}
 		?>
+
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				jQuery('form').attr('action', '');
+			});
+		</script>
 		
 	</div>
 	
