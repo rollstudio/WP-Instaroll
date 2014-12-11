@@ -17,6 +17,8 @@ define('WP_ROLL_INSTAGRAM_PLUGIN_CALLBACK_ACTION', 'wpinstaroll_redirect_uri');
 // Instagram base URLs
 define('WP_ROLL_INSTAGRAM_DEVELOPER_URL', 'http://instagram.com/developer/');
 define('WP_ROLL_INSTAGRAM_USER_STREAM_URLBASE', 'https://api.instagram.com/v1/users/self/feed?access_token=');
+define('WP_ROLL_INSTAGRAM_USER_PHOTOS_URL_A', 'https://api.instagram.com/v1/users/');
+define('WP_ROLL_INSTAGRAM_USER_PHOTOS_URL_B', '/media/recent/?access_token=');
 define('WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_A', 'https://api.instagram.com/v1/tags/');
 define('WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_B', '/media/recent?access_token=');
 
@@ -46,6 +48,10 @@ define('WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_CODE', 5);
 
 // defaults
 define('WP_ROLL_INSTAGRAM_DEFAULT_TITLE_PLACEHOLDER', 'Instagram picture');
+
+// minimum requirements
+define('WP_ROLL_INSTAGRAM_WP_VERSION_MIN', '3.0');
+define('WP_ROLL_INSTAGRAM_PHP_VERSION_MIN', '5.3');
 
 
 
@@ -138,5 +144,46 @@ function wpinstaroll_remove_scheduled_event()
 	wp_clear_scheduled_hook('wpinstaroll_scheduled_post_creation_event');
 }
 add_action('wpinstaroll_scheduled_post_creation_event', 'wpinstaroll_automatic_post_creation');
+
+
+function wpinstaroll_check_requirements($echo = false)
+{
+	$requirements_ok =  true;
+
+	if (floatval(get_bloginfo('version')) < floatval(WP_ROLL_INSTAGRAM_WP_VERSION_MIN))
+	{
+		$error_message = 'WP-Instaroll problem: WordPress version must be at least '.WP_ROLL_INSTAGRAM_WP_VERSION_MIN.'!';
+
+		error_log($error_message);
+		if ($echo)
+			echo '<p><strong>'.$error_message.'</strong></p>';
+
+		$requirements_ok =  false;
+	}
+
+	if (floatval(phpversion()) < floatval(WP_ROLL_INSTAGRAM_PHP_VERSION_MIN))
+	{
+		$error_message = 'WP-Instaroll problem: PHP version must be at least '.WP_ROLL_INSTAGRAM_PHP_VERSION_MIN.'!';
+
+		error_log($error_message);
+		if ($echo)
+			echo '<p><strong>'.$error_message.'</strong></p>';
+
+		$requirements_ok =  false;
+	}
+
+	if (!function_exists('curl_init'))
+	{
+		$error_message = 'WP-Instaroll problem: cURL PHP extension must be installed!';
+
+		error_log($error_message);
+		if ($echo)
+			echo '<p><strong>'.$error_message.'</strong></p>';
+
+		$requirements_ok =  false;
+	}
+
+	return $requirements_ok;
+}
 
 ?>

@@ -1,5 +1,29 @@
 <?php
 
+
+function curl_file_get_contents($url)
+{
+	$curl = curl_init();
+	$userAgent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)';
+
+	curl_setopt($curl,CURLOPT_URL,$url);
+	// TRUE to return the transfer as a string of the return value of curl_exec() instead of outputting it out directly
+	curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
+	// the number of seconds to wait while trying to connect
+	curl_setopt($curl,CURLOPT_CONNECTTIMEOUT, 6); 	
+
+	curl_setopt($curl, CURLOPT_USERAGENT, $userAgent);
+	curl_setopt($curl, CURLOPT_FAILONERROR, TRUE);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+	curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE);
+	curl_setopt($curl, CURLOPT_TIMEOUT, 12);	
+
+	$contents = curl_exec($curl);
+	curl_close($curl);
+	return $contents;
+}
+
+
 // Instagram API
 
 
@@ -116,7 +140,9 @@ add_action('wp_ajax_wpinstaroll_redirect_uri', 'wpinstaroll_deal_with_instagram_
 
 	// *** INSTAGRAM API ***
 	
-// gets Instagram stream for current logged user (contains pics sent by the user and his fiends)
+// gets Instagram stream for current logged user (contains pics sent by the user and his fiends),
+// in case WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid' is not set to 'show_useronly',
+// otherwise retrieves user stream (user photos only)
 function wpinstaroll_getInstagramUserStream()
 {
 	$accessToken = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
@@ -125,7 +151,20 @@ function wpinstaroll_getInstagramUserStream()
 		return null;
 
 	// API: http://instagr.am/developer/endpoints/users/
-	$file_contents = @file_get_contents(WP_ROLL_INSTAGRAM_USER_STREAM_URLBASE.$accessToken);
+	//$file_contents = @file_get_contents(WP_ROLL_INSTAGRAM_USER_STREAM_URLBASE.$accessToken);
+
+	$show_useronly = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_useronly_photos');
+	if ($show_useronly != 'show_useronly') {
+		$file_contents = @curl_file_get_contents(WP_ROLL_INSTAGRAM_USER_STREAM_URLBASE.$accessToken);
+	} else {
+
+		$instagram_user_id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid');
+
+		if (empty($instagram_user_id))
+			return null;
+
+		$file_contents = @curl_file_get_contents(WP_ROLL_INSTAGRAM_USER_PHOTOS_URL_A.$instagram_user_id.WP_ROLL_INSTAGRAM_USER_PHOTOS_URL_B.$accessToken);
+	}
 
 	if (empty($file_contents))
 		return null;
@@ -139,31 +178,125 @@ function wpinstaroll_getInstagramUserStream()
 }
 
 
-// gets Instagram pics corresponding to passed hashtag
+// gets Instagram pics corresponding to passed hashtag (it only shows user photos, if corresponding option is set)
+/*function wpinstaroll_getInstagramPhotosWithTag($tag)
+{
+	if (empty($tag))
+		return null;
+
+	$accessToken = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
+
+	if (empty($accessToken))
+		return null;
+
+	// API: http://instagr.am/developer/endpoints/tags/
+	//$file_contents = file_get_contents(WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_A.$tag.WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_B.$accessToken);
+	$file_contents = @curl_file_get_contents(WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_A.$tag.WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_B.$accessToken);
+
+	if (empty($file_contents))
+		return null;
+
+	$photo_data = json_decode($file_contents);
+
+
+	// in case the option is set, oly show photos with passed search tag by current user
+	$show_useronly = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_useronly_photos_by_tag');
+	if ($show_useronly === 'show_useronly_by_tag')
+	{
+		// function that checks against userid
+		function test_id($test_var)
+		{
+			static $instagram_user_id = false;
+
+			if (!$instagram_user_id)
+				$instagram_user_id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid');
+
+			if (empty($instagram_user_id))
+				return false;
+
+			$id = $test_var->user->id;
+
+			if ($id === $instagram_user_id)
+				return true;
+			else
+				return false;
+		}
+
+		// filter the data array with the test function
+		$photo_data_array = $photo_data->data;
+		$photo_data->data = array_filter($photo_data_array, 'test_id');
+	}
+	// NOTE: improve the user photos filtering method for tag stream, calling the API for user photos and then filtering by tag
+
+	
+	// proceed as before with the filtered $photo_data
+	// add photo data (if new) to local db
+	wpinstaroll_updateLocalDBWithNewPhotos($photo_data);
+
+	return $photo_data;
+}*/
 function wpinstaroll_getInstagramPhotosWithTag($tag)
 {
 	if (empty($tag))
 		return null;
-	
+
 	$accessToken = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
-	
+
 	if (empty($accessToken))
 		return null;
-			
-	// API: http://instagr.am/developer/endpoints/tags/
-	$file_contents = file_get_contents(WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_A.$tag.WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_B.$accessToken);
-	
-	if (empty($file_contents))
-		return null;
-		
-	$photo_data = json_decode($file_contents);
 
-	// add photo data (if new) to local db
+	$show_useronly = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_useronly_photos_by_tag');
+
+	if ($show_useronly != 'show_useronly_by_tag')
+	{
+		// all photos
+
+		$file_contents = @curl_file_get_contents(WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_A.$tag.WP_ROLL_INSTAGRAM_STREAM_BYTAG_URL_B.$accessToken);
+
+		if (empty($file_contents))
+			return null;
+
+		$photo_data = json_decode($file_contents);
+	}
+	else {
+
+		// only user photos
+
+		$instagram_user_id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid');
+
+		if (empty($instagram_user_id))
+			return false;
+
+		$file_contents = @curl_file_get_contents(WP_ROLL_INSTAGRAM_USER_PHOTOS_URL_A.$instagram_user_id.WP_ROLL_INSTAGRAM_USER_PHOTOS_URL_B.$accessToken);
+
+		if (empty($file_contents))
+			return null;
+
+		$photo_data = json_decode($file_contents);
+
+		// we filter the data, removing the ones without the specified tag
+		$data = $photo_data->data;
+		$new_data = array();
+		foreach ($data as $element)
+		{
+			$tags = $element->tags;
+			foreach ($tags as $single_tag)
+			{
+				if (trim($tag) == trim($single_tag))
+				{
+					$new_data[] = $element;
+					break;
+				}
+			}
+		}
+		// replace the old data with the filtered version
+		$photo_data->data = $new_data;
+	}
+
 	wpinstaroll_updateLocalDBWithNewPhotos($photo_data);
 
 	return $photo_data;
 }
-
 
 // adds new photo data to the DB
 function wpinstaroll_updateLocalDBWithNewPhotos($photo_data)
@@ -202,6 +335,9 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	}
 	
 
+	/*
+	// not actually needed, here!
+
 	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 	if (empty($search_tag))
 	{
@@ -211,6 +347,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 			'error_code' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_ACCESS_NOT_CONFIGURED_CODE
 		);
 	}
+	*/
 
 	$title_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 
@@ -245,6 +382,13 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 		'post_title'	=> $title_placeholder,
 		'post_type'		=> 'post' 
 	);
+
+	// add comma separated tags to post, if specified
+	$tag_to_add_to_post = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts');
+	if (!empty($tag_to_add_to_post))
+		$post_args['tags_input'] = $tag_to_add_to_post;
+	// INSERT checks about correct format...
+
 	$created_post_ID = wp_insert_post($post_args);
 	
 	if (!$created_post_ID)
@@ -369,6 +513,10 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 // this is the function called for sheduled automatic post creation from Instagram photos
 function wpinstaroll_automatic_post_creation()
 {
+	// check for plugin requirements (without echoing error messages, just logging them)
+	if (!wpinstaroll_check_requirements())
+		wp_die('');
+
 	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	$InstagramClientSecret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
 	$user_access_token = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
@@ -380,7 +528,7 @@ function wpinstaroll_automatic_post_creation()
 	// is Instagram properly configured?
 	//
 	// if not, first reset event scheduling settings and removes event schedulation, then simply exits
-	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($user_access_token) || empty($search_tag) ||
+	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($user_access_token) ||
 		empty($scheduled_publication_period) || empty($scheduled_publication_stream))
 	{
 		wpinstaroll_remove_scheduled_event();
@@ -429,8 +577,8 @@ function wpinstaroll_automatic_post_creation()
 		}
 	}
 
-		// tag stream
-	if ($scheduled_publication_stream == 'tag' || $scheduled_publication_stream == 'user_tag')
+		// tag stream - only in this case, we check for search tag presence
+	if (($scheduled_publication_stream == 'tag' || $scheduled_publication_stream == 'user_tag') && !empty($search_tag))
 	{
 		$photoStream = wpinstaroll_getInstagramPhotosWithTag($search_tag);
 
