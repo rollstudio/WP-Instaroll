@@ -83,6 +83,14 @@ function wpinstaroll_register_settings()
 
 	// show or don't show already published photos in photos selection panels (editable in photos selection panels)
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_published_photos');
+	// show only user photos for user stream photo panel
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_useronly_photos');
+	// show only user photos for tag stream photo panel
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_show_useronly_photos_by_tag');
+
+
+	// tag to be added WordPress posts created from Instagram photos
+	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts');
 
 	// period for automatic post creation from Instagram photos
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period');
@@ -108,6 +116,11 @@ function wpinstaroll_panel_draw()
 {
 	global $wpinstaroll_page_title;
 
+
+	// check for plugin requirements
+	if (!wpinstaroll_check_requirements(true))
+		wp_die('');
+
 	
 	// not the requested access level
 	if (!current_user_can('manage_options'))
@@ -128,6 +141,9 @@ function wpinstaroll_panel_draw()
 	$profile_picture = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture');
 	
 	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
+
+	$tag_to_add_to_posts = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts');
+
 
 	$category_for_post = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category');
 	if (empty($category_for_post))
@@ -242,6 +258,17 @@ function wpinstaroll_panel_draw()
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag', $search_tag);
 	}
 	// see: should remove strange characters
+
+
+	// tag to add to posts updated
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts']) &&
+		trim($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts']) != $tag_to_add_to_posts)
+	{
+		$tag_to_add_to_posts = trim($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts']);
+
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts', $tag_to_add_to_posts);
+	}
+	// see: should remove strange characters, check for correct comma separation, and so on...
 	
 	
 	// post title placeholder updated ('Instagram picture' is used if empty)
@@ -419,7 +446,7 @@ function wpinstaroll_panel_draw()
 						</tr>
 						<tr>
 							<th scope="row">
-								<label>Instagram <em>Search Tag</em> (without #)</label>
+								<label>Instagram <em>Search Tag</em> (without #)<br/><em>(optional)</em></label>
 							</th>
 							<td>
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag')); ?>" class="regular-text" />
@@ -445,6 +472,14 @@ function wpinstaroll_panel_draw()
 									<option value="post_content"<?php if ($insert_photo_mode !== 'featured') echo ' selected=selected'; ?>>in post content</option>
                                     <option value="featured"<?php if ($insert_photo_mode === 'featured') echo ' selected=selected'; ?>>as featured image</option>                     
                                 </select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label><em>Tags</em> to add to WordPress <em>posts</em>, comma separated<br/><em>(optional)</em></label>
+							</th>
+							<td>
+								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts')); ?>" class="regular-text" />
 							</td>
 						</tr>
 					</tbody>
@@ -572,6 +607,10 @@ function wpinstaroll_panel_draw()
 // draws the PHOTO SELECTION panel
 function wpinstaroll_photo_selection_panel_draw()
 {
+	// check for plugin requirements
+	if (!wpinstaroll_check_requirements(true))
+		wp_die('');
+
 	global $wpinstaroll_photo_selection_page_title;
 
 	$category_for_post = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category');
@@ -699,6 +738,57 @@ function wpinstaroll_photo_selection_panel_draw()
 				
 				return false;
 			});
+
+
+			jQuery("#show_useronly_userpanel").live('click', function() {
+
+				var status;
+				if (jQuery(this).attr('checked') == 'checked')
+					status = 'show_useronly';
+				else
+					status = 'show_userandfriends';
+
+				jQuery.ajax({
+					url: ajaxurl + '?action=set_instagram_show_useronly_flag',
+					type: 'POST',
+					data: {
+						show: status,
+					},
+					success: function() {
+
+						// reload the view after setting the flag
+						AJAXDrawUserPhotosTable();	
+					}
+				});
+
+				return true;
+			});
+
+
+			jQuery("#show_useronly_tagpanel").live('click', function() {
+
+				var status;
+				if (jQuery(this).attr('checked') == 'checked')
+					status = 'show_useronly_by_tag';
+				else
+					status = 'show_all_by_tag';
+
+				jQuery.ajax({
+					url: ajaxurl + '?action=set_instagram_show_useronly_by_tag_flag',
+					type: 'POST',
+					data: {
+						show: status,
+					},
+					success: function() {
+
+						// reload the view after setting the flag
+						AJAXDrawTagPhotosTable();	
+					}
+				});
+
+				return true;
+			});
+
 
 			jQuery("#show_already_published_userpanel").live('click', function() {
 

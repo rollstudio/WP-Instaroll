@@ -3,10 +3,10 @@
 WP-Instaroll
 ============
 
-Contributors: FeliceMente (Marco Iannaccone), rformato (Renato Formato), patrick91 (Patrick Guido Arminio)  
-Tags: instagram, photos, wordpress, plugin  
-Requires at least: 3.3  
-Tested up to: 3.3.2  
+Contributors: FeliceMente (Marco Iannaccone), rformato (Renato Formato), patrick91 (Patrick Guido Arminio)
+Tags: instagram, photos, wordpress, plugin
+Requires at least: 3.3
+Tested up to: 3.3.2
 
 Description
 -----------
@@ -20,6 +20,10 @@ The posts created from Instagram photos can be saved as draft or directly publis
 The plug-in keeps track of previously published photos and avoids downloading them from Instagram again, if they're already present in local media library, in case a single photo is used for creating multiple posts.
 
 In photos selection panels there's a checkbox for specifying whether to show already published Instagram photos (default) or not.
+
+New in version 1.1.1
+----------------------
+- better implementation, for the second tab ('Instagram Photos by Tag'), of the option for showing only user photos: before, in case of many never photos, older user photos could not appear, because only most recent photos were returned, while now the user stream is used, so that older photos are not pushed away by newer photos posted by other people
 
 New in version 1.0.4.2
 ----------------------
