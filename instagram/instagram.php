@@ -10,13 +10,13 @@ function curl_file_get_contents($url)
 	// TRUE to return the transfer as a string of the return value of curl_exec() instead of outputting it out directly
 	curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
 	// the number of seconds to wait while trying to connect
-	curl_setopt($curl,CURLOPT_CONNECTTIMEOUT, 6); 	
+	curl_setopt($curl,CURLOPT_CONNECTTIMEOUT, 6);
 
 	curl_setopt($curl, CURLOPT_USERAGENT, $userAgent);
 	curl_setopt($curl, CURLOPT_FAILONERROR, TRUE);
 	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
 	curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE);
-	curl_setopt($curl, CURLOPT_TIMEOUT, 12);	
+	curl_setopt($curl, CURLOPT_TIMEOUT, 12);
 
 	$contents = curl_exec($curl);
 	curl_close($curl);
@@ -42,10 +42,10 @@ function wpinstaroll_getAuthorizationPageURI()
 	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	$InstagramClientSecret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
 	$InstagramRedirectURI = wpinstaroll_getInstagramRedirectURI();
-	
+
 	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($InstagramRedirectURI))
 		return null;
-	
+
 	// API: http://instagr.am/developer/auth/
 	return 'https://api.instagram.com/oauth/authorize/?client_id='.$InstagramClientID.'&redirect_uri='.urlencode($InstagramRedirectURI).'&response_type=code';
 }
@@ -55,39 +55,39 @@ function wpinstaroll_getAuthorizationPageURI()
 function wpinstaroll_deal_with_instagram_auth_redirect_uri()
 {
 	// API: http://instagr.am/developer/auth/
-	
+
 	$InstagramClientID = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	$InstagramClientSecret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
 	$InstagramRedirectURI = wpinstaroll_getInstagramRedirectURI();
-	
+
 	if (empty($InstagramClientID) || empty($InstagramClientSecret) || empty($InstagramRedirectURI))
 		exit;
-		
+
 	$auth_code = $_GET['code'];
-	
+
 	if (empty($auth_code))
 	{
 		print('<p>&nbsp;<br />There was a problem requesting the authorization code:</p>');
-		
+
 		$error = $_GET['error'];
 		$error_reason = $_GET['error_reason'];
 		$error_description = $_GET['error_description'];
 		if (!empty($error) && !empty($error_reason) && !empty($error_description))
 			print('<p><strong>'.$error_description.'</strong></p>');
-		
+
 		exit;
 	}
-	
+
 	// CURL POST request for getting the user access token from the code
 	$request_uri = 'https://api.instagram.com/oauth/access_token';
-	
+
 	$data = array(	'client_id' => $InstagramClientID,
 					'client_secret' => $InstagramClientSecret,
 					'grant_type' => 'authorization_code',
 					'redirect_uri' => $InstagramRedirectURI,
 					'code' => $auth_code
 					);
-	
+
 	$ch = curl_init($request_uri);
 	curl_setopt($ch, CURLOPT_HEADER, 0);
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
@@ -98,9 +98,9 @@ function wpinstaroll_deal_with_instagram_auth_redirect_uri()
 	$response = curl_exec($ch);
 	//echo curl_errno($ch);
 	curl_close($ch);
-	
+
 	$decoded_response = json_decode($response);
-	
+
 	// get user data from the response
 	$access_token = $decoded_response->access_token;
 	$username = $decoded_response->user->username;
@@ -109,29 +109,29 @@ function wpinstaroll_deal_with_instagram_auth_redirect_uri()
 	$profile_picture = $decoded_response->user->profile_picture;
 	//$full_name = $decoded_response->user->full_name;
 	$id = $decoded_response->user->id;
-	
+
 	if (!empty($access_token))
 	{
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken', $access_token);
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username', $username);
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid', $id);
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', $profile_picture);
-		
+
 		// now we reload the main page and close the popup
 		?>
-		
+
 		<script type="text/javascript">
 			window.opener.location = window.opener.location;
 			self.close();
 		</script>
-		
+
 		<?php
 	}
 	else
 		print('<p>There was a problem getting the required authorization!</p>');
 
 	exit;
-	
+
 	// accessible with URL:
 	// http://[HOST]/wp-admin/admin-ajax.php?action=wpinstaroll_redirect_uri
 }
@@ -139,7 +139,7 @@ add_action('wp_ajax_wpinstaroll_redirect_uri', 'wpinstaroll_deal_with_instagram_
 
 
 	// *** INSTAGRAM API ***
-	
+
 // gets Instagram stream for current logged user (contains pics sent by the user and his fiends),
 // in case WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid' is not set to 'show_useronly',
 // otherwise retrieves user stream (user photos only)
@@ -228,7 +228,7 @@ function wpinstaroll_getInstagramUserStream()
 	}
 	// NOTE: improve the user photos filtering method for tag stream, calling the API for user photos and then filtering by tag
 
-	
+
 	// proceed as before with the filtered $photo_data
 	// add photo data (if new) to local db
 	wpinstaroll_updateLocalDBWithNewPhotos($photo_data);
@@ -300,7 +300,7 @@ function wpinstaroll_getInstagramPhotosWithTag($tag)
 
 // adds new photo data to the DB
 function wpinstaroll_updateLocalDBWithNewPhotos($photo_data)
-{ 
+{
 	if (!$photo_data)
 		return 0;
 
@@ -333,7 +333,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 			'error_code' => WP_ROLL_INSTAGRAM_ERROR_MISSING_PARAMETERS_CODE
 		);
 	}
-	
+
 
 	/*
 	// not actually needed, here!
@@ -363,8 +363,8 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	$cat_id = category_exists($category_for_post);
 		if (!$cat_id)
 			$cat_id = wp_create_category($category_for_post);
-	
-	
+
+
 	// b. post creation
 	$created_post_status = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status');
 	if ($created_post_status != 'publish')
@@ -374,13 +374,15 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	if ($insert_photo_mode !== 'featured')
 		$insert_photo_mode = 'post_content';
 
+	$post_type = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_post_type', 'post');
+
 	$post_args = array(
 		'post_author' 	=> 0,		// with 0, current post author id is used
 		'post_category'	=> array($cat_id),
 		'post_content' 	=> $insta_caption,
-		'post_status'	=> 'draft', 
+		'post_status'	=> 'draft',
 		'post_title'	=> $title_placeholder,
-		'post_type'		=> 'post' 
+		'post_type'		=> $post_type
 	);
 
 	// add comma separated tags to post, if specified
@@ -390,7 +392,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	// INSERT checks about correct format...
 
 	$created_post_ID = wp_insert_post($post_args);
-	
+
 	if (!$created_post_ID)
 	{
 		return array(
@@ -405,9 +407,9 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_id', $insta_id);
 	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_link', $insta_link);
 	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_authorusername', $insta_author_username);
-	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_authorid', $insta_author_id);	
-	
-	
+	update_post_meta($created_post_ID, '_'.WP_ROLL_INSTAGRAM_PLUGIN_METADATA_PREFIX.'_insta_authorid', $insta_author_id);
+
+
 	// d. download image from Instagram and associate to post
 	$photo_data = wpinstaroll_getInstagramPhotoDataFromInstaID($insta_id);
 
@@ -432,7 +434,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 
 			// delete just created post
 	    	wp_delete_post($created_post_ID, true);
-			
+
 			return array(
 				'error' => true,
 				'error_description' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_DOWNLOAD_PROBLEM_MESSAGE,
@@ -452,14 +454,14 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 
 	        // delete just created post
 	        wp_delete_post($created_post_ID, true);
-	        
+
 			return array(
 				'error' => true,
 				'error_description' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_MESSAGE,
 				'error_code' => WP_ROLL_INSTAGRAM_ERROR_INSTAGRAM_IMAGE_ADD_TO_POST_PROBLEM_CODE
 			);
 	    }
-		
+
 		@unlink($file_array['tmp_name']);
 	}
 	else
@@ -473,7 +475,7 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 		// there are problems getting the image and put it inside the media library, we set the status back to
 		// non-published
 
-	
+
 	if ($insert_photo_mode === 'featured')
 	{
 		// attach to image as featured image (post thumbnail)
@@ -524,7 +526,7 @@ function wpinstaroll_automatic_post_creation()
 
 	$scheduled_publication_period = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period');
 	$scheduled_publication_stream = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream');
-	
+
 	// is Instagram properly configured?
 	//
 	// if not, first reset event scheduling settings and removes event schedulation, then simply exits
@@ -559,8 +561,8 @@ function wpinstaroll_automatic_post_creation()
 
 			// ids of already published photos
 			$published_ids = wpinstaroll_getInstagramPublishedPhotosIDs();
-					
-			// scan the stream and publish new photos			
+
+			// scan the stream and publish new photos
 			foreach ($data as $element)
 			{
 				// if the photo has not been published yet

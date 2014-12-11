@@ -11,17 +11,17 @@ function wpinstaroll_getInstagramGeneratedDraftPosts()
 			$category_for_post = 'Uncategorized';
 			update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category', $category_for_post);
 	}
-	
+
 	$cat_id = category_exists($category_for_post);
 	if ($cat_id)
 	{
 		$category = get_category($cat_id);
 		$category_slug = $category->slug;
-		
+
 		return get_bloginfo('wpurl').'/wp-admin/edit.php?post_status=draft&post_type=post&category_name='.$category_slug;
 	}
 	else
-		return get_bloginfo('wpurl').'/wp-admin/edit.php?post_status=draft&post_type=post';	
+		return get_bloginfo('wpurl').'/wp-admin/edit.php?post_status=draft&post_type=post';
 }
 
 
@@ -37,20 +37,20 @@ $wpinstaroll_photo_selection_menu_title 			= WP_ROLL_INSTAGRAM_PHOTOS_MENU;
 function wpinstaroll_menu()
 {
 	global $wpinstaroll_page_title, $wpinstaroll_menu_title, $wpinstaroll_photo_selection_page_title, $wpinstaroll_photo_selection_menu_title;
-	
-	
+
+
 		// options page
-		
+
 	// page title, menu title, access level required for user to access the page, unique menu slug,
 	// optional callback function to call for drawing the page
 	add_options_page($wpinstaroll_page_title, $wpinstaroll_menu_title, 'administrator', 'wpinstaroll_menu', 'wpinstaroll_panel_draw');
-	
+
 	// callback function for registering the settings
 	add_action('admin_init', 'wpinstaroll_register_settings');
-	
-	
+
+
 		// top level menu for photo selection
-	
+
 	$photo_selection_menu_icon_url = plugins_url(WP_ROLL_INSTAGRAM_PLUGIN_BASE_DIR.'/images/menuicon.png');
 	add_menu_page($wpinstaroll_photo_selection_page_title, $wpinstaroll_photo_selection_menu_title, 'administrator', 'wpinstaroll_menu_photo_selection', 'wpinstaroll_photo_selection_panel_draw', $photo_selection_menu_icon_url);
 }
@@ -65,13 +65,13 @@ function wpinstaroll_register_settings()
 
 	// Instagram App Secret
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
-	
+
 	// category to use for post created from Instagram photos
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category');
 
 	// Instagram selected research hashtag
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
-	
+
 	// Instagram created post title placeholder
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
 
@@ -98,7 +98,7 @@ function wpinstaroll_register_settings()
 	// stream to use for automatic post creation from Instagram photos
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream');
 
-	
+
 		// (not showed and/or not directly editable)
 	// Instagram Authorized User Access Token
 	register_setting(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group', WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
@@ -121,25 +121,25 @@ function wpinstaroll_panel_draw()
 	if (!wpinstaroll_check_requirements(true))
 		wp_die('');
 
-	
+
 	// not the requested access level
 	if (!current_user_can('manage_options'))
 	{
 		wp_die(__('You do not have sufficient permissions to access this page.'));
 	}
-	
+
 	// fields updated, if the save button was pressed
 	settings_fields(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'-settings-group');
-	
-	
+
+
 	$app_id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id');
 	$app_secret = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret');
-				
+
 	$user_access_token = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken');
 	$username = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username');
 	$id = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid');
 	$profile_picture = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture');
-	
+
 	$search_tag = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag');
 
 	$tag_to_add_to_posts = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts');
@@ -168,6 +168,8 @@ function wpinstaroll_panel_draw()
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode', $insert_photo_mode);
 	}
 
+	$insert_post_type = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_post_type', 'post');
+
 	$scheduled_publication_period = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_period');
 	if ($scheduled_publication_period == false)
 	{
@@ -181,56 +183,56 @@ function wpinstaroll_panel_draw()
 		$scheduled_publication_stream = 'user';
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream', $scheduled_publication_stream);
 	}
-		
-		
+
+
 	$accessTokenInvalid = false;
-		
-	// is a user_access_token set?	
+
+	// is a user_access_token set?
 	if (empty($user_access_token))
 		$accessTokenInvalid = true;
-		
+
 	// Instagram App ID updated
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id']) &&
 		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id'] != $app_id)
 	{
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id', $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id']);
 		$app_id = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_id'];
-		
+
 		$accessTokenInvalid = true;
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken', '');
-		
+
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username', '');
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid', '');
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', '');
 	}
-	
+
 	// Instagram App Secret updated
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret']) &&
 		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret'] != $app_secret)
 	{
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret', $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret']);
 		$app_secret = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_app_secret'];
-		
+
 		$accessTokenInvalid = true;
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken', '');
-		
+
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username', '');
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid', '');
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', '');
 	}
-	
-	
+
+
 	// user pressed 'Change user' button
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect']) && $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect'] === 'yes')
 	{
 		$accessTokenInvalid = true;
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_accesstoken', '');
-		
+
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_username', '');
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_userid', '');
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_user_profilepicture', '');
 	}
-	
+
 
 	// post category updated
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_category']) &&
@@ -248,7 +250,7 @@ function wpinstaroll_panel_draw()
 	}
 	// see: should remove strange characters
 
-	
+
 	// seach tag updated
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']) &&
 		trim($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag']) != $search_tag)
@@ -269,8 +271,8 @@ function wpinstaroll_panel_draw()
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_tag_to_add_to_posts', $tag_to_add_to_posts);
 	}
 	// see: should remove strange characters, check for correct comma separation, and so on...
-	
-	
+
+
 	// post title placeholder updated ('Instagram picture' is used if empty)
 	$default_instagram_title_placeholder = WP_ROLL_INSTAGRAM_DEFAULT_TITLE_PLACEHOLDER;
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder']) &&
@@ -280,14 +282,14 @@ function wpinstaroll_panel_draw()
 			$placeholder = $default_instagram_title_placeholder;
 		else
 			$placeholder = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder'];
-		
+
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder', $placeholder);
 		$title_placeholder = $placeholder;
 	}
 	else {
-		
+
 		$current_placeholder = get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder');
-		
+
 		if (empty($current_placeholder))
 		{
 			update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder', $default_instagram_title_placeholder);
@@ -320,6 +322,19 @@ function wpinstaroll_panel_draw()
 			$insert_photo_mode = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'];
 
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode', $insert_photo_mode);
+	}
+
+	// photo insertion post_type
+	$default_insertion_post_type = 'post';
+	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_post_type']) &&
+		$_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_post_type'] != $insert_post_type)
+	{
+		if (empty($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_post_type']))
+			$insert_post_type = $default_insertion_post_type;
+		else
+			$insert_post_type = $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_post_type'];
+
+		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_post_type', $insert_post_type);
 	}
 
 
@@ -377,23 +392,28 @@ function wpinstaroll_panel_draw()
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_scheduled_publication_stream', $scheduled_publication_stream);
 	}
 
-			
+
 	// changes saved message
 	if (isset($_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes']) && $_POST[WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'] == 'yes')
 		print('<div id="setting-error-settings_updated" class="updated settings-error"><p><strong>Settings saved.</strong></p></div>');
+
+	$post_types = get_post_types(array(
+		'public' => true,
+	), 'objects');
+
 	?>
-	
-	
+
+
 	<div class="wrap">
-		
+
 		<div id="icon-options-general" class="icon32"><br /></div>
 		<h2><?php echo $wpinstaroll_page_title; ?></h2>
-		
+
 		<form method="post" action="#">
 			<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_save_changes'; ?>" value="yes" />
-		
+
 			<div id="InstagramSettingsPanel">
-			
+
 				<h3>Instagram configuration</h3>
 				<p><strong>You can set-up an Instagram application here: <a href="<?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?>" target="_blank"><?php echo WP_ROLL_INSTAGRAM_DEVELOPER_URL; ?></a></strong><p>
 				<table class="form-table">
@@ -424,7 +444,7 @@ function wpinstaroll_panel_draw()
 						</tr>
 					</tbody>
 				</table>
-						
+
 				<p><strong>Instagram WordPress posts parameters</strong></p>
 				<table class="form-table">
 					<tbody>
@@ -451,16 +471,28 @@ function wpinstaroll_panel_draw()
 							<td>
 								<input type="text" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag'; ?>" value="<?php print(get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_search_tag')); ?>" class="regular-text" />
 							</td>
-						</tr>	
+						</tr>
 						<tr>
 							<th scope="row">
 								<label>Post <em>status</em> for posts created from Instagram photos</label>
 							</th>
 							<td>
 								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'; ?>">
-                                    <option value="draft"<?php if ($created_post_status !== 'publish') echo ' selected=selected'; ?>>draft</option>
-                                    <option value="publish"<?php if ($created_post_status === 'publish') echo ' selected=selected'; ?>>published</option>                          
-                                </select>
+									<option value="draft"<?php if ($created_post_status !== 'publish') echo ' selected=selected'; ?>>draft</option>
+									<option value="publish"<?php if ($created_post_status === 'publish') echo ' selected=selected'; ?>>published</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label>Post <em>type</em> for photos</label>
+							</th>
+							<td>
+								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_post_type'; ?>">
+								<?php foreach ($post_types as $type => $attrs) { ?>
+									<option value="<?php echo $type; ?>"<?php if ($insert_post_type === $type) echo ' selected=selected'; ?>><?php echo $attrs->labels->name; ?></option>
+								<?php } ?>
+								</select>
 							</td>
 						</tr>
 						<tr>
@@ -470,7 +502,7 @@ function wpinstaroll_panel_draw()
 							<td>
 								<select name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_insert_photo_mode'; ?>">
 									<option value="post_content"<?php if ($insert_photo_mode !== 'featured') echo ' selected=selected'; ?>>in post content</option>
-                                    <option value="featured"<?php if ($insert_photo_mode === 'featured') echo ' selected=selected'; ?>>as featured image</option>                     
+                                    <option value="featured"<?php if ($insert_photo_mode === 'featured') echo ' selected=selected'; ?>>as featured image</option>
                                 </select>
 							</td>
 						</tr>
@@ -526,8 +558,8 @@ function wpinstaroll_panel_draw()
 				<p class="submit">
 					<input type="submit" class="button-primary" value="<?php _e('Save Changes'); ?>" />
 				</p>
-				
-				
+
+
 				<?php
 
 					if ($accessTokenInvalid)
@@ -538,29 +570,29 @@ function wpinstaroll_panel_draw()
 							can't use iframe, because of X-Frame-Options HTTP header sent by Instagram; used pop-up, instead
 							*/
 							?>
-			
+
 							<input type="button" class="button-primary" value="Instagram authorization" id="InstaAuthButton" />
-							
+
 							<script type="text/javascript">
 								var InstagramAuthWindow = null;
-								
+
 								jQuery(document).ready(function() {
 
 									jQuery('form').attr('action', '');
-									
+
 									jQuery('#InstaAuthButton').click(function() {
-										
+
 										InstagramAuthWindow = window.open('<?php print(wpinstaroll_getAuthorizationPageURI()); ?>', 'InstagramAuthorization', 'width=800,height=400');
 									});
 								});
 							</script>
 
-							<?php			
+							<?php
 						}
 						else
 							print('<p><strong>You need to insert Instagram Client ID and Client Secret and then authorize the app after saving.</strong></p>');
-							
-							
+
+
 						$showChangeUserButton = false;
 					}
 					else {
@@ -569,25 +601,25 @@ function wpinstaroll_panel_draw()
 
 						print('<img class="profilePicture" src="'.$profile_picture.'" alt="'.$username.'" />');
 						print('<p>username: '.$username.'<br />user id: '.$id.'</p>');
-						
+
 						$showChangeUserButton = true;
 					}
 				?>
-				
+
 			</div>
 		</form>
-		
+
 		<?php
-		
+
 			if ($showChangeUserButton)
 			{
 				?>
-				
+
 				<form method="post" action="#">
 					<input type="hidden" name="<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_disconnect'; ?>" value="yes" />
 					<input type="submit" class="button-primary" value="<?php _e('Disconnect from Instagram'); ?>" />
 				</form>
-				
+
 				<?php
 			}
 		?>
@@ -597,9 +629,9 @@ function wpinstaroll_panel_draw()
 				jQuery('form').attr('action', '');
 			});
 		</script>
-		
+
 	</div>
-	
+
 	<?php
 }
 
@@ -625,35 +657,35 @@ function wpinstaroll_photo_selection_panel_draw()
 		$insta_post_title = WP_ROLL_INSTAGRAM_DEFAULT_TITLE_PLACEHOLDER;
 		update_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_post_title_placeholder', $insta_post_title);
 	}
-		
-	
+
+
 	// not the requested access level
 	if (!current_user_can('manage_options'))
 	{
 		wp_die(__('You do not have sufficient permissions to access this page.'));
 	}
-		
+
 	?>
-	
+
 	<script type="text/javascript">
 
 		var WPInstaroll_ActivePanel = 'user';
-			
+
 			function UserPhotosActivatePanel()
 			{
 				if (WPInstaroll_ActivePanel == 'tag')
 				{
 					jQuery('#InstaTagPhotos').removeClass('nav-tab-active');
 					jQuery('#InstaUserPhotos').addClass('nav-tab-active');
-					
+
 					jQuery('#InstagramTagPhotosPanel').css('display', 'none');
 					jQuery('#InstagramUserPhotosPanel').css('display', 'block');
-					
+
 					WPInstaroll_ActivePanel = 'user';
 
 					AJAXDrawUserPhotosTable();
 				}
-	
+
 				return false;
 			}
 			function TagPhotosActivatePanel()
@@ -662,55 +694,55 @@ function wpinstaroll_photo_selection_panel_draw()
 				{
 					jQuery('#InstaUserPhotos').removeClass('nav-tab-active');
 					jQuery('#InstaTagPhotos').addClass('nav-tab-active');
-					
+
 					jQuery('#InstagramUserPhotosPanel').css('display', 'none');
 					jQuery('#InstagramTagPhotosPanel').css('display', 'block');
-					
+
 					WPInstaroll_ActivePanel = 'tag';
 
 					AJAXDrawTagPhotosTable();
 				}
-				
+
 				return false;
 			}
 
 		function AJAXDrawUserPhotosTable()
 		{
 			jQuery('#InstagramUserPhotosPanel').html('<p>loading...</p>');
-				
+
 			jQuery.ajax({
 				url: ajaxurl + '?action=wpinstaroll_photosbyusertable',
 				success: function(data) {
-			    
+
 					jQuery('#InstagramUserPhotosPanel').html(data);
 				}
-			});	
+			});
 		}
-	
+
 		function AJAXDrawTagPhotosTable()
 		{
 			jQuery('#InstagramTagPhotosPanel').html('<p>loading...</p>');
-				
+
 			jQuery.ajax({
 				url: ajaxurl + '?action=wpinstaroll_photosbytagtable',
 				success: function(data) {
-			    
+
 					jQuery('#InstagramTagPhotosPanel').html(data);
 				}
-			});	
+			});
 		}
-		
+
 		jQuery(document).ready(function() {
-			
+
 			// open first panel: user stream
 			AJAXDrawUserPhotosTable();
 
 		});
-		
+
 	</script>
-	
+
 	<div class="wrap">
-		
+
 		<div id="icon-options-general" class="icon32 instaroll"><br /></div>
 		<h2><?php print($wpinstaroll_photo_selection_page_title); ?></h2>
 
@@ -726,16 +758,16 @@ function wpinstaroll_photo_selection_panel_draw()
 		<script type="text/javascript">
 
 			jQuery('#Instagram_userphotosupdate').live('click', function() {
-					
+
 				AJAXDrawUserPhotosTable();
-				
+
 				return false;
 			});
 
 			jQuery('#Instagram_tagphotosupdate').live('click', function() {
-					
+
 				AJAXDrawTagPhotosTable();
-				
+
 				return false;
 			});
 
@@ -757,7 +789,7 @@ function wpinstaroll_photo_selection_panel_draw()
 					success: function() {
 
 						// reload the view after setting the flag
-						AJAXDrawUserPhotosTable();	
+						AJAXDrawUserPhotosTable();
 					}
 				});
 
@@ -782,7 +814,7 @@ function wpinstaroll_photo_selection_panel_draw()
 					success: function() {
 
 						// reload the view after setting the flag
-						AJAXDrawTagPhotosTable();	
+						AJAXDrawTagPhotosTable();
 					}
 				});
 
@@ -807,7 +839,7 @@ function wpinstaroll_photo_selection_panel_draw()
 					success: function() {
 
 						// reload the view after setting the flag
-						AJAXDrawUserPhotosTable();	
+						AJAXDrawUserPhotosTable();
 					}
 				});
 
@@ -831,7 +863,7 @@ function wpinstaroll_photo_selection_panel_draw()
 					success: function() {
 
 						// reload the view after setting the flag
-						AJAXDrawTagPhotosTable();	
+						AJAXDrawTagPhotosTable();
 					}
 				});
 
@@ -839,11 +871,11 @@ function wpinstaroll_photo_selection_panel_draw()
 			});
 
 			jQuery('.<?php echo WP_ROLL_INSTAGRAM_PLUGIN_PREFIX; ?>_createpost_action').live('click', function() {
-				
+
 				var t_id = jQuery(this).attr('id');
 				var pic_id = t_id.substr('create_wp_post_'.length);
 
-				
+
 				var postCreationString = '<?php echo get_option(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_instagram_created_post_status'); ?>';
 				if (postCreationString != 'publish')
 					postCreationString = 'saved as draft.\n\nYou will then be able to edit and actually publish the post.';
@@ -855,12 +887,12 @@ function wpinstaroll_photo_selection_panel_draw()
 					postCreationModeString = '\n\nThe photo will be inserted into the created post.';
 				else
 					postCreationModeString = '\n\nThe photo will be added as featured image for created post.';
-			
+
 				if (!window.confirm('Do you want to create a post from the Instagram image with ID: ' + pic_id + '?' +
 					'\n\nA new post will be created with category \"' + '<?php print($category_for_post); ?>\" and title \"' + '<?php print($insta_post_title); ?>' + '\", and will be ' + postCreationString + postCreationModeString))
 					return false;
-					
-			
+
+
 				jQuery.ajax({
 					url: ajaxurl + '?action=create_post_from_instagram_pic',
 					type: 'POST',
@@ -874,23 +906,23 @@ function wpinstaroll_photo_selection_panel_draw()
 						author_id: jQuery(this).closest('tr').find('.insta_userid').html()
 					},
 					success: function(data) {
-						
+
 						if (data.error == false)
 						{
 							alert('Post successfully created, width ID: ' + data.post_id);
 						}
 						else
-							alert('There was a problem creating the post.\n\nReason: ' + data.error_description);	
+							alert('There was a problem creating the post.\n\nReason: ' + data.error_description);
 					}
 				});
-			
+
 				return false;
 			});
 
 		</script>
-	
+
 	</div>
-	
+
 	<?php
 }
 
