@@ -423,8 +423,9 @@ function wpinstaroll_createpostfromphoto($insta_id, $insta_url, $insta_link='', 
 	if (!$image_info)
 	{
 		$tmp = download_url($insta_url);
+		preg_match('/[^\?]+\.(jpg|jpe|jpeg|gif|png)/i', $insta_url, $insta_matches);
 	    $file_array = array(
-	        'name' => basename($insta_url),
+	        'name' => basename($insta_matches[0]),
 	        'tmp_name' => $tmp
 	    );
 
