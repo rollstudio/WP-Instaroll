@@ -51,7 +51,8 @@ function wpinstaroll_menu()
 
 		// top level menu for photo selection
 
-	$photo_selection_menu_icon_url = plugins_url(WP_ROLL_INSTAGRAM_PLUGIN_BASE_DIR.'/images/menuicon.png');
+	$photo_selection_menu_icon_url = plugins_url( '/images/menuicon.png', dirname(__FILE__) );
+
 	add_menu_page($wpinstaroll_photo_selection_page_title, $wpinstaroll_photo_selection_menu_title, 'administrator', 'wpinstaroll_menu_photo_selection', 'wpinstaroll_photo_selection_panel_draw', $photo_selection_menu_icon_url);
 }
 add_action('admin_menu', 'wpinstaroll_menu');

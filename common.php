@@ -58,9 +58,8 @@ define('WP_ROLL_INSTAGRAM_PHP_VERSION_MIN', '5.3');
 // custom admin styles
 function wpinstaroll_admin_basic_init()
 {
-    if (is_admin())
-    {
-		wp_register_style(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_admin_styles', plugins_url(WP_ROLL_INSTAGRAM_PLUGIN_BASE_DIR.'/admin_style.css'));
+	if (is_admin()) {
+		wp_register_style(WP_ROLL_INSTAGRAM_PLUGIN_PREFIX.'_admin_styles', plugins_url( 'admin_style.css' , __FILE__ ));
 	}
 }
 add_action('init', 'wpinstaroll_admin_basic_init');
@@ -117,7 +116,7 @@ function wpinstaroll_cron_definer($schedules)
 	$schedules['wpinstaroll_monthly'] = array(
 		'interval'=> 2592000,
 		'display'=> __('Once Every 30 Days')
-  	);	
+  	);
 
 	return $schedules;
 }

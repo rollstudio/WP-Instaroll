@@ -50,7 +50,7 @@ function wpinstaroll_instapics_track_activate()
 
 	add_option('WP_ROLL_INSTAGRAM_DB_VERSION_STRING', '0.2');
 }
-register_activation_hook(WP_PLUGIN_DIR.'/'.WP_ROLL_INSTAGRAM_PLUGIN_BASE_DIR.'/wp_instaroll.php', 'wpinstaroll_instapics_track_activate');
+register_activation_hook(__FILE__, 'wpinstaroll_instapics_track_activate');
 
 // plugin deactivation hook - useful for removing sheduled action, in case there's an active one
 function wpinstaroll_instapics_track_deactivate()
@@ -63,7 +63,7 @@ function wpinstaroll_instapics_track_deactivate()
 	// see: another possibility is to remove the events without resetting the configuration option, and then
 	// re-enabling the event with the previous periodo when reactivating the plug-in
 }
-register_deactivation_hook(WP_PLUGIN_DIR.'/'.WP_ROLL_INSTAGRAM_PLUGIN_BASE_DIR.'/wp_instaroll.php', 'wpinstaroll_instapics_track_deactivate');
+register_deactivation_hook(__FILE__, 'wpinstaroll_instapics_track_deactivate');
 
 
 ?>
